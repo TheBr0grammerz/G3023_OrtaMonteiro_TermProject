@@ -1,15 +1,21 @@
 using System.Collections;
 using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
 
 public class Player : MonoBehaviour
 {
-    [SerializeField] 
-    private GameObject backGround;
+    [SerializeField]
+    private float _distanceToCenter;
 
-    // Update is called once per frame
+
     void Update()
     {
        
+    }
+
+    public float GetDistanceToCenter()
+    {
+        return Vector3.Distance(transform.position, Vector3.zero);
     }
 }

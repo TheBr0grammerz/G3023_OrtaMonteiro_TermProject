@@ -4,22 +4,24 @@ using UnityEngine;
 
 public class PlayerController : MonoBehaviour
 {
-    public GameObject player;
-    public GameObject projectile;
+    [SerializeField]
+    private GameObject player;
 
-    public SpriteRenderer FlameRenderer;
+    [SerializeField]
+    private GameObject projectile;
+
+    [SerializeField]
+    private SpriteRenderer FlameRenderer;
 
     public float speed;
     public float rotationSpeed;
 
 
-    // Start is called before the first frame update
     void Start()
     {
         
     }
 
-    // Update is called once per frame
     void Update()
     {
         if (Input.GetButton("Horizontal"))
