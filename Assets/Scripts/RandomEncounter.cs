@@ -3,51 +3,64 @@ using System.Collections;
 using System.Collections.Generic;
 using Unity.VisualScripting;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 using UnityEngine.Serialization;
 
 public class RandomEncounter : MonoBehaviour
 {
-    private Rigidbody rb;
+    private Rigidbody2D rb;
     public float distanceTravelledSinceLastEncounter;
 
     public float distanceTraveled = 0;
     
+
+    
     [SerializeField]
     private EncounterManager _encounterManager;
+    
     
     [Range(0f,10000f)]
     [SerializeField]
     private float minEncounterDistance = 2f;
+    
+    [SerializeField]
+    EncounterArea CurrentEncounterArea;
     // Start is called before the first frame update
     void Start()
     {
-        rb = GetComponent<Rigidbody>();
         _encounterManager = GameObject.Find("EncounterManager").GetComponent<EncounterManager>();
-    }
-    
-
-    private void OnTriggerStay2D(Collider2D other)
-    {
-        if (other.IsUnityNull()) return;
+        rb = _encounterManager.Player.GetComponent<Rigidbody2D>();
         
-        EncounterArea area = other.gameObject.GetComponent<EncounterArea>();
-        if (area is not null)
+        // SceneManager.LoadScene("Battle");
+    }
+
+    private void Update()
+    {
+        if (rb.velocity.magnitude >0)
         {
-            if (rb.velocity.magnitude >0)
+            distanceTravelledSinceLastEncounter += rb.velocity.magnitude * Time.deltaTime;
+            distanceTraveled += rb.velocity.magnitude * Time.deltaTime;
+            if (distanceTraveled >= minEncounterDistance)
             {
-                distanceTravelledSinceLastEncounter += rb.velocity.magnitude * Time.deltaTime;
-                distanceTraveled += rb.velocity.magnitude * Time.deltaTime;
-                if (distanceTraveled >= minEncounterDistance)
+                distanceTravelledSinceLastEncounter = 0;
+                
+                
+                //if (CurrentEncounterArea.RollEncounter() || true)
+                if ( true)
                 {
-                    distanceTravelledSinceLastEncounter = 0;
-                    if (area.RollEncounter())
-                    {
-                        //This is where the encounter begins
-                        _encounterManager.EnterEncounter(area);
-                        Debug.Log(area.areaName);
-                    }
+                    //This is where the encounter begins
+                    _encounterManager.EnterEncounter();
+                    
+                    Debug.Log("Encounter entered");
                 }
             }
         }
+    }
+
+    private void OnTriggerEnter(Collider other)
+    {
+        
+         CurrentEncounterArea = other.gameObject.GetComponent<EncounterArea>();
+
     }
 }

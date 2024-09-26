@@ -207,6 +207,16 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
+--- !u!1 &91530140 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 5203337938557138895, guid: 4028540c2c5782a4ba30522a9bd0d627, type: 3}
+  m_PrefabInstance: {fileID: 1455754483}
+  m_PrefabAsset: {fileID: 0}
+--- !u!212 &175657770 stripped
+SpriteRenderer:
+  m_CorrespondingSourceObject: {fileID: 9068735064844338749, guid: 4028540c2c5782a4ba30522a9bd0d627, type: 3}
+  m_PrefabInstance: {fileID: 1455754483}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &323346551
 GameObject:
   m_ObjectHideFlags: 0
@@ -532,12 +542,14 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 734956918}
+  - component: {fileID: 734956919}
+  - component: {fileID: 734956920}
   m_Layer: 0
   m_Name: EncounterManager
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
+  m_StaticEditorFlags: 2147483647
   m_IsActive: 1
 --- !u!4 &734956918
 Transform:
@@ -554,6 +566,41 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &734956919
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 734956917}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 37a3ce5fb66e8ea469bb052a1c08b5eb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Player: {fileID: 91530140}
+--- !u!114 &734956920
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 734956917}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a96806734c91be0468d87bbd1e34e09d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  distanceTravelledSinceLastEncounter: 0
+  distanceTraveled: 0
+  _encounterManager: {fileID: 0}
+  minEncounterDistance: 20
+  CurrentEncounterArea: {fileID: 0}
+--- !u!212 &991821430 stripped
+SpriteRenderer:
+  m_CorrespondingSourceObject: {fileID: 1315309998138299551, guid: 4028540c2c5782a4ba30522a9bd0d627, type: 3}
+  m_PrefabInstance: {fileID: 1455754483}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &1073075869
 GameObject:
   m_ObjectHideFlags: 0
@@ -1224,6 +1271,18 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 8726548585611600540, guid: 4028540c2c5782a4ba30522a9bd0d627, type: 3}
+      propertyPath: FlameRenderers.Array.size
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 8726548585611600540, guid: 4028540c2c5782a4ba30522a9bd0d627, type: 3}
+      propertyPath: FlameRenderers.Array.data[0]
+      value: 
+      objectReference: {fileID: 991821430}
+    - target: {fileID: 8726548585611600540, guid: 4028540c2c5782a4ba30522a9bd0d627, type: 3}
+      propertyPath: FlameRenderers.Array.data[1]
+      value: 
+      objectReference: {fileID: 175657770}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
