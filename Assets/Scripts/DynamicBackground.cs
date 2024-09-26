@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -8,9 +9,10 @@ public class DynamicBackground : MonoBehaviour
     private GameObject player;
 
     [SerializeField] 
-    private SpriteRenderer[] _backgroundLayers;
+    private SpriteRenderer[] _bgLayers;
 
-    public float _distance = 0;
+    [SerializeField] 
+    private float[] _distanceMarkers;
 
     void Start()
     {
@@ -25,10 +27,7 @@ public class DynamicBackground : MonoBehaviour
             transform.position = player.transform.position;
         }
 
-        _distance = GetDistanceToCenter();
-
         ChangeBackground();
-
     }
 
     private float GetDistanceToCenter()
@@ -39,10 +38,22 @@ public class DynamicBackground : MonoBehaviour
     private void ChangeBackground()
     {
         float distance = GetDistanceToCenter();
-        float ratio = Mathf.Clamp(distance/100f, 0f, 1f);
 
-        _backgroundLayers[0].color = new Color(_backgroundLayers[0].color.r, _backgroundLayers[0].color.g, 
-            _backgroundLayers[0].color.b, Mathf.Lerp(255f, 0f, ratio));
+        if (distance <= _distanceMarkers[0])
+        {
+            float a = Mathf.InverseLerp(_distanceMarkers[0], 0, distance);
+            _bgLayers[0].color = new Color(1f, 1f, 1f, a);
+        }
+        else if (distance <= _distanceMarkers[1])
+        {
+            float a = Mathf.InverseLerp(_distanceMarkers[1], _distanceMarkers[0], distance);
+            _bgLayers[1].color = new Color(1f, 1f, 1f, a);
+        }
+        else if (distance <= _distanceMarkers[2])
+        {
+            float a = Mathf.InverseLerp(_distanceMarkers[2], _distanceMarkers[1], distance);
+            _bgLayers[2].color = new Color(1f, 1f, 1f, a);
+        }
     }
 
 }

@@ -237,10 +237,14 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   player: {fileID: 347666524}
-  _backgroundLayers:
+  _bgLayers:
   - {fileID: 435429501}
   - {fileID: 1939941424}
   - {fileID: 968206087}
+  _distanceMarkers:
+  - 300
+  - 600
+  - 900
   _distance: 0
 --- !u!4 &287621377
 Transform:
@@ -609,8 +613,8 @@ Camera:
   m_GameObject: {fileID: 595895755}
   m_Enabled: 1
   serializedVersion: 2
-  m_ClearFlags: 1
-  m_BackGroundColor: {r: 0.19215687, g: 0.3019608, b: 0.4745098, a: 0}
+  m_ClearFlags: 2
+  m_BackGroundColor: {r: 0, g: 0, b: 0, a: 1}
   m_projectionMatrixMode: 1
   m_GateFitMode: 2
   m_FOVAxisMode: 0
