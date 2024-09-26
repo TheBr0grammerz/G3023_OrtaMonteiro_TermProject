@@ -1,7 +1,3 @@
-using System;
-using System.Collections;
-using System.Collections.Generic;
-using TMPro;
 using UnityEngine;
 
 public class DynamicBackground : MonoBehaviour
@@ -15,13 +11,11 @@ public class DynamicBackground : MonoBehaviour
     [SerializeField] 
     private float[] _distanceMarkers;
 
-    private float _distanceToCenter, _length;
-    private Vector3 _startPosition;
+    private float _distanceToCenter;
 
     void Start()
     {
-        _startPosition = transform.position;
-        _length = GetComponentInChildren<SpriteRenderer>().bounds.size.x;
+
     }
 
     // Update is called once per frame
@@ -30,7 +24,6 @@ public class DynamicBackground : MonoBehaviour
         if (_player != null)
         {
             _distanceToCenter = _player.GetDistanceToCenter();
-            ParallaxEffect(0.9f);
             TransitionBackground();
         }
 
@@ -38,6 +31,7 @@ public class DynamicBackground : MonoBehaviour
 
     private void TransitionBackground()
     {
+        // change alpha values based on distance to center
 
         if (_distanceToCenter <= _distanceMarkers[0])
         {
@@ -67,27 +61,4 @@ public class DynamicBackground : MonoBehaviour
             }
         }
     }
-
-    private void ParallaxEffect(float effectMultiplier)
-    {
-        Vector2 tempPosition = new Vector2(_player.transform.position.x * (1f - effectMultiplier), 
-            _player.transform.position.y * (1f - effectMultiplier));
-        Vector2 distance = new Vector2(_player.transform.position.x * effectMultiplier,
-            _player.transform.position.y * effectMultiplier);
-
-        // set position to 
-        transform.position = new Vector3(_startPosition.x + distance.x, _startPosition.y + distance.y, 0);
-
-        // repeat background
-        if (tempPosition.x > _startPosition.x + _length) 
-            _startPosition.x += _length;
-        else if (tempPosition.x < _startPosition.x - _length) 
-            _startPosition.x -= _length;
-
-        if (tempPosition.y > _startPosition.y + _length) 
-            _startPosition.y += _length;
-        else if (tempPosition.y < _startPosition.y - _length) 
-            _startPosition.y -= _length;
-    }
-
 }
