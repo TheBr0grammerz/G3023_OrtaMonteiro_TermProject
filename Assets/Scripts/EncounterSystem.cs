@@ -6,17 +6,29 @@ using UnityEngine.SceneManagement;
 
 public class EncounterSystem : MonoBehaviour
 {
+    
+    public Queue<EncounterArea> zones = new Queue<EncounterArea>();
 
     public GameObject Player;
     private GameObject _enemy;
     
-    private EncounterArea area;
+    
     private Canvas BattleUICanvas;
     
     private bool inCombat = false;
     // Start is called before the first frame update
     void Start()
     {
+       // var _zones = GameObject.FindWithTag("Areas").GetComponentsInChildren<EncounterArea>();
+       // foreach (EncounterArea area in _zones)
+       // {
+       //     area.encounterSystem = this;
+       //     zones.Push(area);
+       // }
+        
+        
+        
+        
         GameObject[] rootGameObjects = SceneManager.GetSceneByName("Battle").GetRootGameObjects();
         foreach (var o in rootGameObjects)
         {
@@ -28,7 +40,13 @@ public class EncounterSystem : MonoBehaviour
         }
     }
 
-    
+
+    public bool RollEncounter()
+    {
+        if (zones == null) return false;
+
+        return zones.Peek().RollEncounter();
+    }
     
     public void ExitEncounter()
     {
@@ -40,7 +58,7 @@ public class EncounterSystem : MonoBehaviour
     {
        // Ability abilty = Player.GetComponent<ShipStats>().GetWeaponStorage(weaponSlot);
 
-       int x = 0;
+
 
        // abilty.Activate();
     }
@@ -57,13 +75,14 @@ public class EncounterSystem : MonoBehaviour
     public void FleeBattleScene()
     {
         inCombat = false;
+        Player.SetActive(!inCombat);
         BattleUICanvas.gameObject.SetActive(inCombat);
     }
 
     public void EnterEncounter()
     {
         inCombat = true;
-        
+        Player.SetActive(!inCombat);
         BattleUICanvas.gameObject.SetActive(inCombat);
         
     }

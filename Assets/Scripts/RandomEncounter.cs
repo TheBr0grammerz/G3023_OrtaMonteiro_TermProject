@@ -5,6 +5,7 @@ using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.Serialization;
+using Random = UnityEngine.Random;
 
 public class RandomEncounter : MonoBehaviour
 {
@@ -23,8 +24,7 @@ public class RandomEncounter : MonoBehaviour
     [SerializeField]
     private float minEncounterDistance = 2f;
     
-    [SerializeField]
-    EncounterArea CurrentEncounterArea;
+    public EncounterArea CurrentEncounterArea;
     // Start is called before the first frame update
     void Start()
     {
@@ -36,7 +36,7 @@ public class RandomEncounter : MonoBehaviour
 
     private void Update()
     {
-        if (rb.velocity.magnitude >0)
+        if (rb.velocity.magnitude > 5)
         {
             distanceTravelledSinceLastEncounter += rb.velocity.magnitude * Time.deltaTime;
             distanceTraveled += rb.velocity.magnitude * Time.deltaTime;
@@ -46,12 +46,16 @@ public class RandomEncounter : MonoBehaviour
                 
                 
                 //if (CurrentEncounterArea.RollEncounter() || true)
-                if ( true)
+                if (encounterSystem.RollEncounter())
                 {
                     //This is where the encounter begins
                     encounterSystem.EnterEncounter();
                     
                     Debug.Log("Encounter entered");
+                }
+                else
+                {
+                    Debug.Log("Tried to enter encounter");
                 }
             }
         }
