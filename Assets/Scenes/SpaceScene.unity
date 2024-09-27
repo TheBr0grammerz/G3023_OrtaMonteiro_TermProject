@@ -593,7 +593,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   distanceTravelledSinceLastEncounter: 0
   distanceTraveled: 0
-  _encounterManager: {fileID: 0}
+  _encounterManager: {fileID: 734956919}
   minEncounterDistance: 20
   CurrentEncounterArea: {fileID: 0}
 --- !u!212 &991821430 stripped

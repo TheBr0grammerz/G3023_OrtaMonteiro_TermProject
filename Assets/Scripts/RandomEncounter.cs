@@ -15,8 +15,8 @@ public class RandomEncounter : MonoBehaviour
     
 
     
-    [SerializeField]
-    private EncounterManager _encounterManager;
+    [FormerlySerializedAs("_encounterManager")] [SerializeField]
+    private EncounterSystem encounterSystem;
     
     
     [Range(0f,10000f)]
@@ -28,8 +28,8 @@ public class RandomEncounter : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        _encounterManager = GameObject.Find("EncounterManager").GetComponent<EncounterManager>();
-        rb = _encounterManager.Player.GetComponent<Rigidbody2D>();
+        encounterSystem = GameObject.Find("EncounterManager").GetComponent<EncounterSystem>();
+        rb = encounterSystem.Player.GetComponent<Rigidbody2D>();
         
         // SceneManager.LoadScene("Battle");
     }
@@ -40,7 +40,7 @@ public class RandomEncounter : MonoBehaviour
         {
             distanceTravelledSinceLastEncounter += rb.velocity.magnitude * Time.deltaTime;
             distanceTraveled += rb.velocity.magnitude * Time.deltaTime;
-            if (distanceTraveled >= minEncounterDistance)
+            if (distanceTravelledSinceLastEncounter >= minEncounterDistance)
             {
                 distanceTravelledSinceLastEncounter = 0;
                 
@@ -49,7 +49,7 @@ public class RandomEncounter : MonoBehaviour
                 if ( true)
                 {
                     //This is where the encounter begins
-                    _encounterManager.EnterEncounter();
+                    encounterSystem.EnterEncounter();
                     
                     Debug.Log("Encounter entered");
                 }

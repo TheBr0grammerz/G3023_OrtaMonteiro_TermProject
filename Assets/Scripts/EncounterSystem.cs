@@ -4,13 +4,16 @@ using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
-public class EncounterManager : MonoBehaviour
+public class EncounterSystem : MonoBehaviour
 {
 
     public GameObject Player;
+    private GameObject _enemy;
     
     private EncounterArea area;
     private Canvas BattleUICanvas;
+    
+    private bool inCombat = false;
     // Start is called before the first frame update
     void Start()
     {
@@ -25,19 +28,22 @@ public class EncounterManager : MonoBehaviour
         }
     }
 
-
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
-
+    
+    
     public void ExitEncounter()
     {
         BattleUICanvas.gameObject.SetActive(false);
 
     }
 
+    public void ActivateAbility(int weaponSlot)
+    {
+       // Ability abilty = Player.GetComponent<ShipStats>().GetWeaponStorage(weaponSlot);
+
+       int x = 0;
+
+       // abilty.Activate();
+    }
     void BattleScene()
     {
         
@@ -48,14 +54,17 @@ public class EncounterManager : MonoBehaviour
         
     }
 
-    public static void FleeBattleScene()
+    public void FleeBattleScene()
     {
-        
+        inCombat = false;
+        BattleUICanvas.gameObject.SetActive(inCombat);
     }
 
     public void EnterEncounter()
     {
-        BattleUICanvas.gameObject.SetActive(true);
+        inCombat = true;
+        
+        BattleUICanvas.gameObject.SetActive(inCombat);
         
     }
 }
