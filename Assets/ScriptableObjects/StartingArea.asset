@@ -13,5 +13,5 @@ MonoBehaviour:
   m_Name: StartingArea
   m_EditorClassIdentifier: 
   encounterZoneName: Tutorial Area
-  encounterZoneChance: 0.5
-  enemyAmount: 5
+  encounterZoneChance: 0
+  areaRadius: 20

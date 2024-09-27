@@ -13,5 +13,5 @@ MonoBehaviour:
   m_Name: Medium Area
   m_EditorClassIdentifier: 
   encounterZoneName: Semi Hard Area
-  encounterZoneChance: 0.8
-  enemyAmount: 0
+  encounterZoneChance: 0.5
+  areaRadius: 50

@@ -6,6 +6,7 @@ TagManager:
   tags:
   - BattleUI
   - EncounterManager
+  - Areas
   layers:
   - Default
   - TransparentFX
