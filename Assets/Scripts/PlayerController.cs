@@ -7,7 +7,7 @@ public class PlayerController : MonoBehaviour
     public GameObject player;
     public GameObject projectile;
 
-    public SpriteRenderer FlameRenderer;
+    public SpriteRenderer[] FlameRenderers;
 
     public float speed;
     public float rotationSpeed;
@@ -30,11 +30,17 @@ public class PlayerController : MonoBehaviour
         if (Input.GetButton("Vertical"))
         {
             player.GetComponent<Rigidbody2D>().AddForce(Input.GetAxis("Vertical") * speed * Time.deltaTime * player.transform.up);
-            FlameRenderer.enabled = true;
+            foreach (var flame in FlameRenderers)
+            {
+                flame.enabled = true;
+            }
         }
         else
         {
-            FlameRenderer.enabled = false;
+            foreach (var flame in FlameRenderers)
+            {
+                flame.enabled = false;
+            }
         }
 
         if (Input.GetButtonDown("Fire1"))

@@ -3,7 +3,10 @@
 --- !u!78 &1
 TagManager:
   serializedVersion: 2
-  tags: []
+  tags:
+  - BattleUI
+  - EncounterManager
+  - Areas
   layers:
   - Default
   - TransparentFX
@@ -38,6 +41,15 @@ TagManager:
   - 
   - 
   m_SortingLayers:
+  - name: Space
+    uniqueID: 2788079801
+    locked: 0
+  - name: Ground
+    uniqueID: 414530153
+    locked: 0
+  - name: OnGround
+    uniqueID: 1161619421
+    locked: 0
   - name: Default
     uniqueID: 0
     locked: 0
