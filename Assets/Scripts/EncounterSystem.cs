@@ -2,33 +2,39 @@ using System.Collections;
 using System.Collections.Generic;
 using Unity.VisualScripting;
 using UnityEngine;
+using UnityEngine.Events;
 using UnityEngine.SceneManagement;
 
 public class EncounterSystem : MonoBehaviour
 {
     
-    public Queue<EncounterArea> zones = new Queue<EncounterArea>();
+    [SerializeField]
+    private List<EncounterArea> _areas = new List<EncounterArea>();
+    [SerializeField] private int areaIndex = 0;
 
+    [Header("Ships")]
     public GameObject Player;
-    private GameObject _enemy;
+    private Rigidbody2D _playerRb;
+    public GameObject _enemy;
+    
+    [Header("Canvas")]
+    [SerializeField] Canvas BattleUICanvas;
+
+
+    [Header("Encounter Information")]
+    [SerializeField] private bool inCombat = false;
+    [SerializeField] private float distanceTravelledSinceLastEncounter;
+    [SerializeField] private float distanceTraveled;
+    [SerializeField][Range(1f,10000f)] private float minEncounterDistance = 5;
+    public EncounterArea currentEncounter;
     
     
-    private Canvas BattleUICanvas;
     
-    private bool inCombat = false;
     // Start is called before the first frame update
     void Start()
     {
-       // var _zones = GameObject.FindWithTag("Areas").GetComponentsInChildren<EncounterArea>();
-       // foreach (EncounterArea area in _zones)
-       // {
-       //     area.encounterSystem = this;
-       //     zones.Push(area);
-       // }
         
-        
-        
-        
+        #region Find canvas in other Scene
         GameObject[] rootGameObjects = SceneManager.GetSceneByName("Battle").GetRootGameObjects();
         foreach (var o in rootGameObjects)
         {
@@ -38,21 +44,53 @@ public class EncounterSystem : MonoBehaviour
                 break;
             }
         }
+        #endregion
+        
+        #region Get RigidBody From Player
+
+        _playerRb = Player.GetComponent<Rigidbody2D>();
+
+        #endregion
+
+        #region Get All Areas from Scene
+
+        _areas.AddRange(GameObject.FindWithTag("Areas").GetComponentsInChildren<EncounterArea>());
+        _areas.Add(null);
+        #endregion
+        
+        currentEncounter = _areas[areaIndex];
+    }
+
+    void Update()
+    {
+        
+        if (_playerRb.velocity.magnitude > 5)
+        {
+            distanceTravelledSinceLastEncounter += _playerRb.velocity.magnitude * Time.deltaTime;
+            distanceTraveled += _playerRb.velocity.magnitude * Time.deltaTime;
+            if (distanceTravelledSinceLastEncounter >= minEncounterDistance)
+            {
+                distanceTravelledSinceLastEncounter = 0;
+                if (RollEncounter())
+                {
+                    EnterEncounter();
+                    //Debug.Log("Encounter Encountered Inside Area: ", _areas.Peek());
+                }
+                else Debug.Log("Failed to enter Encounter");
+            }
+
+        }
     }
 
 
     public bool RollEncounter()
     {
-        if (zones == null) return false;
+        if (_areas[areaIndex] == null) return false;
 
-        return zones.Peek().RollEncounter();
+        return _areas[areaIndex].RollEncounter();
+        // return _areas.Peek().RollEncounter();
     }
     
-    public void ExitEncounter()
-    {
-        BattleUICanvas.gameObject.SetActive(false);
-
-    }
 
     public void ActivateAbility(int weaponSlot)
     {
@@ -62,15 +100,7 @@ public class EncounterSystem : MonoBehaviour
 
        // abilty.Activate();
     }
-    void BattleScene()
-    {
-        
-    }
-
-    void HideBattleScene()
-    {
-        
-    }
+    
 
     public void FleeBattleScene()
     {
@@ -84,6 +114,20 @@ public class EncounterSystem : MonoBehaviour
         inCombat = true;
         Player.SetActive(!inCombat);
         BattleUICanvas.gameObject.SetActive(inCombat);
+        
+    }
+
+    public void EnteredArea(EncounterArea enteredArea)
+    {
+        areaIndex = _areas.IndexOf(enteredArea);
+        currentEncounter = _areas[areaIndex];
+
+    }
+
+    public void ExitedArea(EncounterArea exitedArea)
+    {
+        areaIndex = _areas.IndexOf(exitedArea)+1;
+        currentEncounter = _areas[areaIndex];
         
     }
 }

@@ -9,32 +9,52 @@ public class EncounterArea : MonoBehaviour
 {
     public AreaStats areaStats;
 
+    [SerializeField]
+    private static bool startUpCompleted = false;
     public EncounterSystem encounterSystem;
-    // Start is called before the first frame update
-    void Start()
+    public bool isInside = true;
+
+    private void Awake()
     {
         GetComponent<CapsuleCollider2D>().size = new Vector2(areaStats.areaRadius, 0.5f);
         encounterSystem = GameObject.Find("EncounterManager").GetComponent<EncounterSystem>();
     }
 
+    // Start is called before the first frame update
+    void Start()
+    {
+        Invoke(nameof(StartUpCompleted), 1);
+    }
+
+    void StartUpCompleted()
+    {
+        startUpCompleted = true;
+    }
+
     void OnTriggerEnter2D(Collider2D other)
     {
-        if (other.CompareTag("Player"))
+        if (startUpCompleted)
         {
-            encounterSystem.zones.Enqueue(this);
-            Debug.Log(areaStats.name);
+            if (other.CompareTag("Player"))
+            {
+                isInside = true;
+                encounterSystem.EnteredArea(this);
+            }
         }
-
     }
 
     void OnTriggerExit2D(Collider2D other)
     {
-        if(other.CompareTag("Player"))
+        if (startUpCompleted)
         {
-            encounterSystem.zones.Dequeue();
+            if(other.CompareTag("Player"))
+            {
+                isInside = false;
+                encounterSystem.ExitedArea(this);
+            }
         }
     }
-
+    
 
 
     public bool RollEncounter()
