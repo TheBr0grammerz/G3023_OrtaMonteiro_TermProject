@@ -41,14 +41,14 @@ TagManager:
   - 
   - 
   m_SortingLayers:
-  - name: Space
-    uniqueID: 2788079801
+  - name: Background
+    uniqueID: 513336331
     locked: 0
-  - name: Ground
-    uniqueID: 414530153
+  - name: Middleground
+    uniqueID: 1467389929
     locked: 0
-  - name: OnGround
-    uniqueID: 1161619421
+  - name: Foreground
+    uniqueID: 353532837
     locked: 0
   - name: Default
     uniqueID: 0
