@@ -21,16 +21,6 @@ public class MyButton : MonoBehaviour
         //GetComponent<Button>().onClick.AddListener(OnRequestAbility(buttonNumber));
         
     }
-
-    private UnityAction OnRequestAbility(int i)
-    {
-
-
-        //_encounterSystem.ActivateAbility(i);
-        return null;
-    }
-    
-    
     // Update is called once per frame
     void Update()
     {

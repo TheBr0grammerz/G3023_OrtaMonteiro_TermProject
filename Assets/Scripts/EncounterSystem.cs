@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using Unity.VisualScripting;
@@ -7,6 +8,22 @@ using UnityEngine.SceneManagement;
 
 public class EncounterSystem : MonoBehaviour
 {
+    //In Class
+    
+    public event Action<EncounterSystem,BattleCharacter,BattleCharacter,Effect> OnAttack;
+
+
+
+    public void AttackCharacter(BattleCharacter caster, BattleCharacter target,int slotIdentifier)
+    {
+        Effect currentEffect = caster.GetEffectAtWeaponSlot(slotIdentifier);
+        currentEffect.ApplyEffect();
+        
+        OnAttack?.Invoke(this, caster, target, currentEffect);
+    }
+    
+    
+    //Personal
     
     [SerializeField]
     private List<EncounterArea> _areas = new List<EncounterArea>();
@@ -85,7 +102,7 @@ public class EncounterSystem : MonoBehaviour
 
     public bool RollEncounter()
     {
-        if (_areas[areaIndex] == null) return false;
+        if (_areas[areaIndex].IsUnityNull()) return false;
 
         return _areas[areaIndex].RollEncounter();
         // return _areas.Peek().RollEncounter();
