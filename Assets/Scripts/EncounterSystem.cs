@@ -2,10 +2,11 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using Unity.VisualScripting;
+using UnityEditor;
 using UnityEngine;
 using UnityEngine.Events;
 using UnityEngine.SceneManagement;
-
+[DefaultExecutionOrder(1)]
 public class EncounterSystem : MonoBehaviour
 {
     //In Class
@@ -45,8 +46,21 @@ public class EncounterSystem : MonoBehaviour
     [SerializeField][Range(1f,10000f)] private float minEncounterDistance = 5;
     public EncounterArea currentEncounter;
     
-    
-    
+    public static EncounterSystem Instance{ get; private set; }
+
+    private void Awake()
+    {
+        if (Instance != null && Instance != this)
+        {
+            Destroy(this.gameObject);
+            return;
+        }
+        
+        Instance = this;
+        DontDestroyOnLoad(this.gameObject);
+    }
+
+
     // Start is called before the first frame update
     void Start()
     {
@@ -64,7 +78,8 @@ public class EncounterSystem : MonoBehaviour
         #endregion
         
         #region Get RigidBody From Player
-
+        
+        Player = GameObject.FindGameObjectWithTag("Player");
         _playerRb = Player.GetComponent<Rigidbody2D>();
 
         #endregion
@@ -109,8 +124,9 @@ public class EncounterSystem : MonoBehaviour
     }
     
 
-    public void ActivateAbility(int weaponSlot)
+    public void ActivateAbility(int weaponIdentifier)
     {
+        
        // Ability abilty = Player.GetComponent<ShipStats>().GetWeaponStorage(weaponSlot);
 
 
