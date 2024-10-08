@@ -920,7 +920,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f69515f4462e454468e989628c26f524, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _player: {fileID: 347666529}
+  _player: {fileID: 347666534}
   _bgLayer1:
   - {fileID: 435429501}
   - {fileID: 101209216}
@@ -985,7 +985,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f489d1dbdf554dc4e881b58172436f96, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _player: {fileID: 347666529}
+  _player: {fileID: 347666534}
   _effectMultiplier: 0.9
 --- !u!1 &305757041
 GameObject:
@@ -1217,7 +1217,7 @@ GameObject:
   m_CorrespondingSourceObject: {fileID: 5203337938557138895, guid: 4028540c2c5782a4ba30522a9bd0d627, type: 3}
   m_PrefabInstance: {fileID: 5172845372443564625}
   m_PrefabAsset: {fileID: 0}
---- !u!114 &347666529
+--- !u!114 &347666534
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -1226,7 +1226,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 347666524}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: a28c291e75ada8f4198cd23d595e829c, type: 3}
+  m_Script: {fileID: 11500000, guid: 85c3cd74e4a6d07429b78bfdeefd76fe, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   _distanceToCenter: 0
@@ -3364,7 +3364,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f489d1dbdf554dc4e881b58172436f96, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _player: {fileID: 347666529}
+  _player: {fileID: 347666534}
   _effectMultiplier: 0.8
 --- !u!4 &914767455 stripped
 Transform:
@@ -5245,7 +5245,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f489d1dbdf554dc4e881b58172436f96, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _player: {fileID: 347666529}
+  _player: {fileID: 347666534}
   _effectMultiplier: 0.6
 --- !u!1001 &1403915196
 PrefabInstance:
@@ -6208,7 +6208,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f489d1dbdf554dc4e881b58172436f96, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _player: {fileID: 347666529}
+  _player: {fileID: 347666534}
   _effectMultiplier: 0.4
 --- !u!1 &1733411900
 GameObject:
@@ -6263,7 +6263,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f489d1dbdf554dc4e881b58172436f96, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _player: {fileID: 347666529}
+  _player: {fileID: 347666534}
   _effectMultiplier: 0.2
 --- !u!1 &1760160482
 GameObject:
@@ -8165,7 +8165,7 @@ PrefabInstance:
     m_AddedComponents:
     - targetCorrespondingSourceObject: {fileID: 5203337938557138895, guid: 4028540c2c5782a4ba30522a9bd0d627, type: 3}
       insertIndex: -1
-      addedObject: {fileID: 347666529}
+      addedObject: {fileID: 347666534}
   m_SourcePrefab: {fileID: 100100000, guid: 4028540c2c5782a4ba30522a9bd0d627, type: 3}
 --- !u!1660057539 &9223372036854775807
 SceneRoots:
