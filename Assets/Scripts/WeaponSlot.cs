@@ -1,19 +1,21 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Serialization;
 
 public class WeaponSlot : MonoBehaviour
 {
-    public int slotIdentifier = 0;
-    public Effect effect;
     
-    public bool useableAbility = false;
-
-    void Init(bool useableAbility, Effect effect, int slotIdentifier)
+    public Texture2D texture { get;private set; }
+    public int WeaponIdentifier { get;private set; }
+    public WeaponInformation weaponInformation;
+    
+    public bool canUseAbility = false;
+    void Init(bool useableAbility, WeaponInformation weaponInformation, int weaponIdentifier)
     {
-        this.useableAbility = useableAbility;
-        this.effect = effect;
-        this.slotIdentifier = slotIdentifier;
+        this.canUseAbility = useableAbility;
+        this.weaponInformation = weaponInformation;
+        this.WeaponIdentifier = weaponIdentifier;
     }
 
 
@@ -23,6 +25,6 @@ public class WeaponSlot : MonoBehaviour
     }
     public void AbilityPressed()
     {
-        EncounterSystem.Instance.ActivateAbility(slotIdentifier);
+        EncounterSystem.Instance.ActivateAbility(WeaponIdentifier);
     }
 }

@@ -9,17 +9,18 @@ public class MyButton : MonoBehaviour
 {
     
     [HideInInspector]
-    public int buttonNumber = -1;
-    private TextMeshProUGUI textMesh;
+    public int buttonIdentifier = -1;
 
-    public EncounterSystem _encounterSystem;
-    
     // Start is called before the first frame update
     void Start()
     {
-        textMesh = GetComponentInChildren<TextMeshProUGUI>();
         //GetComponent<Button>().onClick.AddListener(OnRequestAbility(buttonNumber));
         
+    }
+
+    void OnAbilityPressed()
+    {
+        EncounterSystem.Instance.ActivateAbility(buttonIdentifier);
     }
     // Update is called once per frame
     void Update()

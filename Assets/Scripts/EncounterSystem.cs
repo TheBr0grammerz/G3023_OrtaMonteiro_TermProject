@@ -11,16 +11,16 @@ public class EncounterSystem : MonoBehaviour
 {
     //In Class
     
-    public event Action<EncounterSystem,BattleCharacter,BattleCharacter,Effect> OnAttack;
+    public event Action<EncounterSystem,BattleCharacter,BattleCharacter,WeaponInformation> OnAttack;
 
 
 
     public void AttackCharacter(BattleCharacter caster, BattleCharacter target,int slotIdentifier)
     {
-        Effect currentEffect = caster.GetEffectAtWeaponSlot(slotIdentifier);
-        currentEffect.ApplyEffect();
+        WeaponInformation currentWeaponInformation = caster.GetEffectAtWeaponSlot(slotIdentifier);
+        currentWeaponInformation.ApplyEffect();
         
-        OnAttack?.Invoke(this, caster, target, currentEffect);
+        OnAttack?.Invoke(this, caster, target, currentWeaponInformation);
     }
     
     
@@ -47,6 +47,8 @@ public class EncounterSystem : MonoBehaviour
     public EncounterArea currentEncounter;
     
     public static EncounterSystem Instance{ get; private set; }
+    public UnityEvent onEnterCombat;
+
 
     private void Awake()
     {
@@ -106,12 +108,20 @@ public class EncounterSystem : MonoBehaviour
                 if (RollEncounter())
                 {
                     EnterEncounter();
+                    onEnterCombat?.Invoke();
                     //Debug.Log("Encounter Encountered Inside Area: ", _areas.Peek());
                 }
                 else Debug.Log("Failed to enter Encounter");
             }
 
         }
+    }
+
+    private void EnterEncounter()
+    {
+        inCombat = true;
+        Player.SetActive(!inCombat);
+        BattleUICanvas.gameObject.SetActive(inCombat);
     }
 
 
@@ -142,13 +152,7 @@ public class EncounterSystem : MonoBehaviour
         BattleUICanvas.gameObject.SetActive(inCombat);
     }
 
-    public void EnterEncounter()
-    {
-        inCombat = true;
-        Player.SetActive(!inCombat);
-        BattleUICanvas.gameObject.SetActive(inCombat);
-        
-    }
+
 
     public void EnteredArea(EncounterArea enteredArea)
     {

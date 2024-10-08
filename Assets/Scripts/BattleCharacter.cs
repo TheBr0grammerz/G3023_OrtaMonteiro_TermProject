@@ -17,12 +17,12 @@ public class BattleCharacter : MonoBehaviour
     }
 
 
-    public Effect GetEffectAtWeaponSlot(int slot)
+    public WeaponInformation GetEffectAtWeaponSlot(int slot)
     {
         if (_weaponSlots[slot - 1] == null) return null;
         
         
-        return _weaponSlots[slot-1].effect;
+        return _weaponSlots[slot-1].weaponInformation;
     }
     
     //#########################################################//

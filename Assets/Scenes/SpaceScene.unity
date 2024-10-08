@@ -2085,7 +2085,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4545203518942116480, guid: 74d8bf55b76fb99468ff64e66c4a6b55, type: 3}
       propertyPath: m_IsActive
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 4545203518942116480, guid: 74d8bf55b76fb99468ff64e66c4a6b55, type: 3}
       propertyPath: m_TagString
@@ -2272,7 +2272,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!114 &595895756
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3013,7 +3013,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!4 &768239312
 Transform:
   m_ObjectHideFlags: 0
@@ -3051,6 +3051,9 @@ MonoBehaviour:
   distanceTraveled: 0
   minEncounterDistance: 5
   currentEncounter: {fileID: 0}
+  onEnterCombat:
+    m_PersistentCalls:
+      m_Calls: []
 --- !u!1 &776199238
 GameObject:
   m_ObjectHideFlags: 0
@@ -6850,7 +6853,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!4 &1809326679
 Transform:
   m_ObjectHideFlags: 0
@@ -8040,7 +8043,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!4 &2089286033
 Transform:
   m_ObjectHideFlags: 0
@@ -8348,7 +8351,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5203337938557138895, guid: 4028540c2c5782a4ba30522a9bd0d627, type: 3}
       propertyPath: m_IsActive
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 7519360947718683321, guid: 4028540c2c5782a4ba30522a9bd0d627, type: 3}
       propertyPath: m_LocalPosition.x
