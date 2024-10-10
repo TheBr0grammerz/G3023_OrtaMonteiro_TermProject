@@ -16,34 +16,60 @@ public class UI_Buttons : MonoBehaviour
     [SerializeField]
     private Button[] buttons;
 
-    private EncounterSystem _encounterSystem;
+    public Ship playerShip;
 
+    
+
+    void UpdateUIButtons(Ship enemyShip)
+    {
+        for(int i = 0; i < buttons.Length; i++)
+        {
+            BaseWeapon weapon;
+            /*This statement is checking whether the index i is within the bounds of the playerShip.weapons list:
+            If it is, it assigns weaponInformation of the weapon at index i to weapon.
+            If it's not, it assigns null to weapon to avoid an IndexOutOfRangeException.
+            */
+            weapon = i <= playerShip.weapons.Count - 1 ? playerShip.weapons[i].weaponInformation : null;
+
+            var myButton = buttons[i].GetComponent<MyButton>();
+            var tempText = buttons[i].GetComponentInChildren<TextMeshProUGUI>();
+            
+            //Todo: Set the color or IMG of the button to match what weapon type it is
+            if (weapon == null)
+            {
+                buttons[i].image.color = Color.red;
+                tempText.text = "No Weapon Available";
+                buttons[i].interactable = false;
+                continue;
+                
+            }
+            if(weapon.identifier == 0)
+            {
+                buttons[i].image.color = Color.yellow;
+                tempText.text = "Not Yet Implemented";
+                continue;
+            }
+
+            //Todo: Set MyButton data to represent a weapon slot
+            tempText.text = weapon.name;
+            buttons[i].image.color = Color.white;
+            buttons[i].interactable = weapon.canActivateAbility;
+            myButton.weapon = weapon;
+        }
+    }
+
+    private void Awake()
+    {
+        buttons = GetComponentsInChildren<Button>();
+        playerShip = EncounterSystem.Instance.Player.GetComponent<Ship>();
+        EncounterSystem.Instance.onEnterCombat.AddListener(UpdateUIButtons);
+    }
 
     private void OnDestroy()
     {
-        //EncounterSystem.Instance.onEnterCombat -= UpdateUIButtons;
-    }
-
-    void UpdateUIButtons()
-    {
-        buttons = GetComponentsInChildren<Button>();
         foreach (var button in buttons)
         {
-            var myButt = button.GetComponent<MyButton>();
-            
-            //Todo: Set the color or IMG to match what weapon type it is
-            
-            
-            //Todo: Set MyButton data to represent a weapon slot
-            
-
+            button.onClick.RemoveAllListeners();
         }
     }
-    // Start is called before the first frame update
-    void Start()
-    {
-        UpdateUIButtons();
-        EncounterSystem.Instance.onEnterCombat.AddListener(UpdateUIButtons);
-    }
-    
 }

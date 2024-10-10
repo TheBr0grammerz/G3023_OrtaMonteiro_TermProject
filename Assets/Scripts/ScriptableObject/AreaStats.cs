@@ -9,7 +9,6 @@ public class AreaStats : ScriptableObject
 
     [Range(0f, 1f)] public float encounterZoneChance;
     
-
-    public float areaRadius;
+    public GameObject[] enemyShips;
 
 }

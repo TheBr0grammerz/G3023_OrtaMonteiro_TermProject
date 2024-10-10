@@ -25,8 +25,6 @@ public class EncounterArea : MonoBehaviour
     {
         circleCollider2D.isTrigger = true;
         circleCollider2D.radius = radius;
-        encounterSystem = GameObject.Find("EncounterManager").GetComponent<EncounterSystem>();
-
         //Make Sure there is an encounter loaded and is not just a null area
         if (areaStats == null) areaStats = AssetDatabase.LoadAssetAtPath<AreaStats>("Assets/ScriptableObjects/NullZone.asset");
     }
@@ -61,7 +59,7 @@ public class EncounterArea : MonoBehaviour
             if (other.CompareTag("Player"))
             {
                 isInside = true;
-                encounterSystem.EnteredArea(this);
+                EncounterSystem.Instance.EnteredArea(this);
             }
         }
     }
@@ -73,7 +71,7 @@ public class EncounterArea : MonoBehaviour
             if(other.CompareTag("Player"))
             {
                 isInside = false;
-                encounterSystem.ExitedArea(this);
+                EncounterSystem.Instance.ExitedArea(this);
             }
         }
     }

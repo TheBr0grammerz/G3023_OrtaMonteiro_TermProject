@@ -6,22 +6,16 @@ using UnityEditor;
 using UnityEngine;
 using UnityEngine.Events;
 using UnityEngine.SceneManagement;
+using UnityEngine.Serialization;
+using Random = UnityEngine.Random;
+
 [DefaultExecutionOrder(1)]
 public class EncounterSystem : MonoBehaviour
 {
-    //In Class
+
+
+
     
-    public event Action<EncounterSystem,BattleCharacter,BattleCharacter,WeaponInformation> OnAttack;
-
-
-
-    public void AttackCharacter(BattleCharacter caster, BattleCharacter target,int slotIdentifier)
-    {
-        WeaponInformation currentWeaponInformation = caster.GetEffectAtWeaponSlot(slotIdentifier);
-        currentWeaponInformation.ApplyEffect();
-        
-        OnAttack?.Invoke(this, caster, target, currentWeaponInformation);
-    }
     
     
     //Personal
@@ -44,10 +38,14 @@ public class EncounterSystem : MonoBehaviour
     [SerializeField] private float distanceTravelledSinceLastEncounter;
     [SerializeField] private float distanceTraveled;
     [SerializeField][Range(1f,10000f)] private float minEncounterDistance = 5;
-    public EncounterArea currentEncounter;
+    [SerializeField] private Ship firstTurn;
+    public EncounterArea currentArea;
     
     public static EncounterSystem Instance{ get; private set; }
-    public UnityEvent onEnterCombat;
+
+
+    public UnityEvent<Ship> onEnterCombat;
+    public UnityEvent onExitCombat;
 
 
     private void Awake()
@@ -92,11 +90,12 @@ public class EncounterSystem : MonoBehaviour
         _areas.Add(null);
         #endregion
         
-        currentEncounter = _areas[areaIndex];
+        currentArea = _areas[areaIndex];
     }
 
     void Update()
     {
+        if (_enemy !=null) Debug.Log(_enemy.GetComponent<Ship>().health);
         
         if (_playerRb.velocity.magnitude > 5)
         {
@@ -107,25 +106,35 @@ public class EncounterSystem : MonoBehaviour
                 distanceTravelledSinceLastEncounter = 0;
                 if (RollEncounter())
                 {
-                    EnterEncounter();
-                    onEnterCombat?.Invoke();
-                    //Debug.Log("Encounter Encountered Inside Area: ", _areas.Peek());
+                    Ship enemyShip = GenerateShip();
+                    EnterEncounter(enemyShip);
                 }
                 else Debug.Log("Failed to enter Encounter");
             }
-
         }
     }
 
-    private void EnterEncounter()
+    private Ship GenerateShip()
+    {
+        int randomIndex = Random.Range(0, currentArea.areaStats.enemyShips.Length);
+        _enemy = Instantiate(currentArea.areaStats.enemyShips[randomIndex]);
+        
+        
+        return _enemy.GetComponent<Ship>();
+    }
+
+
+
+    private void EnterEncounter(Ship EnemyShip = null)
     {
         inCombat = true;
         Player.SetActive(!inCombat);
         BattleUICanvas.gameObject.SetActive(inCombat);
+        onEnterCombat?.Invoke(EnemyShip);
     }
 
 
-    public bool RollEncounter()
+    private bool RollEncounter()
     {
         if (_areas[areaIndex].IsUnityNull()) return false;
 
@@ -134,19 +143,18 @@ public class EncounterSystem : MonoBehaviour
     }
     
 
-    public void ActivateAbility(int weaponIdentifier)
+    public void ActivateWeapon(Ship caster,Ship target,BaseWeapon weapon)
     {
-        
-       // Ability abilty = Player.GetComponent<ShipStats>().GetWeaponStorage(weaponSlot);
-
-
-
-       // abilty.Activate();
+        if (caster != null && target != null)
+        {
+            DamageValues damageApplied = weapon.ApplyDamage(caster,target);
+        }
     }
     
 
     public void FleeBattleScene()
     {
+        onExitCombat?.Invoke();
         inCombat = false;
         Player.SetActive(!inCombat);
         BattleUICanvas.gameObject.SetActive(inCombat);
@@ -157,14 +165,21 @@ public class EncounterSystem : MonoBehaviour
     public void EnteredArea(EncounterArea enteredArea)
     {
         areaIndex = _areas.IndexOf(enteredArea);
-        currentEncounter = _areas[areaIndex];
+        currentArea = _areas[areaIndex];
 
     }
 
     public void ExitedArea(EncounterArea exitedArea)
     {
         areaIndex = _areas.IndexOf(exitedArea)+1;
-        currentEncounter = _areas[areaIndex];
-        
+        currentArea = _areas[areaIndex];
+    }
+    
+    
+    //###################################################################
+    [ContextMenu("Enter Combat")]
+    private void EnterEncounteContextMenu()
+    {
+        EnterEncounter(GenerateShip());
     }
 }

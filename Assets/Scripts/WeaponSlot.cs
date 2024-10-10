@@ -3,28 +3,19 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Serialization;
 
-public class WeaponSlot : MonoBehaviour
+[System.Serializable]
+public class WeaponSlot
 {
-    
-    public Texture2D texture { get;private set; }
+
+    public Texture2D Texture { get;private set; }
     public int WeaponIdentifier { get;private set; }
-    public WeaponInformation weaponInformation;
+    public BaseWeapon weaponInformation;
     
     public bool canUseAbility = false;
-    void Init(bool useableAbility, WeaponInformation weaponInformation, int weaponIdentifier)
-    {
-        this.canUseAbility = useableAbility;
-        this.weaponInformation = weaponInformation;
-        this.WeaponIdentifier = weaponIdentifier;
-    }
 
-
-    void Awake()
+    public WeaponSlot(BaseWeapon weapon)
     {
-        
-    }
-    public void AbilityPressed()
-    {
-        EncounterSystem.Instance.ActivateAbility(WeaponIdentifier);
+        weaponInformation = weapon;
+        canUseAbility = weapon.canActivateAbility;
     }
 }
