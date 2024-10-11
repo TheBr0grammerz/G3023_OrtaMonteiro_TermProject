@@ -44,7 +44,7 @@ public class EncounterArea : MonoBehaviour
     void Start()
     {
         
-        Invoke(nameof(StartUpCompleted), 1);
+        Invoke(nameof(StartUpCompleted), 5);
     }
 
     void StartUpCompleted()

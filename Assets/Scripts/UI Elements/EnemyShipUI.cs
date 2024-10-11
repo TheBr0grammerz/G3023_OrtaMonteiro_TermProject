@@ -1,11 +1,18 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
-using UnityEngine.UIElements;
+using UnityEngine.UI;
+using Image = UnityEngine.UI.Image;
 
 public class EnemyShipUI : MonoBehaviour
 {
+    
+    public Image Image;
+    public TextMeshProUGUI ShipName;
+
+    public bool isPlayer = false;
 
     void Awake()
     {
@@ -20,7 +27,17 @@ public class EnemyShipUI : MonoBehaviour
 
     void UpdateUI(Ship EnemyShip)
     {
-        var name = gameObject.name;
-        GetComponent<UnityEngine.UIElements.Image>().sprite = EnemyShip.shipSprite;
+        if (!isPlayer)
+        {
+            Image.sprite = EnemyShip.shipSprite;
+            ShipName.text = EnemyShip.name;
+        }
+        else
+        {
+            Ship playerShip = EncounterSystem.Instance.Player.GetComponent<Ship>();
+            Image.sprite = playerShip.shipSprite;
+            ShipName.text = playerShip.name;
+        }
+
     }
 }

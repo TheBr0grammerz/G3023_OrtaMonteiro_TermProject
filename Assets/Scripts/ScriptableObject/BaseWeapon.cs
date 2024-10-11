@@ -36,6 +36,7 @@ public struct DamageValues
     }
 }
 
+
 public abstract class BaseWeapon : ScriptableObject
 {
     public int identifier = 0;

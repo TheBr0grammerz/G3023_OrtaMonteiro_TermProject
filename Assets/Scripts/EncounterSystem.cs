@@ -58,6 +58,8 @@ public class EncounterSystem : MonoBehaviour
         
         Instance = this;
         DontDestroyOnLoad(this.gameObject);
+        
+    
     }
 
 
@@ -65,6 +67,7 @@ public class EncounterSystem : MonoBehaviour
     void Start()
     {
         
+       
         #region Find canvas in other Scene
         GameObject[] rootGameObjects = SceneManager.GetSceneByName("Battle").GetRootGameObjects();
         foreach (var o in rootGameObjects)
@@ -72,11 +75,11 @@ public class EncounterSystem : MonoBehaviour
             if (o.CompareTag("BattleUI"))
             {
                 BattleUICanvas = o.gameObject.GetComponent<Canvas>();
+                BattleUICanvas.GameObject().SetActive(false);
                 break;
             }
         }
         #endregion
-        
         #region Get RigidBody From Player
         
         Player = GameObject.FindGameObjectWithTag("Player");
@@ -106,8 +109,10 @@ public class EncounterSystem : MonoBehaviour
                 distanceTravelledSinceLastEncounter = 0;
                 if (RollEncounter())
                 {
+                    //Todo: Play animation 
+                    
                     Ship enemyShip = GenerateShip();
-                    EnterEncounter(enemyShip);
+                    EnterEncounter();
                 }
                 else Debug.Log("Failed to enter Encounter");
             }
@@ -132,6 +137,7 @@ public class EncounterSystem : MonoBehaviour
         BattleUICanvas.gameObject.SetActive(inCombat);
         onEnterCombat?.Invoke(EnemyShip);
     }
+    
 
 
     private bool RollEncounter()
@@ -151,7 +157,7 @@ public class EncounterSystem : MonoBehaviour
         }
     }
     
-
+    
     public void FleeBattleScene()
     {
         onExitCombat?.Invoke();

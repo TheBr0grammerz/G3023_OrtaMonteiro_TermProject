@@ -16,6 +16,12 @@ public struct HealthPools
         this.shield = shield;
     }
 
+    public HealthPools(HealthPools maxHealth)
+    {
+        this.hull = maxHealth.hull;
+        this.shield = maxHealth.shield;
+    }
+
     public static HealthPools operator +(HealthPools a,DamageValues b)
     {
         return new HealthPools(
@@ -46,11 +52,12 @@ public class Ship : MonoBehaviour
 
     public HealthPools health;
 
-    [SerializeField] private HealthPools maxHealth = new HealthPools(100, 100);
+    public HealthPools maxHealth = new(100, 100);
 
-    public void OnDeath()
+    private void OnDeath()
     {
-        
+        EncounterSystem.Instance.FleeBattleScene();
+        Destroy(gameObject);
     }
 
     private void OnValidate()
@@ -63,8 +70,7 @@ public class Ship : MonoBehaviour
         weapons = new List<WeaponSlot>();
         GetComponent<SpriteRenderer>().sprite = shipSprite;
 
-        if (health.hull <= 0) health.hull = maxHealth.hull;
-        if (health.shield <= 0) health.shield = maxHealth.shield;
+        if (health is { hull: <= 0, shield: <= 0 }) health = new HealthPools(maxHealth);
     }
 
 
