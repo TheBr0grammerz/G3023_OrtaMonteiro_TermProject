@@ -121,10 +121,9 @@ public class EncounterSystem : MonoBehaviour
 
     private Ship GenerateShip()
     {
+        //BUG: 
         int randomIndex = Random.Range(0, currentArea.areaStats.enemyShips.Length);
         _enemy = Instantiate(currentArea.areaStats.enemyShips[randomIndex]);
-        
-        
         return _enemy.GetComponent<Ship>();
     }
 

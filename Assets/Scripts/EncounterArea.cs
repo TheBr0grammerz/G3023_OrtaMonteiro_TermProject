@@ -52,6 +52,8 @@ public class EncounterArea : MonoBehaviour
         startUpCompleted = true;
     }
 
+    
+    //Todo: Ask Joss alternative ways to go about this entering and exiting zone areas. If I enter and exit areas quickly I can bug out and the current area will not be true to the one that the player is actually in.
     void OnTriggerEnter2D(Collider2D other)
     {
         if (startUpCompleted)
