@@ -1378,6 +1378,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   weapon: {fileID: 0}
+  isPassive: 0
 --- !u!1 &950526571
 GameObject:
   m_ObjectHideFlags: 0
@@ -1525,6 +1526,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   weapon: {fileID: 0}
+  isPassive: 0
 --- !u!1 &954225879
 GameObject:
   m_ObjectHideFlags: 0
@@ -2254,6 +2256,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   weapon: {fileID: 0}
+  isPassive: 0
 --- !u!1 &1317937435
 GameObject:
   m_ObjectHideFlags: 0
@@ -3061,6 +3064,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   weapon: {fileID: 0}
+  isPassive: 0
 --- !u!1 &1832971346
 GameObject:
   m_ObjectHideFlags: 0

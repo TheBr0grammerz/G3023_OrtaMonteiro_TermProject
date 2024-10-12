@@ -34,11 +34,12 @@ public class UI_Buttons : MonoBehaviour
             var myButton = buttons[i].GetComponent<MyButton>();
             var tempText = buttons[i].GetComponentInChildren<TextMeshProUGUI>();
             
-            //Todo: Set the color or IMG of the button to match what weapon type it is
             if (weapon == null)
             {
                 buttons[i].image.color = Color.red;
                 tempText.text = "No Weapon Available";
+                //BUG: This doesnt set the Button to not interactable when its null. Something to do with the update function of MyButton
+                
                 buttons[i].interactable = false;
                 continue;
                 
@@ -53,7 +54,7 @@ public class UI_Buttons : MonoBehaviour
             //Todo: Set MyButton data to represent a weapon slot
             tempText.text = weapon.name;
             buttons[i].image.color = Color.white;
-            buttons[i].interactable = weapon.canActivateAbility;
+            buttons[i].interactable = myButton.isPassive = weapon.isPassiveWeapon;
             myButton.weapon = weapon;
         }
     }

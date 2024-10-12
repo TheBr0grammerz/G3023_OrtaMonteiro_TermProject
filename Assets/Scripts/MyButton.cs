@@ -12,6 +12,8 @@ public class MyButton : MonoBehaviour
 {
 
     public BaseWeapon weapon;
+    private static Ship enemyShip;
+    public bool isPassive = true;
     
     
 
@@ -21,21 +23,33 @@ public class MyButton : MonoBehaviour
         var button = GetComponent<Button>();
         button.onClick.AddListener(AbilityPressed);
         EncounterSystem.Instance.onExitCombat.AddListener(Invalidate);
+        
+        enemyShip = EncounterSystem.Instance.Enemy;
+
+
     }
     
     void Invalidate()
     {
        weapon = null;
+       enemyShip = null;
     }
-    
-    
-     void AbilityPressed()
+
+    private void Update()
     {
-        if (weapon != null)
+        if (!isPassive)
         {
-            Ship enemyShip = EncounterSystem.Instance._enemy?.GetComponent<Ship>();
-            Ship PlayerShip = EncounterSystem.Instance.Player?.GetComponent<Ship>();
-            EncounterSystem.Instance.ActivateWeapon(PlayerShip,enemyShip,weapon);
+            GetComponent<UnityEngine.UI.Button>().interactable = EncounterSystem.Instance.Player.currentTurn;
+        }
+    }
+
+
+    void AbilityPressed()
+    {
+        if (weapon != null && enemyShip != null)
+        {
+            
+            EncounterSystem.Instance.Player?.Attack(enemyShip,weapon);
         }
     }
     // Update is called once per frame

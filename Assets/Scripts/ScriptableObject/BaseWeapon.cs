@@ -34,6 +34,11 @@ public struct DamageValues
             a.HullDamage + b.HullDamage,
             a.ShieldDamage + b.ShieldDamage);
     }
+
+    public override string ToString()
+    {
+        return $"HullDamage: {HullDamage}, ShieldDamage: {ShieldDamage}";
+    }
 }
 
 
@@ -44,10 +49,11 @@ public abstract class BaseWeapon : ScriptableObject
     public DamageValues Damage;
     public Sprite Icon;
     
-    public string Name;
     public string Description;
 
-    public bool canActivateAbility = true;
+    public bool isPassiveWeapon = true;
+
+
 
     /// <summary>
     /// Reduces the target ship's health based on the damage values provided.

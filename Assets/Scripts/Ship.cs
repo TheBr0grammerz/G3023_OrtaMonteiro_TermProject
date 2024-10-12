@@ -53,11 +53,25 @@ public class Ship : MonoBehaviour
     public HealthPools health;
 
     public HealthPools maxHealth = new(100, 100);
+    public bool currentTurn;
+
+    public string shipName = "";
 
     private void OnDeath()
     {
         EncounterSystem.Instance.FleeBattleScene();
+     
         Destroy(gameObject);
+    }
+
+    public Ship(Ship other)
+    {
+        weapons = other.weapons;
+        shipSprite = other.shipSprite;
+        health = other.health;
+        maxHealth = other.maxHealth;
+        currentTurn = other.currentTurn;
+        shipName = other.shipName;
     }
 
     private void OnValidate()
@@ -71,6 +85,22 @@ public class Ship : MonoBehaviour
         GetComponent<SpriteRenderer>().sprite = shipSprite;
 
         if (health is { hull: <= 0, shield: <= 0 }) health = new HealthPools(maxHealth);
+        if (shipName == "") shipName = gameObject.name;
+
+        Laser startWeapon1 = ScriptableObject.CreateInstance<Laser>();
+        startWeapon1.name = "Test Laser";
+        startWeapon1.Damage = new DamageValues(10, 10);
+        startWeapon1.identifier = 15;
+        startWeapon1.isPassiveWeapon = true;
+        
+        
+        weapons.Add(new WeaponSlot(startWeapon1));
+
+    }
+
+    public BaseWeapon SelectWeaponAt(int index)
+    {
+        return weapons[index].weaponInformation;
     }
 
 
@@ -92,6 +122,11 @@ public class Ship : MonoBehaviour
         float hullBonusDmg = 0;
         float shieldBonusDmg = 0;
         return new DamageValues(hullBonusDmg, shieldBonusDmg);
+    }
+
+    public void Attack(Ship targetShip,BaseWeapon WeaponUsed)
+    {
+        EncounterSystem.Instance.ActivateWeapon(this,targetShip,WeaponUsed);
     }
     
     
