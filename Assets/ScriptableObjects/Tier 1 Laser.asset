@@ -9,9 +9,13 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: ebdeb4e538373734da149d03a8fddc5e, type: 3}
-  m_Name: Hard Area
+  m_Script: {fileID: 11500000, guid: 36e9d194b32ffa94ca391ef7752afbe0, type: 3}
+  m_Name: Tier 1 Laser
   m_EditorClassIdentifier: 
-  encounterZoneName: Hard Zone
-  encounterZoneChance: 1
-  areaRadius: 0
+  identifier: 11
+  Damage:
+    HullDamage: 0
+    ShieldDamage: 25
+  Icon: {fileID: 0}
+  Name: Mk 1 Laser
+  Description: Beginner Laser

@@ -2,25 +2,20 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using Unity.VisualScripting;
+using UnityEditor;
 using UnityEngine;
 using UnityEngine.Events;
 using UnityEngine.SceneManagement;
+using UnityEngine.Serialization;
+using Random = UnityEngine.Random;
 
+[DefaultExecutionOrder(1)]
 public class EncounterSystem : MonoBehaviour
 {
-    //In Class
+
+
+
     
-    public event Action<EncounterSystem,BattleCharacter,BattleCharacter,Effect> OnAttack;
-
-
-
-    public void AttackCharacter(BattleCharacter caster, BattleCharacter target,int slotIdentifier)
-    {
-        Effect currentEffect = caster.GetEffectAtWeaponSlot(slotIdentifier);
-        currentEffect.ApplyEffect();
-        
-        OnAttack?.Invoke(this, caster, target, currentEffect);
-    }
     
     
     //Personal
@@ -30,27 +25,51 @@ public class EncounterSystem : MonoBehaviour
     [SerializeField] private int areaIndex = 0;
 
     [Header("Ships")]
-    public GameObject Player;
+    public Ship Player;
     private Rigidbody2D _playerRb;
-    public GameObject _enemy;
+    public Ship Enemy;
     
     [Header("Canvas")]
     [SerializeField] Canvas BattleUICanvas;
 
 
     [Header("Encounter Information")]
-    [SerializeField] private bool inCombat = false;
+    [SerializeField] private bool isDebugging = true;
+    [SerializeField] public bool inCombat = false;
     [SerializeField] private float distanceTravelledSinceLastEncounter;
     [SerializeField] private float distanceTraveled;
     [SerializeField][Range(1f,10000f)] private float minEncounterDistance = 5;
-    public EncounterArea currentEncounter;
+    public EncounterArea currentArea;
     
+    public static EncounterSystem Instance{ get; private set; }
+
+
+    public UnityEvent<Ship> onEnterCombat;
+    public UnityEvent onExitCombat;
+
+    public EncounterState _currentState { get; private set; }
+
+
+    private void Awake()
+    {
+        if (Instance != null && Instance != this)
+        {
+            Destroy(this.gameObject);
+            return;
+        }
+        
+        Instance = this;
+        DontDestroyOnLoad(this.gameObject);
+        
     
-    
+    }
+
+
     // Start is called before the first frame update
     void Start()
     {
         
+       
         #region Find canvas in other Scene
         GameObject[] rootGameObjects = SceneManager.GetSceneByName("Battle").GetRootGameObjects();
         foreach (var o in rootGameObjects)
@@ -58,13 +77,14 @@ public class EncounterSystem : MonoBehaviour
             if (o.CompareTag("BattleUI"))
             {
                 BattleUICanvas = o.gameObject.GetComponent<Canvas>();
+                BattleUICanvas.GameObject().SetActive(false);
                 break;
             }
         }
         #endregion
-        
         #region Get RigidBody From Player
-
+        
+        Player = GameObject.FindGameObjectWithTag("Player").GetComponent<Ship>();
         _playerRb = Player.GetComponent<Rigidbody2D>();
 
         #endregion
@@ -75,7 +95,7 @@ public class EncounterSystem : MonoBehaviour
         _areas.Add(null);
         #endregion
         
-        currentEncounter = _areas[areaIndex];
+        currentArea = _areas[areaIndex];
     }
 
     void Update()
@@ -90,17 +110,72 @@ public class EncounterSystem : MonoBehaviour
                 distanceTravelledSinceLastEncounter = 0;
                 if (RollEncounter())
                 {
-                    EnterEncounter();
-                    //Debug.Log("Encounter Encountered Inside Area: ", _areas.Peek());
+                    //Todo: Play animation 
+                    
+                    Ship enemyShip = GenerateEnemyShip();
+                    EnterEncounter(enemyShip);
                 }
                 else Debug.Log("Failed to enter Encounter");
             }
+        }
+    }
 
+    private Ship GenerateEnemyShip()
+    {
+        int randomIndex = Random.Range(0, currentArea.areaStats.enemyShips.Length);
+        Enemy = Instantiate(currentArea.areaStats.enemyShips[randomIndex]).GetComponent<Ship>();
+        Enemy.GetComponent<EnemyAI>().targetShip = Player;
+        return Enemy;
+    }
+
+    /// <summary>
+    /// Determines which ship will take the first turn by randomly selecting between the player ship and the enemy ship.
+    /// Sets the <c>currentTurn</c> property of the selected ship to <c>true</c>.
+    /// </summary>
+    /// <returns>
+    /// The ship that is chosen to take the first turn, either the player ship or the enemy ship.
+    /// </returns>
+    private void DecidedTurnOrder(Ship pShip,Ship eShip,out Ship attackingShip,out Ship defendingShip)
+    {
+        int randomINT = Random.Range(0, 2);
+        if (randomINT == 0)
+        {
+            attackingShip = pShip;
+            attackingShip.currentTurn = true;
+            defendingShip = eShip;
+            defendingShip.currentTurn = false;
+        }
+        else
+        {
+            attackingShip = eShip;
+            attackingShip.currentTurn = true;
+            defendingShip = pShip;
+            defendingShip.currentTurn = false;
         }
     }
 
 
-    public bool RollEncounter()
+
+
+    private void EnterEncounter(Ship enemyShip = null)
+    {
+        inCombat = true;
+        
+        
+        DecidedTurnOrder(Player,enemyShip,out Ship attackingShip,out Ship defendingShip);
+        _currentState = new EncounterState(attackingShip,defendingShip);
+        
+        if (isDebugging) Debug.Log(_currentState.logOfActions[_currentState.TurnCount]);
+        _currentState.TurnCount++;
+        
+        Player.GameObject().SetActive(!inCombat);
+        BattleUICanvas.gameObject.SetActive(inCombat);
+        onEnterCombat?.Invoke(enemyShip);
+    }
+    
+
+
+    private bool RollEncounter()
     {
         if (_areas[areaIndex].IsUnityNull()) return false;
 
@@ -109,42 +184,60 @@ public class EncounterSystem : MonoBehaviour
     }
     
 
-    public void ActivateAbility(int weaponSlot)
+    public void ActivateWeapon(Ship caster,Ship target,BaseWeapon weapon)
     {
-       // Ability abilty = Player.GetComponent<ShipStats>().GetWeaponStorage(weaponSlot);
+        if (caster != null && target != null)
+        {
+            DamageValues damageApplied = weapon.ApplyDamage(caster,target);
+            
+            
+            ActionLog log = new ActionLog(caster,target,weapon,damageApplied,_currentState.TurnCount);
+            if (isDebugging) Debug.Log(log);
+            _currentState.UpdateEncounterState(log);
+            SetNextTurn();
+        }
+    }
 
+    private void SetNextTurn()
+    {
+        (Player.currentTurn, Enemy.currentTurn) = (Enemy.currentTurn, Player.currentTurn);
+        _currentState.TurnCount++;
+    }
 
-
-       // abilty.Activate();
+    private void ShipDeath()
+    {
+        //todo:Create broadcast for what happens when  ship dies, I need to pass in which ship dies
     }
     
-
+    
     public void FleeBattleScene()
     {
+        onExitCombat?.Invoke();
         inCombat = false;
-        Player.SetActive(!inCombat);
+        Player.gameObject.SetActive(!inCombat);
         BattleUICanvas.gameObject.SetActive(inCombat);
     }
 
-    public void EnterEncounter()
-    {
-        inCombat = true;
-        Player.SetActive(!inCombat);
-        BattleUICanvas.gameObject.SetActive(inCombat);
-        
-    }
+
 
     public void EnteredArea(EncounterArea enteredArea)
     {
         areaIndex = _areas.IndexOf(enteredArea);
-        currentEncounter = _areas[areaIndex];
+        currentArea = _areas[areaIndex];
 
     }
 
     public void ExitedArea(EncounterArea exitedArea)
     {
         areaIndex = _areas.IndexOf(exitedArea)+1;
-        currentEncounter = _areas[areaIndex];
-        
+        currentArea = _areas[areaIndex];
+    }
+    
+    
+    //###################################################################
+    [ContextMenu("Enter Combat")]
+    private void EnterEncounteContextMenu()
+    {
+        EnterEncounter(GenerateEnemyShip());
     }
 }

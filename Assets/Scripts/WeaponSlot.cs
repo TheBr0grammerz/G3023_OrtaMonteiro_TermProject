@@ -1,9 +1,21 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Serialization;
 
-public class WeaponSlot : MonoBehaviour
+[System.Serializable]
+public class WeaponSlot
 {
-    public int slotIdentifier;
-    public Effect effect;
+
+    public Texture2D Texture { get;private set; }
+    public int WeaponIdentifier { get;private set; }
+    public BaseWeapon weaponInformation;
+    
+    public bool canUseAbility = false;
+
+    public WeaponSlot(BaseWeapon weapon)
+    {
+        weaponInformation = weapon;
+        canUseAbility = weapon.isPassiveWeapon;
+    }
 }
