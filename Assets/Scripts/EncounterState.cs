@@ -1,28 +1,36 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using Unity.VisualScripting;
 using UnityEngine;
+using UnityEngine.Serialization;
 
 [System.Serializable]
 public class EncounterState
 {
-    public Ship offendingShip;
-    public Ship victimShip;
+    public Ship currentTurnShip;
+    public Ship defendingShip;
     public int TurnCount;
+    public bool isGameOver = false;
 
     public List<ActionLog> logOfActions;
 
 
     public EncounterState(EncounterState other)
     {
-        offendingShip = new Ship(other.offendingShip);
-        victimShip = new Ship(other.victimShip);
+        currentTurnShip = new Ship(other.currentTurnShip);
+        defendingShip = new Ship(other.defendingShip);
         TurnCount = other.TurnCount;
         logOfActions = new List<ActionLog>();
         foreach (var action in other.logOfActions)
         {
             logOfActions.Add(new ActionLog(action));
         }
+    }
+
+    public static EncounterState Clone(EncounterState other)
+    {
+        return new EncounterState(other);
     }
 
 
@@ -36,22 +44,45 @@ public class EncounterState
     /// <param name="secondTurn">Ship that was initiated on</param>
     public EncounterState(Ship attackingShip,Ship defendingShip)
     {
-        offendingShip = new Ship(attackingShip);
-        victimShip = new Ship(defendingShip);
+        currentTurnShip = attackingShip;
+        this.defendingShip = defendingShip;
         this.logOfActions = new List<ActionLog>();
-        logOfActions.Add(new ActionLog(offendingShip.shipName,victimShip.shipName));
+        logOfActions.Add(new ActionLog(currentTurnShip.shipName,this.defendingShip.shipName));
         TurnCount = 0;
     }
 
+    private EncounterState()
+    {
+    }
+
+
     public void UpdateEncounterState(ActionLog log)
     {
+        (currentTurnShip.currentTurn,defendingShip.currentTurn) = (defendingShip.currentTurn,currentTurnShip.currentTurn);
+        (currentTurnShip,defendingShip) = (defendingShip,currentTurnShip);
         logOfActions.Add(log);
+        TurnCount++;
     }
 
     ~EncounterState()
     {
         
     }
-    
-    
+
+
+    public LinkedList<EncounterState> GetPossibleStates()
+    {
+        LinkedList<EncounterState> states = new LinkedList<EncounterState>();
+        foreach (var weaponSlot in currentTurnShip.weapons)
+        {
+            EncounterState newState = new EncounterState(this);
+            
+            DamageValues appliedDamage = newState.currentTurnShip.Attack(defendingShip,weaponSlot.weaponInformation);
+
+            ActionLog log = new ActionLog(currentTurnShip, defendingShip, weaponSlot.weaponInformation,appliedDamage, TurnCount);
+            newState.UpdateEncounterState(log);
+            states.AddLast(newState);
+        }
+        return states;
+    }
 }

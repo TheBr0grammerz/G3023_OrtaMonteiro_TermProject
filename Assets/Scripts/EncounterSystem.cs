@@ -8,6 +8,7 @@ using UnityEngine.Events;
 using UnityEngine.SceneManagement;
 using UnityEngine.Serialization;
 using Random = UnityEngine.Random;
+using AI.MINIMAX;
 
 [DefaultExecutionOrder(1)]
 public class EncounterSystem : MonoBehaviour
@@ -186,13 +187,13 @@ public class EncounterSystem : MonoBehaviour
 
     public void ActivateWeapon(Ship caster,Ship target,BaseWeapon weapon)
     {
-        if (caster != null && target != null)
+        if (!caster.IsUnityNull() && !target.IsUnityNull())
         {
-            DamageValues damageApplied = weapon.ApplyDamage(caster,target);
-            
-            
+            DamageValues damageApplied = caster.Attack(target,weapon);
             ActionLog log = new ActionLog(caster,target,weapon,damageApplied,_currentState.TurnCount);
+            
             if (isDebugging) Debug.Log(log);
+            
             _currentState.UpdateEncounterState(log);
             SetNextTurn();
         }
@@ -200,7 +201,6 @@ public class EncounterSystem : MonoBehaviour
 
     private void SetNextTurn()
     {
-        (Player.currentTurn, Enemy.currentTurn) = (Enemy.currentTurn, Player.currentTurn);
         _currentState.TurnCount++;
     }
 
@@ -236,8 +236,24 @@ public class EncounterSystem : MonoBehaviour
     
     //###################################################################
     [ContextMenu("Enter Combat")]
-    private void EnterEncounteContextMenu()
+    private void EnterEncounterContextMenu()
     {
         EnterEncounter(GenerateEnemyShip());
     }
+
+    [ContextMenu("Generate Tree")]
+    private void GenerateTreeContextMenu()
+    {
+        
+        
+        Tree<EncounterState> Tree = new Tree<EncounterState>(EncounterState.Clone(_currentState), true);
+
+        
+        Func<EncounterState, LinkedList<EncounterState>> getChildren = (state) => state.GetPossibleStates();
+
+        Tree.GenerateTree(3,getChildren);
+        Tree.PrintTree(Tree.Root);
+    }
+
+
 }

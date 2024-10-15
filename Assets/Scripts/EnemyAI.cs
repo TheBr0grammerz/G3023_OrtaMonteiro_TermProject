@@ -27,7 +27,7 @@ public class EnemyAI : MonoBehaviour
         
         
         BaseWeapon weaponUsed = _ship.SelectWeaponAt(0);
-        _ship.Attack(targetShip, weaponUsed);
+        EncounterSystem.Instance.ActivateWeapon(_ship,targetShip,weaponUsed);
     }
     // Start is called before the first frame update
     void Start()

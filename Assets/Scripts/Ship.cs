@@ -52,7 +52,7 @@ public class Ship : MonoBehaviour
 
     public HealthPools health;
 
-    public HealthPools maxHealth = new(100, 100);
+    public HealthPools maxHealth = new HealthPools(100, 100);
     public bool currentTurn;
 
     public string shipName = "";
@@ -124,9 +124,10 @@ public class Ship : MonoBehaviour
         return new DamageValues(hullBonusDmg, shieldBonusDmg);
     }
 
-    public void Attack(Ship targetShip,BaseWeapon WeaponUsed)
+    public DamageValues Attack( Ship targetShip,BaseWeapon WeaponUsed)
     {
-        EncounterSystem.Instance.ActivateWeapon(this,targetShip,WeaponUsed);
+        DamageValues appliedDamage = WeaponUsed.ApplyDamage(this, targetShip);
+        return appliedDamage;
     }
     
     

@@ -66,7 +66,7 @@ public abstract class BaseWeapon : ScriptableObject
     public virtual DamageValues ApplyDamage(Ship caster, Ship target)
     {
         DamageValues bonusDamage = caster.GetBonusDamage();
-        DamageValues totalDamage = new DamageValues(Damage + bonusDamage);
+        DamageValues totalDamage = Damage + bonusDamage;
         return target.TakeDamage(totalDamage);
     }
 }
