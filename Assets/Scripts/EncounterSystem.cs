@@ -30,7 +30,7 @@ public class EncounterSystem : MonoBehaviour
     public Ship Enemy;
     
     [Header("Canvas")]
-    [SerializeField] Canvas BattleUICanvas;
+    [SerializeField] public Canvas BattleUICanvas;
 
 
     [Header("Encounter Information")]
@@ -110,8 +110,6 @@ public class EncounterSystem : MonoBehaviour
                 distanceTravelledSinceLastEncounter = 0;
                 if (RollEncounter())
                 {
-                    //Todo: Play animation 
-                    
                     Ship enemyShip = GenerateEnemyShip();
                     EnterEncounter(enemyShip);
                 }
@@ -137,7 +135,7 @@ public class EncounterSystem : MonoBehaviour
     /// </returns>
     private void DecidedTurnOrder(Ship pShip,Ship eShip,out Ship attackingShip,out Ship defendingShip)
     {
-        int randomINT = Random.Range(0, 2);
+        int randomINT = Random.Range(0, 2); // 0-1????
         if (randomINT == 0)
         {
             attackingShip = pShip;
@@ -160,8 +158,7 @@ public class EncounterSystem : MonoBehaviour
     private void EnterEncounter(Ship enemyShip = null)
     {
         inCombat = true;
-        
-        
+
         DecidedTurnOrder(Player,enemyShip,out Ship attackingShip,out Ship defendingShip);
         _currentState = new EncounterState(attackingShip,defendingShip);
         
@@ -236,7 +233,7 @@ public class EncounterSystem : MonoBehaviour
     
     //###################################################################
     [ContextMenu("Enter Combat")]
-    private void EnterEncounteContextMenu()
+    private void EnterEncounterContextMenu()
     {
         EnterEncounter(GenerateEnemyShip());
     }

@@ -127,6 +127,10 @@ public class Ship : MonoBehaviour
     public void Attack(Ship targetShip,BaseWeapon WeaponUsed)
     {
         EncounterSystem.Instance.ActivateWeapon(this,targetShip,WeaponUsed);
+
+        //TODO call correct animation based on which ship is attacking, set image of projectile based on weaponUsed
+
+        EncounterSystem.Instance.BattleUICanvas.GetComponent<Animator>().SetTrigger("PlayerAttack");
     }
     
     

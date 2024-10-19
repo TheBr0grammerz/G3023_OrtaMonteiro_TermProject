@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: StartingArea
   m_EditorClassIdentifier: 
   encounterZoneName: Tutorial Area
-  encounterZoneChance: 0
+  encounterZoneChance: 1
   enemyShips:
   - {fileID: 5797928463424888602, guid: ae436fdacaa8def4490a5302019316a6, type: 3}
   - {fileID: 5797928463424888602, guid: 0785728ed21efec46bd4b6be6640f278, type: 3}

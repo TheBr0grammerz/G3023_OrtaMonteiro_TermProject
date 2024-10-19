@@ -52,6 +52,6 @@ public class MyButton : MonoBehaviour
             EncounterSystem.Instance.Player?.Attack(enemyShip,weapon);
         }
     }
-    // Update is called once per frame
+   
 
 }
