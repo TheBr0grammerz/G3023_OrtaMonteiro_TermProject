@@ -44,13 +44,14 @@ public class MyButton : MonoBehaviour
     }
 
 
-    void AbilityPressed()
+    public void AbilityPressed()
     {
         if (weapon != null && enemyShip != null)
         {
-            
             EncounterSystem.Instance.Player?.Attack(enemyShip,weapon);
         }
+
+        GetComponentInParent<Animator>().SetTrigger("PlayerAttack");
     }
    
 

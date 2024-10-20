@@ -13,7 +13,9 @@ public class UITextManager : MonoBehaviour
     private String _currentText = "";
 
     [SerializeField]
-    private TextMeshProUGUI _textBox;
+    private GameObject _textBox;
+
+    private TextMeshProUGUI _textMeshPro;
 
     [SerializeField] 
     private int _currentLineIndex;
@@ -23,6 +25,8 @@ public class UITextManager : MonoBehaviour
 
     [SerializeField]
     private float _delay = 0.1f;
+
+    private bool _canClick;
 
 
     public void SetAllText(string text)
@@ -41,6 +45,8 @@ public class UITextManager : MonoBehaviour
         _currentLineIndex = 0;
         _displayText = false;
         _textBox.gameObject.SetActive(false);
+        _textMeshPro = _textBox.GetComponentInChildren<TextMeshProUGUI>();
+
     }
 
 
@@ -53,19 +59,21 @@ public class UITextManager : MonoBehaviour
             if (!_textBox.gameObject.activeInHierarchy)
             {
                 _textBox.gameObject.SetActive(true);
-                _textBox.text = _AllTextToDisplay[_currentLineIndex];
-                //StartCoroutine("PlayTextAnim");
+                _textMeshPro.text = _AllTextToDisplay[_currentLineIndex];
+                StartCoroutine("PlayTextAnim");
             }
 
             // continue to next line on mouse click
-            if (Input.GetMouseButtonUp(0))
+            if (Input.GetMouseButtonUp(0) && _canClick)
             {
                 _currentLineIndex++;
 
                 if (_currentLineIndex < _AllTextToDisplay.Length)
-                    _textBox.text = _AllTextToDisplay[_currentLineIndex];
+                {
+                    _textMeshPro.text = _AllTextToDisplay[_currentLineIndex];
 
-               //StartCoroutine("PlayTextAnim");
+                    StartCoroutine("PlayTextAnim");
+                }
             }
             // reset index and stop displaying when end is reached
             else if (_currentLineIndex >= _AllTextToDisplay.Length) 
@@ -79,11 +87,15 @@ public class UITextManager : MonoBehaviour
 
     IEnumerator PlayTextAnim()
     {
+        _canClick = false;
+
         for (int i = 0; i < _AllTextToDisplay[_currentLineIndex].Length; i++)
         {
-            _currentText = _AllTextToDisplay[_currentLineIndex].Substring(0, i);
-            this.GetComponent<Text>().text = _currentText;
+            _currentText = _AllTextToDisplay[_currentLineIndex].Substring(0, i + 1);
+            _textMeshPro.text = _currentText;
             yield return new WaitForSeconds(_delay);
         }
+
+        _canClick = true;
     }
 }

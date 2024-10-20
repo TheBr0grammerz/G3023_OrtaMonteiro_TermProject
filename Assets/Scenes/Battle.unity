@@ -2572,11 +2572,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _AllTextToDisplay:
-  - This is line 1
-  - This is line 2
-  - This is line 3
+  - You attacked using Laser Cannon!
+  - The enemy ship took 10 shield damage.
   _currentText: 
-  _textBox: {fileID: 1995805595}
+  _textBox: {fileID: 1909308397}
   _currentLineIndex: 0
   _displayText: 0
   _delay: 0.1
@@ -2865,6 +2864,7 @@ GameObject:
   - component: {fileID: 1623686311}
   - component: {fileID: 1623686310}
   - component: {fileID: 1623686314}
+  - component: {fileID: 1623686315}
   m_Layer: 5
   m_Name: BattleSceneCanvas
   m_TagString: BattleUI
@@ -2982,6 +2982,18 @@ Animator:
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorStateOnDisable: 0
   m_WriteDefaultValuesOnDisable: 0
+--- !u!114 &1623686315
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1623686309}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b169ab0f67eab054b8057e34576c73d7, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1654211537
 GameObject:
   m_ObjectHideFlags: 0
@@ -3229,18 +3241,18 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 11500000, guid: 37a3ce5fb66e8ea469bb052a1c08b5eb, type: 3}
-        m_TargetAssemblyTypeName: 
-        m_MethodName: 
+      - m_Target: {fileID: 1807253621}
+        m_TargetAssemblyTypeName: MyButton, Assembly-CSharp
+        m_MethodName: AbilityPressed
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: 
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
           m_IntArgument: 0
           m_FloatArgument: 0
           m_StringArgument: 
           m_BoolArgument: 0
-        m_CallState: 2
+        m_CallState: 1
 --- !u!114 &1807253619
 MonoBehaviour:
   m_ObjectHideFlags: 0
