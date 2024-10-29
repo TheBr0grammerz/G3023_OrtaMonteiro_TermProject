@@ -1,8 +1,13 @@
 using UnityEngine;
 
-public class BattleCanvas : MonoBehaviour
+public class AnimationController : MonoBehaviour
 {
     private UITextManager _textManager;
+
+    void Awake()
+    {
+        EncounterSystem.Instance.onEnterCombat.AddListener(StartBattle);
+    }
 
     void Start()
     {
@@ -12,5 +17,10 @@ public class BattleCanvas : MonoBehaviour
     public void EnableTextBox()
     {
         _textManager.DisplayText(true);
+    }
+
+    public void StartBattle(Ship enemyShip)
+    {
+
     }
 }

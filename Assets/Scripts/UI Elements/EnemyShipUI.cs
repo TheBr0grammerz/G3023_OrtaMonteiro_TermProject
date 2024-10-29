@@ -16,12 +16,15 @@ public class EnemyShipUI : MonoBehaviour
 
     void Awake()
     {
+    }
+
+    void Start()
+    {
         EncounterSystem.Instance.onEnterCombat.AddListener(UpdateUI);
     }
 
     private void OnDisable()
     {
-        
     }
 
 

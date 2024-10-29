@@ -48,6 +48,8 @@ public class EncounterState
         logOfActions.Add(log);
     }
 
+
+
     ~EncounterState()
     {
         

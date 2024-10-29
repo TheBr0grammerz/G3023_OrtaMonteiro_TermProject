@@ -12,11 +12,6 @@ using Random = UnityEngine.Random;
 [DefaultExecutionOrder(1)]
 public class EncounterSystem : MonoBehaviour
 {
-
-
-
-    
-    
     
     //Personal
     
@@ -110,8 +105,9 @@ public class EncounterSystem : MonoBehaviour
                 distanceTravelledSinceLastEncounter = 0;
                 if (RollEncounter())
                 {
-                    Ship enemyShip = GenerateEnemyShip();
-                    EnterEncounter(enemyShip);
+                    Enemy = GenerateEnemyShip();
+                    //todo:play anim
+                    EnterEncounter(Enemy);
                 }
                 else Debug.Log("Failed to enter Encounter");
             }
@@ -123,6 +119,10 @@ public class EncounterSystem : MonoBehaviour
         int randomIndex = Random.Range(0, currentArea.areaStats.enemyShips.Length);
         Enemy = Instantiate(currentArea.areaStats.enemyShips[randomIndex]).GetComponent<Ship>();
         Enemy.GetComponent<EnemyAI>().targetShip = Player;
+        //todo: This is a placeholder, we need to put in a way to generate health properly
+        Enemy.maxHealth = new HealthPools(100, 100);
+        Enemy.health = Enemy.maxHealth;
+
         return Enemy;
     }
 
@@ -151,9 +151,6 @@ public class EncounterSystem : MonoBehaviour
             defendingShip.currentTurn = false;
         }
     }
-
-
-
 
     private void EnterEncounter(Ship enemyShip = null)
     {

@@ -12,7 +12,7 @@ public class MyButton : MonoBehaviour
 {
 
     public BaseWeapon weapon;
-    private static Ship enemyShip;
+    private static Ship _enemyShip;
     public bool isPassive = true;
     
     
@@ -22,17 +22,17 @@ public class MyButton : MonoBehaviour
     {
         var button = GetComponent<Button>();
         button.onClick.AddListener(AbilityPressed);
+        EncounterSystem.Instance.onEnterCombat.AddListener((enemyShip) => { _enemyShip = enemyShip; }); 
         EncounterSystem.Instance.onExitCombat.AddListener(Invalidate);
         
-        enemyShip = EncounterSystem.Instance.Enemy;
-
-
     }
+
+
     
     void Invalidate()
     {
        weapon = null;
-       enemyShip = null;
+       _enemyShip = null;
     }
 
     private void Update()
@@ -46,12 +46,12 @@ public class MyButton : MonoBehaviour
 
     public void AbilityPressed()
     {
-        if (weapon != null && enemyShip != null)
+        if (weapon != null && _enemyShip != null)
         {
-            EncounterSystem.Instance.Player?.Attack(enemyShip,weapon);
+            EncounterSystem.Instance.Player?.Attack(_enemyShip,weapon);
+            //Todo: Find a way to get latest actionLog and display that to text animation
+            GetComponentInParent<Animator>().SetTrigger("PlayerAttack");    
         }
-
-        GetComponentInParent<Animator>().SetTrigger("PlayerAttack");
     }
    
 
