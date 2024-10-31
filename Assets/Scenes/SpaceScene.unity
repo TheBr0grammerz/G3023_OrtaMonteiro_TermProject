@@ -1347,7 +1347,7 @@ MonoBehaviour:
     hull: 0
     shield: 0
   maxHealth:
-    hull: 5000
+    hull: 10000
     shield: 1000
   currentTurn: 0
   shipName: 

@@ -15,7 +15,7 @@ MonoBehaviour:
   identifier: 0
   Damage:
     HullDamage: 500
-    ShieldDamage: 500
+    ShieldDamage: 0
   Icon: {fileID: 0}
   Description: 
   isPassiveWeapon: 0

@@ -19,6 +19,7 @@ public class EnemyAI : MonoBehaviour
         if (_ship == null)
         {
             _ship = GetComponent<Ship>();
+            _ship.maxHealth = new HealthPools(10000,10000);
         }
     }
 
@@ -26,12 +27,16 @@ public class EnemyAI : MonoBehaviour
     {
         if (!targetShip || _ship.weapons.Count < 1) return;
         
-        //Todo: Create logic to decide which is the best weapon to use and  attack the target ship with that weapon
         EncounterState BaseState = EncounterState.Clone(EncounterSystem.Instance._currentState);
-        MiniMaxTree<EncounterState> Tree = new MiniMaxTree<EncounterState>(BaseState, true, 3);
-        EncounterState bestMove = Tree.GetBestMove(3,
-            (state) => state.GetPossibleStates(),
-            (state) => state.HeuristicEvaluation());
+        
+        MiniMaxTree<EncounterState> Tree = new MiniMaxTree<EncounterState>(BaseState, true);
+
+        Tree.PassInFunctions(
+            (state, isMaximizingPlayer) => state.HeuristicEvaluation(isMaximizingPlayer),
+            (state) => state.GetPossibleStates());
+        
+        
+        EncounterState bestMove = Tree.GetBestMove(3);
 
         if (!CheckForWeapon(_ship, bestMove.GetLastWeaponUsed()))
         {
@@ -58,15 +63,6 @@ public class EnemyAI : MonoBehaviour
             slot = new WeaponSlot(weapon);
             _ship.weapons.Add(slot);
             
-            //Adding Third Weapon
-            weapon = Resources.Load("Weapons/DinkyLaser 1") as BaseWeapon;
-            slot = new WeaponSlot(weapon);
-            _ship.weapons.Add(slot);
-            
-            //Adding Fourth weapon
-            weapon = Resources.Load("Weapons/OPLaserWeak") as BaseWeapon;
-            slot = new WeaponSlot(weapon);
-            _ship.weapons.Add(slot);
         #endregion
         
         Debug.Log("Adding To ships Weapons In EnemyAI");

@@ -14,8 +14,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   identifier: 22
   Damage:
-    HullDamage: 50
-    ShieldDamage: 10
+    HullDamage: 450
+    ShieldDamage: 0
   Icon: {fileID: 0}
-  Name: Mk 1 Missile
   Description: Beginner Missile
+  isPassiveWeapon: 1

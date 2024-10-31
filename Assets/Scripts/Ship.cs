@@ -90,10 +90,8 @@ public class Ship : MonoBehaviour
     {
         weapons = new List<WeaponSlot>();
         GetComponent<SpriteRenderer>().sprite = shipSprite;
-
         if (health is { hull: <= 0, shield: <= 0 }) health = new HealthPools(maxHealth);
         if (shipName == "") shipName = gameObject.name;
-
     }
 
     public BaseWeapon SelectWeaponAt(int index)
@@ -105,6 +103,7 @@ public class Ship : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+
     }
 
     // Update is called once per frame

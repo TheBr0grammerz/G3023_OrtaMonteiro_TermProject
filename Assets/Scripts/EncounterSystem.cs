@@ -127,6 +127,8 @@ public class EncounterSystem : MonoBehaviour
         int randomIndex = Random.Range(0, currentArea.areaStats.enemyShips.Length);
         Enemy = Instantiate(currentArea.areaStats.enemyShips[randomIndex]).GetComponent<Ship>();
         Enemy.GetComponent<EnemyAI>().targetShip = Player;
+        Enemy.maxHealth = Player.maxHealth;
+        Enemy.health = Player.health;
         return Enemy;
     }
 
@@ -241,14 +243,14 @@ public class EncounterSystem : MonoBehaviour
     private void GenerateTreeContextMenu()
     {   
         
-        MiniMaxTree<EncounterState> miniMaxTree = new MiniMaxTree<EncounterState>(EncounterState.Clone(_currentState), true,3);
+      //  MiniMaxTree<EncounterState> miniMaxTree = new MiniMaxTree<EncounterState>(EncounterState.Clone(_currentState), true,3);
         
-        Func<EncounterState, LinkedList<EncounterState>> getChildren = (state) => state.GetPossibleStates();
+       // Func<EncounterState, LinkedList<EncounterState>> getChildren = (state) => state.GetPossibleStates();
 
-        //MiniMaxTree.GenerateAndEvaluateTree(3,getChildren);
-        miniMaxTree.GenerateAndEvaluateTree(3,getChildren,
-            (state) => state.HeuristicEvaluation());
-        miniMaxTree.PrintTree(miniMaxTree.Root);
+        //MiniMaxTree.GenerateTree(3,getChildren);
+       // miniMaxTree.GenerateTree(3,getChildren,
+           // (state) => state.HeuristicEvaluation(true));
+       // miniMaxTree.PrintTree(miniMaxTree.Root);
     }
 
 

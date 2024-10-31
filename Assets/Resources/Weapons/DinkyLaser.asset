@@ -14,8 +14,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   identifier: 0
   Damage:
-    HullDamage: 1
-    ShieldDamage: 1
+    HullDamage: 100
+    ShieldDamage: 0
   Icon: {fileID: 0}
   Description: 
   isPassiveWeapon: 0

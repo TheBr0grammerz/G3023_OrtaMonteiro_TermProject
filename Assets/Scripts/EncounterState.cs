@@ -88,29 +88,55 @@ public class EncounterState
         {
             EncounterState newState = new EncounterState(this);
             
-            DamageValues appliedDamage = newState.currentTurnShip.Attack(defendingShip,weaponSlot.weaponInformation);
+            //BUG: There was an issue where I wasnt calling the newstate.CurrentTurnShip and defending ship so it wouldnt be accurate
+            DamageValues appliedDamage = newState.currentTurnShip.Attack(newState.defendingShip,weaponSlot.weaponInformation);
 
-            ActionLog log = new ActionLog(currentTurnShip, defendingShip, weaponSlot.weaponInformation,appliedDamage, TurnCount);
+            ActionLog log = new ActionLog(newState.currentTurnShip, newState.defendingShip, weaponSlot.weaponInformation,appliedDamage, TurnCount);
             newState.UpdateEncounterState(log);
             states.AddLast(newState);
         }
         return states;
     }
-
-
-    public int HeuristicEvaluation()
+    
+    
+    public float HeuristicEvaluation(bool isMaximizingPlayer)
     {
-        int score = 0;
-        float shieldWeight = 0.3f;
-        float hullWeight = 0.7f;
+        // Calculate basic health advantage as difference between attacking and defending hull health
+        float healthAdvantage = currentTurnShip.health.hull - defendingShip.health.hull;
 
-        float shieldEvaluation = currentTurnShip.health.shield * shieldWeight;
-        float hullEvaluation = currentTurnShip.health.hull * hullWeight;
+        // Adjust for maximizing or minimizing player
+        return isMaximizingPlayer ? healthAdvantage : -healthAdvantage;
+    }
+
+
+
+    /*public float HeuristicEvaluation(bool isMaximizingShip)
+    {
+        float score = 0;
+        
+        float attackingShipsHullPercentage = currentTurnShip.health.hull / currentTurnShip.maxHealth.hull;
+        float attackingShipsShieldPercentage = currentTurnShip.health.shield / currentTurnShip.maxHealth.shield;
+        
+        float defendingShipsHullPercentage = defendingShip.health.hull / defendingShip.maxHealth.hull;
+        float defendingShipsShieldPercentage = defendingShip.health.shield / defendingShip.maxHealth.shield;
+
+        float hullWeight;
+
+        //If defending ships health is critically low, then we want to increase the weight to finish them off
+        if (defendingShipsHullPercentage < 0.3f)
+        {
+            hullWeight = 2f;
+        }
+        else hullWeight = 1f;
+
+        float shieldWeight = 1f;
+
+
+
         
 
-        score += Mathf.RoundToInt(shieldEvaluation);
-        score += Mathf.RoundToInt(hullEvaluation);
+
         
         return score;
-    }
+    }*/
 }
