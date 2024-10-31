@@ -75,9 +75,7 @@ public class EnemyAI : MonoBehaviour
         foreach (var slot in weapons)
         {
             if (slot.weaponInformation == weaponToCheckAgainst) return true;
-
         }
-
         return false;
     }
 
