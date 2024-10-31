@@ -69,6 +69,17 @@ public class EncounterState
         
     }
 
+    public bool IsTerminalState()
+    {
+        return (currentTurnShip.health.hull <= 0 || defendingShip.health.hull <= 0);
+    }
+
+    public BaseWeapon GetLastWeaponUsed()
+    {
+        BaseWeapon weaponUsed = logOfActions.Last().weapon;
+        return weaponUsed;
+    }
+
 
     public LinkedList<EncounterState> GetPossibleStates()
     {
@@ -84,5 +95,22 @@ public class EncounterState
             states.AddLast(newState);
         }
         return states;
+    }
+
+
+    public int HeuristicEvaluation()
+    {
+        int score = 0;
+        float shieldWeight = 0.3f;
+        float hullWeight = 0.7f;
+
+        float shieldEvaluation = currentTurnShip.health.shield * shieldWeight;
+        float hullEvaluation = currentTurnShip.health.hull * hullWeight;
+        
+
+        score += Mathf.RoundToInt(shieldEvaluation);
+        score += Mathf.RoundToInt(hullEvaluation);
+        
+        return score;
     }
 }

@@ -51,7 +51,7 @@ public abstract class BaseWeapon : ScriptableObject
     
     public string Description;
 
-    public bool isPassiveWeapon = true;
+    public bool isPassiveWeapon = false;
 
 
 

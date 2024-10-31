@@ -36,6 +36,13 @@ public struct HealthPools
             a.shield - b.ShieldDamage);
     }
 
+    public static HealthPools operator *(HealthPools a, float b)
+    {
+        return new HealthPools(
+            a.hull * b,
+            a.shield * b);
+    }
+
     public override string ToString()
     {
         return $"Hull Health: {hull}\nShield Health: {shield}";
@@ -59,9 +66,9 @@ public class Ship : MonoBehaviour
 
     private void OnDeath()
     {
-        EncounterSystem.Instance.FleeBattleScene();
+       //EncounterSystem.Instance.FleeBattleScene();
      
-        Destroy(gameObject);
+       //Destroy(gameObject);
     }
 
     public Ship(Ship other)
@@ -86,15 +93,6 @@ public class Ship : MonoBehaviour
 
         if (health is { hull: <= 0, shield: <= 0 }) health = new HealthPools(maxHealth);
         if (shipName == "") shipName = gameObject.name;
-
-        Laser startWeapon1 = ScriptableObject.CreateInstance<Laser>();
-        startWeapon1.name = "Test Laser";
-        startWeapon1.Damage = new DamageValues(10, 10);
-        startWeapon1.identifier = 15;
-        startWeapon1.isPassiveWeapon = true;
-        
-        
-        weapons.Add(new WeaponSlot(startWeapon1));
 
     }
 

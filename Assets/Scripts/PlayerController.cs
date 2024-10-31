@@ -16,7 +16,17 @@ public class PlayerController : MonoBehaviour
 
     void Start()
     {
+        Ship ship = player.GetComponent<Ship>();
         
+        
+        var weapon = Resources.Load("Weapons/Tier 1 Laser") as BaseWeapon;
+        var slot = new WeaponSlot(weapon);
+        ship.weapons.Add(slot);
+        
+         weapon = Resources.Load("Weapons/Tier 1 Missile") as BaseWeapon;
+         slot = new WeaponSlot(weapon);
+        ship.weapons.Add(slot);
+        Debug.Log("Adding To ships Weapons In Player Controller");
     }
 
     void Update()

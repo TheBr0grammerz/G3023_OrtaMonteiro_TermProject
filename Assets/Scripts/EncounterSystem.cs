@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using Unity.VisualScripting;
 using UnityEditor;
 using UnityEngine;
@@ -166,8 +167,7 @@ public class EncounterSystem : MonoBehaviour
         DecidedTurnOrder(Player,enemyShip,out Ship attackingShip,out Ship defendingShip);
         _currentState = new EncounterState(attackingShip,defendingShip);
         
-        if (isDebugging) Debug.Log(_currentState.logOfActions[_currentState.TurnCount]);
-        _currentState.TurnCount++;
+        if (isDebugging) Debug.Log(_currentState.logOfActions.Last());
         
         Player.GameObject().SetActive(!inCombat);
         BattleUICanvas.gameObject.SetActive(inCombat);
@@ -195,14 +195,10 @@ public class EncounterSystem : MonoBehaviour
             if (isDebugging) Debug.Log(log);
             
             _currentState.UpdateEncounterState(log);
-            SetNextTurn();
         }
     }
 
-    private void SetNextTurn()
-    {
-        _currentState.TurnCount++;
-    }
+
 
     private void ShipDeath()
     {
@@ -241,18 +237,18 @@ public class EncounterSystem : MonoBehaviour
         EnterEncounter(GenerateEnemyShip());
     }
 
-    [ContextMenu("Generate Tree")]
+    [ContextMenu("Generate MiniMaxTree")]
     private void GenerateTreeContextMenu()
-    {
+    {   
         
-        
-        Tree<EncounterState> Tree = new Tree<EncounterState>(EncounterState.Clone(_currentState), true);
-
+        MiniMaxTree<EncounterState> miniMaxTree = new MiniMaxTree<EncounterState>(EncounterState.Clone(_currentState), true,3);
         
         Func<EncounterState, LinkedList<EncounterState>> getChildren = (state) => state.GetPossibleStates();
 
-        Tree.GenerateTree(3,getChildren);
-        Tree.PrintTree(Tree.Root);
+        //MiniMaxTree.GenerateAndEvaluateTree(3,getChildren);
+        miniMaxTree.GenerateAndEvaluateTree(3,getChildren,
+            (state) => state.HeuristicEvaluation());
+        miniMaxTree.PrintTree(miniMaxTree.Root);
     }
 
 
