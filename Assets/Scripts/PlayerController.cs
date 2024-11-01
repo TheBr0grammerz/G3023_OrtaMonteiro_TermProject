@@ -17,7 +17,7 @@ public class PlayerController : MonoBehaviour
     void Start()
     {
         _player = GetComponent<Player>();
-        Ship ship = player.GetComponent<Ship>();
+        Ship ship = _player.GetComponent<Ship>();
         
         
         var weapon = Resources.Load("Weapons/Tier 1 Laser") as BaseWeapon;

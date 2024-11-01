@@ -122,6 +122,7 @@ public class EncounterSystem : MonoBehaviour
         Enemy = Instantiate(currentArea.areaStats.enemyShips[randomIndex]).GetComponent<Ship>();
         Enemy.GetComponent<EnemyAI>().targetShip = Player;
         //todo: This is a placeholder, we need to put in a way to generate health properly
+        
         Enemy.maxHealth = Player.maxHealth;
         Enemy.health = Player.health;
         return Enemy;

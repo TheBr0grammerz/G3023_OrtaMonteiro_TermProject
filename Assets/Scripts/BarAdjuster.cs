@@ -14,25 +14,25 @@ public class BarAdjuster : MonoBehaviour
     
     private void Awake()
     {
+        EncounterSystem.Instance.onEnterCombat.AddListener(LinkShipToUI);
+        EncounterSystem.Instance.onExitCombat.AddListener(ExitedCombat);
         
     }
-    
-
     private void LinkShipToUI(Ship enemyShip)
     {
         _ship = isPlayer ? EncounterSystem.Instance.Player.GetComponent<Ship>() : enemyShip;
-    }
 
+    }
     void ExitedCombat()
     {
         _ship = null;
     }
-
+    
+    
     // Start is called before the first frame update
     void Start()
     {
-        EncounterSystem.Instance.onEnterCombat.AddListener(LinkShipToUI);
-        EncounterSystem.Instance.onExitCombat.AddListener(ExitedCombat);
+
         HullSlider.maxValue = _ship.maxHealth.hull;
         ShieldSlider.maxValue = _ship.maxHealth.shield;
     }
