@@ -3,43 +3,7 @@ using System;
 using UnityEngine;
 using UnityEngine.Serialization;
 
-[Serializable]
-public struct DamageValues
-{
-    public float HullDamage;
-    public float ShieldDamage;
 
-    public DamageValues(float hullDamage, float shieldDamage)
-    {
-        HullDamage = hullDamage;
-        ShieldDamage = shieldDamage;
-    }
-
-    public DamageValues(DamageValues other)
-    {
-        HullDamage = other.HullDamage;
-        ShieldDamage = other.ShieldDamage;
-    }
-
-    public static DamageValues operator -(DamageValues a, DamageValues b)
-    {
-        return new DamageValues(
-            a.HullDamage - b.HullDamage,
-            a.ShieldDamage - b.ShieldDamage);
-    }
-    
-    public static DamageValues operator +(DamageValues a, DamageValues b)
-    {
-        return new DamageValues(
-            a.HullDamage + b.HullDamage,
-            a.ShieldDamage + b.ShieldDamage);
-    }
-
-    public override string ToString()
-    {
-        return $"HullDamage: {HullDamage}, ShieldDamage: {ShieldDamage}";
-    }
-}
 
 
 public abstract class BaseWeapon : ScriptableObject
@@ -53,6 +17,8 @@ public abstract class BaseWeapon : ScriptableObject
 
     public bool isPassiveWeapon = false;
 
+    public StatusEffect effectToApply;
+
 
 
     /// <summary>
@@ -65,6 +31,8 @@ public abstract class BaseWeapon : ScriptableObject
     /// </returns>
     public virtual DamageValues ApplyDamage(Ship caster, Ship target)
     {
+
+        effectToApply.ApplyEffect(target);
         DamageValues bonusDamage = caster.GetBonusDamage();
         DamageValues totalDamage = Damage + bonusDamage;
         return target.TakeDamage(totalDamage);

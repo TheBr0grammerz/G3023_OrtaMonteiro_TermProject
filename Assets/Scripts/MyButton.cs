@@ -45,11 +45,11 @@ public class MyButton : MonoBehaviour
 
     void AbilityPressed()
     {
-        if (weapon == null || _enemyShip == null) return;
+        if (weapon == null || enemyShip == null) return;
         
         
         //Todo: Find a way to get latest actionLog and display that to text animation
-        EncounterSystem.Instance.ActivateWeapon(playerShip,_enemyShip,weapon);
+        EncounterSystem.Instance.ActivateWeapon(playerShip,enemyShip,weapon);
         GetComponentInParent<Animator>().SetTrigger("PlayerAttack");
     }
 }
