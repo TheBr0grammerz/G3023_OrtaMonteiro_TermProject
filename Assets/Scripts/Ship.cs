@@ -36,6 +36,13 @@ public struct HealthPools
             a.shield - b.ShieldDamage);
     }
 
+    public static HealthPools operator *(HealthPools a, float b)
+    {
+        return new HealthPools(
+            a.hull * b,
+            a.shield * b);
+    }
+
     public override string ToString()
     {
         return $"Hull Health: {hull}\nShield Health: {shield}";
@@ -52,16 +59,16 @@ public class Ship : MonoBehaviour
 
     public HealthPools health;
 
-    public HealthPools maxHealth = new(100, 100);
+    public HealthPools maxHealth = new HealthPools(100, 100);
     public bool currentTurn;
 
     public string shipName = "";
 
     private void OnDeath()
     {
-        EncounterSystem.Instance.FleeBattleScene();
+       //EncounterSystem.Instance.FleeBattleScene();
      
-        Destroy(gameObject);
+       //Destroy(gameObject);
     }
 
     public Ship(Ship other)
@@ -83,19 +90,8 @@ public class Ship : MonoBehaviour
     {
         weapons = new List<WeaponSlot>();
         GetComponent<SpriteRenderer>().sprite = shipSprite;
-
         if (health is { hull: <= 0, shield: <= 0 }) health = new HealthPools(maxHealth);
         if (shipName == "") shipName = gameObject.name;
-
-        Laser startWeapon1 = ScriptableObject.CreateInstance<Laser>();
-        startWeapon1.name = "Test Laser";
-        startWeapon1.Damage = new DamageValues(10, 10);
-        startWeapon1.identifier = 15;
-        startWeapon1.isPassiveWeapon = true;
-        
-        
-        weapons.Add(new WeaponSlot(startWeapon1));
-
     }
 
     public BaseWeapon SelectWeaponAt(int index)
@@ -107,6 +103,7 @@ public class Ship : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+
     }
 
     // Update is called once per frame
@@ -124,13 +121,12 @@ public class Ship : MonoBehaviour
         return new DamageValues(hullBonusDmg, shieldBonusDmg);
     }
 
-    public void Attack(Ship targetShip,BaseWeapon WeaponUsed)
+    public DamageValues Attack( Ship targetShip,BaseWeapon WeaponUsed)
     {
-        EncounterSystem.Instance.ActivateWeapon(this,targetShip,WeaponUsed);
-
         //TODO call correct animation based on which ship is attacking, set image of projectile based on weaponUsed
-
         EncounterSystem.Instance.BattleUICanvas.GetComponent<Animator>().SetTrigger("PlayerAttack");
+        DamageValues appliedDamage = WeaponUsed.ApplyDamage(this, targetShip);
+        return appliedDamage;
     }
     
     

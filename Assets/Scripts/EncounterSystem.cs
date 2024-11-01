@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using Unity.VisualScripting;
 using UnityEditor;
 using UnityEngine;
@@ -8,6 +9,7 @@ using UnityEngine.Events;
 using UnityEngine.SceneManagement;
 using UnityEngine.Serialization;
 using Random = UnityEngine.Random;
+using AI.MINIMAX;
 
 [DefaultExecutionOrder(1)]
 public class EncounterSystem : MonoBehaviour
@@ -120,9 +122,8 @@ public class EncounterSystem : MonoBehaviour
         Enemy = Instantiate(currentArea.areaStats.enemyShips[randomIndex]).GetComponent<Ship>();
         Enemy.GetComponent<EnemyAI>().targetShip = Player;
         //todo: This is a placeholder, we need to put in a way to generate health properly
-        Enemy.maxHealth = new HealthPools(100, 100);
-        Enemy.health = Enemy.maxHealth;
-
+        Enemy.maxHealth = Player.maxHealth;
+        Enemy.health = Player.health;
         return Enemy;
     }
 
@@ -159,8 +160,7 @@ public class EncounterSystem : MonoBehaviour
         DecidedTurnOrder(Player,enemyShip,out Ship attackingShip,out Ship defendingShip);
         _currentState = new EncounterState(attackingShip,defendingShip);
         
-        if (isDebugging) Debug.Log(_currentState.logOfActions[_currentState.TurnCount]);
-        _currentState.TurnCount++;
+        if (isDebugging) Debug.Log(_currentState.logOfActions.Last());
         
         Player.GameObject().SetActive(!inCombat);
         BattleUICanvas.gameObject.SetActive(inCombat);
@@ -180,23 +180,18 @@ public class EncounterSystem : MonoBehaviour
 
     public void ActivateWeapon(Ship caster,Ship target,BaseWeapon weapon)
     {
-        if (caster != null && target != null)
+        if (!caster.IsUnityNull() && !target.IsUnityNull())
         {
-            DamageValues damageApplied = weapon.ApplyDamage(caster,target);
-            
-            
+            DamageValues damageApplied = caster.Attack(target,weapon);
             ActionLog log = new ActionLog(caster,target,weapon,damageApplied,_currentState.TurnCount);
+            
             if (isDebugging) Debug.Log(log);
+            
             _currentState.UpdateEncounterState(log);
-            SetNextTurn();
         }
     }
 
-    private void SetNextTurn()
-    {
-        (Player.currentTurn, Enemy.currentTurn) = (Enemy.currentTurn, Player.currentTurn);
-        _currentState.TurnCount++;
-    }
+
 
     private void ShipDeath()
     {
@@ -234,4 +229,20 @@ public class EncounterSystem : MonoBehaviour
     {
         EnterEncounter(GenerateEnemyShip());
     }
+
+    [ContextMenu("Generate MiniMaxTree")]
+    private void GenerateTreeContextMenu()
+    {   
+        
+      //  MiniMaxTree<EncounterState> miniMaxTree = new MiniMaxTree<EncounterState>(EncounterState.Clone(_currentState), true,3);
+        
+       // Func<EncounterState, LinkedList<EncounterState>> getChildren = (state) => state.GetPossibleStates();
+
+        //MiniMaxTree.GenerateTree(3,getChildren);
+       // miniMaxTree.GenerateTree(3,getChildren,
+           // (state) => state.HeuristicEvaluation(true));
+       // miniMaxTree.PrintTree(miniMaxTree.Root);
+    }
+
+
 }

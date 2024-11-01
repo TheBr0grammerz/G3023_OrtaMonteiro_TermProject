@@ -749,6 +749,14 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 21300000, guid: f0e64e8d26db16c439e70e9cffc3c3b2, type: 3}
     - target: {fileID: 6310932708919370880, guid: c8ce95f1d05379f4f90176e18b904de6, type: 3}
+      propertyPath: maxHealth.hull
+      value: 150
+      objectReference: {fileID: 0}
+    - target: {fileID: 6310932708919370880, guid: c8ce95f1d05379f4f90176e18b904de6, type: 3}
+      propertyPath: maxHealth.shield
+      value: 150
+      objectReference: {fileID: 0}
+    - target: {fileID: 6310932708919370880, guid: c8ce95f1d05379f4f90176e18b904de6, type: 3}
       propertyPath: weapons.Array.size
       value: 0
       objectReference: {fileID: 0}
@@ -782,6 +790,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _ship: {fileID: 6217213434983609651}
+  targetShip: {fileID: 0}
 --- !u!114 &6217213434983609651 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 6310932708919370880, guid: c8ce95f1d05379f4f90176e18b904de6, type: 3}

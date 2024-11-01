@@ -9,13 +9,13 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 7319dfbd7b87ca045a656acd81ec96ba, type: 3}
-  m_Name: Tier 1 Missile
+  m_Script: {fileID: 11500000, guid: 36e9d194b32ffa94ca391ef7752afbe0, type: 3}
+  m_Name: OPLaser
   m_EditorClassIdentifier: 
-  identifier: 22
+  identifier: 0
   Damage:
-    HullDamage: 50
-    ShieldDamage: 10
+    HullDamage: 500
+    ShieldDamage: 0
   Icon: {fileID: 0}
-  Name: Mk 1 Missile
-  Description: Beginner Missile
+  Description: 
+  isPassiveWeapon: 0
