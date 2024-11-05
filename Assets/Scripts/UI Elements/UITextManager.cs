@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using TMPro;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
 public class UITextManager : MonoBehaviour
@@ -13,12 +14,12 @@ public class UITextManager : MonoBehaviour
     private String _currentText = "";
 
     [SerializeField] 
-    private GameObject _gameSceneTextBox;
+    private TextMeshProUGUI _gameSceneTextBox;
 
     [SerializeField]
-    private GameObject _battleSceneTextBox;
+    private TextMeshProUGUI _battleSceneTextBox;
 
-    private GameObject _activeTextBox;
+    private TextMeshProUGUI _activeTextBox;
     private int _activeTextBoxID;
 
     private TextMeshProUGUI _textMeshPro;
@@ -50,13 +51,45 @@ public class UITextManager : MonoBehaviour
 
     void Start()
     {
-        _gameSceneTextBox =GameObject.FindGameObjectWithTag("GameSceneTextBox");
-        _battleSceneTextBox =GameObject.FindGameObjectWithTag("BattleSceneTextBox");
+
+        GameObject[] rootGameObjects = SceneManager.GetSceneByName("Battle").GetRootGameObjects();
+        foreach (var o in rootGameObjects)
+        {
+            if (o.CompareTag("BattleUI"))
+            {
+                var dialogBox = o.transform.Find("BattleSceneDialogBox");
+                
+                if (dialogBox.CompareTag("DialogBox"))
+                {
+                    _battleSceneTextBox = dialogBox.GetComponentInChildren<TextMeshProUGUI>();
+                    _battleSceneTextBox.gameObject.SetActive(false);
+                }
+                 
+                break;
+            }
+        }
+
+        rootGameObjects = SceneManager.GetSceneByName("SpaceScene").GetRootGameObjects();
+        foreach (var o in rootGameObjects)
+        {
+            if (o.CompareTag("BattleUI"))
+            {
+                var dialogBox = o.transform.Find("GameSceneDialogBox");
+
+                if (dialogBox.CompareTag("DialogBox"))
+                {
+                    _gameSceneTextBox = dialogBox.GetComponentInChildren<TextMeshProUGUI>();
+                    _gameSceneTextBox.gameObject.SetActive(false);
+                }
+
+                break;
+            }
+        }
 
         _currentLineIndex = 0;
         _displayText = false;
-        _activeTextBox.gameObject.SetActive(false);
-        _textMeshPro = _activeTextBox.GetComponentInChildren<TextMeshProUGUI>();
+        _activeTextBox = _gameSceneTextBox;
+        _textMeshPro = _gameSceneTextBox.GetComponentInChildren<TextMeshProUGUI>();
 
     }
 
@@ -64,15 +97,15 @@ public class UITextManager : MonoBehaviour
     {
         if (_displayText)
         {
-            // set the active text box
-            if (_activeTextBoxID == 0)
-            {
-                _activeTextBox = _gameSceneTextBox;
-            }
-            else if (_activeTextBoxID == 1)
-            {
-                _activeTextBox = _battleSceneTextBox;
-            }
+            //// set the active text box
+            //if (_activeTextBoxID == 0)
+            //{
+            //    _activeTextBox = _gameSceneTextBox;
+            //}
+            //else if (_activeTextBoxID == 1)
+            //{
+            //    _activeTextBox = _battleSceneTextBox;
+            //}
 
             //activate text if not already
             if (!_activeTextBox.gameObject.activeInHierarchy)

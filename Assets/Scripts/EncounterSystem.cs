@@ -65,7 +65,6 @@ public class EncounterSystem : MonoBehaviour
     void Start()
     {
         
-       
         #region Find canvas in other Scene
         GameObject[] rootGameObjects = SceneManager.GetSceneByName("Battle").GetRootGameObjects();
         foreach (var o in rootGameObjects)
@@ -73,10 +72,13 @@ public class EncounterSystem : MonoBehaviour
             if (o.CompareTag("BattleUI"))
             {
                 BattleUICanvas = o.gameObject.GetComponent<Canvas>();
-                BattleUICanvas.GameObject().SetActive(false);
+
                 break;
             }
         }
+        
+        BattleUICanvas.GameObject().SetActive(false);
+
         #endregion
         #region Get RigidBody From Player
         

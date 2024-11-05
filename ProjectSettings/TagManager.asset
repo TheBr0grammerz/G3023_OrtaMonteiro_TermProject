@@ -8,8 +8,7 @@ TagManager:
   - EncounterManager
   - Areas
   - Enemy
-  - GameSceneTextBox
-  - BattleSceneTextBox
+  - DialogBox
   layers:
   - Default
   - TransparentFX

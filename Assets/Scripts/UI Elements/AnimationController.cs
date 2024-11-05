@@ -25,9 +25,9 @@ public class AnimationController : MonoBehaviour
         }
     }
 
-    public void EnableTextBox()
+    public void EnableTextBox(int textBoxID)
     {
-        UITextManager.Instance.DisplayText(true);
+        UITextManager.Instance.DisplayText(true, textBoxID);
     }
 
 
@@ -58,7 +58,7 @@ public class AnimationController : MonoBehaviour
 
     public void OnEndPlayerAttackAnim()
     {
-        EnableTextBox();
+        EnableTextBox(1);
         SetButtonPanelActive(true);
     }
 
@@ -69,7 +69,7 @@ public class AnimationController : MonoBehaviour
 
     public void OnEndEnemyAttackAnim()
     {
-        EnableTextBox();
+        EnableTextBox(1);
     }
 
 
