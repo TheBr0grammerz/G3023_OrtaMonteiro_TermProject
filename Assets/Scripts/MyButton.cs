@@ -50,6 +50,7 @@ public class MyButton : MonoBehaviour
         
         //Todo: Find a way to get latest actionLog and display that to text animation
         EncounterSystem.Instance.ActivateWeapon(playerShip,enemyShip,weapon);
+
         GetComponentInParent<Animator>().SetTrigger("PlayerAttack");
     }
 }

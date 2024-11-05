@@ -120,6 +120,8 @@ public class EncounterSystem : MonoBehaviour
     private Ship GenerateEnemyShip()
     {
         int randomIndex = Random.Range(0, currentArea.areaStats.enemyShips.Length);
+
+
         Enemy = Instantiate(currentArea.areaStats.enemyShips[randomIndex]).GetComponent<Ship>();
         Enemy.GetComponent<EnemyAI>().targetShip = Player;
         //todo: This is a placeholder, we need to put in a way to generate health properly
@@ -158,9 +160,9 @@ public class EncounterSystem : MonoBehaviour
     private void EnterEncounter(Ship enemyShip = null)
     {
 
-        //DecidedTurnOrder(Player,enemyShip,out Ship attackingShip,out Ship defendingShip);
-        //_currentState = new EncounterState(Player,Enemy);
+        DecidedTurnOrder(Player,enemyShip,out Ship attackingShip,out Ship defendingShip);
         _currentState = new EncounterState(Player,Enemy);
+       // _currentState = new EncounterState(Player,Enemy);
         
         if (isDebugging) Debug.Log(_currentState.logOfActions.Last());
         
