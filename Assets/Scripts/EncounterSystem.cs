@@ -56,7 +56,6 @@ public class EncounterSystem : MonoBehaviour
         Instance = this;
         DontDestroyOnLoad(this.gameObject);
         
-    
     }
 
 
@@ -135,7 +134,7 @@ public class EncounterSystem : MonoBehaviour
     /// </returns>
     private void DecidedTurnOrder(Ship pShip,Ship eShip,out Ship attackingShip,out Ship defendingShip)
     {
-        int randomINT = Random.Range(0, 2); // 0-1????
+        int randomINT = Random.Range(0, 2);
         if (randomINT == 0)
         {
             attackingShip = pShip;
@@ -154,19 +153,23 @@ public class EncounterSystem : MonoBehaviour
 
     private void EnterEncounter(Ship enemyShip = null)
     {
-        inCombat = true;
 
-        DecidedTurnOrder(Player,enemyShip,out Ship attackingShip,out Ship defendingShip);
-        _currentState = new EncounterState(attackingShip,defendingShip);
+        //DecidedTurnOrder(Player,enemyShip,out Ship attackingShip,out Ship defendingShip);
+        //_currentState = new EncounterState(Player,Enemy);
+        _currentState = new EncounterState(Player,Enemy);
         
         if (isDebugging) Debug.Log(_currentState.logOfActions[_currentState.TurnCount]);
         _currentState.TurnCount++;
         
-        Player.GameObject().SetActive(!inCombat);
-        BattleUICanvas.gameObject.SetActive(inCombat);
+        Player.GameObject().SetActive(false);
+        BattleUICanvas.gameObject.SetActive(true);
         onEnterCombat?.Invoke(enemyShip);
     }
-    
+
+    public void TransitionToBattleCanvas()
+    {
+
+    }
 
 
     private bool RollEncounter()

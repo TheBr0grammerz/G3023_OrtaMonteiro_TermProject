@@ -12,8 +12,14 @@ public class UITextManager : MonoBehaviour
     [SerializeField]
     private String _currentText = "";
 
+    [SerializeField] 
+    private GameObject _gameSceneTextBox;
+
     [SerializeField]
-    private GameObject _textBox;
+    private GameObject _battleSceneTextBox;
+
+    private GameObject _activeTextBox;
+    private int _activeTextBoxID;
 
     private TextMeshProUGUI _textMeshPro;
 
@@ -23,42 +29,55 @@ public class UITextManager : MonoBehaviour
     [SerializeField] 
     private bool _displayText;
 
-    [SerializeField]
-    private float _delay = 0.1f;
+    private float _delay = 0.05f;
 
     private bool _canClick;
 
+    public static UITextManager Instance { get; private set; }
 
-    public void SetAllText(string text)
+
+    private void Awake()
     {
-        _AllTextToDisplay = text.Split('\n');
-    }
+        if (Instance != null && Instance != this)
+        {
+            Destroy(this.gameObject);
+            return;
+        }
 
-    public void DisplayText(bool displayText)
-    {
-        _displayText = displayText;
+        Instance = this;
+        DontDestroyOnLoad(this.gameObject);
     }
-
 
     void Start()
     {
+        _gameSceneTextBox =GameObject.FindGameObjectWithTag("GameSceneTextBox");
+        _battleSceneTextBox =GameObject.FindGameObjectWithTag("BattleSceneTextBox");
+
         _currentLineIndex = 0;
         _displayText = false;
-        _textBox.gameObject.SetActive(false);
-        _textMeshPro = _textBox.GetComponentInChildren<TextMeshProUGUI>();
+        _activeTextBox.gameObject.SetActive(false);
+        _textMeshPro = _activeTextBox.GetComponentInChildren<TextMeshProUGUI>();
 
     }
-
 
     void Update()
     {
         if (_displayText)
         {
-            
-            //activate text if not already
-            if (!_textBox.gameObject.activeInHierarchy)
+            // set the active text box
+            if (_activeTextBoxID == 0)
             {
-                _textBox.gameObject.SetActive(true);
+                _activeTextBox = _gameSceneTextBox;
+            }
+            else if (_activeTextBoxID == 1)
+            {
+                _activeTextBox = _battleSceneTextBox;
+            }
+
+            //activate text if not already
+            if (!_activeTextBox.gameObject.activeInHierarchy)
+            {
+                _activeTextBox.gameObject.SetActive(true);
                 _textMeshPro.text = _AllTextToDisplay[_currentLineIndex];
                 StartCoroutine("PlayTextAnim");
             }
@@ -79,7 +98,7 @@ public class UITextManager : MonoBehaviour
             else if (_currentLineIndex >= _AllTextToDisplay.Length) 
             {
                 _displayText = false;
-                _textBox.gameObject.SetActive(false);
+                _activeTextBox.gameObject.SetActive(false);
                 _currentLineIndex = 0;
             }
         }
@@ -98,4 +117,18 @@ public class UITextManager : MonoBehaviour
 
         _canClick = true;
     }
+
+    public void SetAllText(string text)
+    {
+        _AllTextToDisplay = text.Split('\n');
+    }
+
+    public void DisplayText(bool displayText, int textBoxID)
+    {
+        _activeTextBoxID = textBoxID;
+        _displayText = displayText;
+    }
+
+
+
 }
