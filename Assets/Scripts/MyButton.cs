@@ -12,8 +12,9 @@ public class MyButton : MonoBehaviour
 {
 
     public BaseWeapon weapon;
-    private static Ship _enemyShip;
+    private static Ship enemyShip;
     public bool isPassive = true;
+    private static Ship playerShip;
     
     
 
@@ -22,37 +23,33 @@ public class MyButton : MonoBehaviour
     {
         var button = GetComponent<Button>();
         button.onClick.AddListener(AbilityPressed);
-        EncounterSystem.Instance.onEnterCombat.AddListener((enemyShip) => { _enemyShip = enemyShip; }); 
         EncounterSystem.Instance.onExitCombat.AddListener(Invalidate);
-        
+        enemyShip = EncounterSystem.Instance.Enemy;
+        playerShip = EncounterSystem.Instance.Player;
     }
-
-
     
     void Invalidate()
     {
        weapon = null;
-       _enemyShip = null;
+       enemyShip = null;
     }
 
     private void Update()
     {
         if (!isPassive)
         {
-            GetComponent<UnityEngine.UI.Button>().interactable = EncounterSystem.Instance.Player.currentTurn;
+            GetComponent<UnityEngine.UI.Button>().interactable = playerShip.currentTurn;
         }
     }
 
 
-    public void AbilityPressed()
+    void AbilityPressed()
     {
-        if (weapon != null && _enemyShip != null)
-        {
-            EncounterSystem.Instance.Player?.Attack(_enemyShip,weapon);
-            //Todo: Find a way to get latest actionLog and display that to text animation
-            GetComponentInParent<Animator>().SetTrigger("PlayerAttack");    
-        }
+        if (weapon == null || enemyShip == null) return;
+        
+        
+        //Todo: Find a way to get latest actionLog and display that to text animation
+        EncounterSystem.Instance.ActivateWeapon(playerShip,enemyShip,weapon);
+        GetComponentInParent<Animator>().SetTrigger("PlayerAttack");
     }
-   
-
 }

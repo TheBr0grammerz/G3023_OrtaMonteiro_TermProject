@@ -1243,7 +1243,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 347666524}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: bf9e824db9725904880b7e6a46f49975, type: 3}
   m_Name: 
@@ -1269,8 +1269,8 @@ MonoBehaviour:
     hull: 0
     shield: 0
   maxHealth:
-    hull: 100
-    shield: 100
+    hull: 10000
+    shield: 1000
   currentTurn: 0
   shipName: 
 --- !u!1 &361182688
@@ -3174,6 +3174,7 @@ GameObject:
   m_Component:
   - component: {fileID: 768239312}
   - component: {fileID: 768239313}
+  - component: {fileID: 768239314}
   m_Layer: 0
   m_Name: EncounterManager
   m_TagString: EncounterManager
@@ -3225,6 +3226,18 @@ MonoBehaviour:
   onExitCombat:
     m_PersistentCalls:
       m_Calls: []
+--- !u!114 &768239314
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 768239311}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c7c1e4c4c643fbe46a0285f73e0b0408, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &776199238
 GameObject:
   m_ObjectHideFlags: 0

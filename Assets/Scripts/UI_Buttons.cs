@@ -62,13 +62,13 @@ public class UI_Buttons : MonoBehaviour
     private void Awake()
     {
         buttons = GetComponentsInChildren<Button>();
-        
+        EncounterSystem.Instance.onEnterCombat.AddListener(UpdateUIButtons);
+        playerShip = EncounterSystem.Instance.Player.GetComponent<Ship>();
     }
 
     void Start()
     {
-        playerShip = EncounterSystem.Instance.Player.GetComponent<Ship>();
-        EncounterSystem.Instance.onEnterCombat.AddListener(UpdateUIButtons);
+        
     }
 
     private void OnDestroy()

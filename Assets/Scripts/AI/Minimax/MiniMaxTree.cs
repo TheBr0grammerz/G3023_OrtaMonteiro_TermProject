@@ -1,0 +1,170 @@
+using System;
+using System.Collections;
+using System.Collections.Generic;
+using System.Linq;
+using UnityEngine;
+
+namespace AI.MINIMAX
+{
+
+    public class Node<TEncounterState>
+    {
+        public TEncounterState State { get; set; } //The current state of the game (Player,AI,Ships,ETC)
+        public LinkedList<Node<TEncounterState>> Children { get; set; } //List of possible future states
+        public float Score { get; set; } //Score value for this node
+        public bool IsMaximizingPlayer { get; set; } //Determines if this is AI or players turn
+
+        public Node(TEncounterState state, bool isMaximizing)
+        {
+            State = state;
+            Children = new LinkedList<Node<TEncounterState>>();
+            IsMaximizingPlayer = isMaximizing;
+            Score = 0;
+        }
+
+ 
+
+        public void AddChild(Node<TEncounterState> child)
+        {
+            Children.AddLast(child);
+        }
+    }
+    
+    public class MiniMaxTree<TEncounterState>
+    {
+        public Node<TEncounterState> Root { get; private set; }
+
+
+
+        private Func<TEncounterState,bool,float> EvaluateState;
+
+        private Func<TEncounterState,LinkedList<TEncounterState>> GenerateChildren;
+
+
+        public void PassInFunctions(Func<TEncounterState,bool,float> FunctionToEvaluateState,Func<TEncounterState,LinkedList<TEncounterState>> FunctionToGenerateChildren)
+        {
+            EvaluateState = FunctionToEvaluateState;
+            GenerateChildren = FunctionToGenerateChildren;
+        }
+
+        public MiniMaxTree(TEncounterState rootState, bool isMaximizing )
+        {
+            Root = new Node<TEncounterState>(rootState, isMaximizing);
+        }
+
+
+        public TEncounterState GetBestMove(int depth)
+        {
+            //Step 1: Generate the tree and evaluate the state of each node.
+            GenerateTree(depth);
+            #region Initialize Variables
+
+            TEncounterState bestMove = default(TEncounterState);
+                //If person who called this function is the maximizing player
+                //Set the best score to be -inf 
+                float bestScore = Root.IsMaximizingPlayer? int.MinValue: int.MaxValue;
+            #endregion
+            #region Evaluate Each Nodes Recursively
+
+            var a = Root;
+            foreach (var child in Root.Children)
+            {
+                child.Score = MiniMax(child,depth,!Root.IsMaximizingPlayer);
+
+                if (Root.IsMaximizingPlayer)
+                {
+                    if ( child.Score > bestScore)
+                    {
+                        bestScore =  child.Score;
+                        bestMove = child.State;
+                    }
+                }
+                else
+                {
+                        if ( child.Score < bestScore)
+                        {
+                            bestScore =  child.Score;
+                            bestMove = child.State;
+                        }
+                    
+                }
+            }
+            #endregion
+            return bestMove;
+        }
+
+        float MiniMax(Node<TEncounterState> node, int depth, bool isMaximizing)
+        {
+            var a = Root;
+
+            if (depth == 0 || node.Children.Count == 0)
+            {
+                return EvaluateState(node.State,node.IsMaximizingPlayer);
+            }
+
+            if (isMaximizing)
+            {
+                float maxEvaluation = int.MinValue;
+                foreach (var child in node.Children)
+                {
+                    child.Score = MiniMax(child, depth - 1, !node.IsMaximizingPlayer);
+                    maxEvaluation = Math.Max(maxEvaluation,  child.Score);
+                }
+                return maxEvaluation;
+            }
+            else
+            {
+                float minEvaluation = int.MaxValue;
+                foreach (var child in node.Children)
+                {
+                    child.Score = MiniMax(child, depth - 1, !node.IsMaximizingPlayer);
+                    minEvaluation = Math.Min(minEvaluation,  child.Score);
+                }
+                return minEvaluation;
+            }
+        }
+
+        public void GenerateTree(int depth, Node<TEncounterState> currentNode = null )
+        {
+            if (currentNode == null)
+            {
+                currentNode = Root;
+            }
+            if (depth == 0 )
+            {
+                return;
+            }
+            
+            LinkedList<TEncounterState> childrenStates = GenerateChildren(currentNode.State);
+
+            foreach (TEncounterState childState in childrenStates)
+            {
+                Node<TEncounterState> childNode = new Node<TEncounterState>(childState,!currentNode.IsMaximizingPlayer );
+                currentNode.AddChild(childNode);
+                GenerateTree(depth - 1,childNode);
+            }
+        }
+        
+
+        
+        //Generated by Mr.Robot - Used for testing purposes
+        public void PrintTree(Node<TEncounterState> node, string indent = "", bool isLast = true)
+        {
+            
+            EncounterState state =  node.State as EncounterState;
+            // Print the current node
+            Debug.Log(indent + (isLast ? "└─ " : "├─ ") + "Current Turn Ship: " + state.currentTurnShip+ ", Score: " + node.Score);
+
+            indent += isLast ? "   " : "│  ";
+
+            // Recursively print children nodes
+            for (int i = 0; i < node.Children.Count; i++)
+            {
+                var childNode = node.Children.ElementAt(i);
+                PrintTree(childNode, indent, i == node.Children.Count - 1);
+            }
+        }
+        
+            
+    }
+}
