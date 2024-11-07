@@ -43,11 +43,12 @@ public class EnemyAI : MonoBehaviour
             Debug.Log("Ship does not have the weapon in arsenal");
             return;
         }
-        
-        
-        
+
         EncounterSystem.Instance.ActivateWeapon(_ship,targetShip,bestMove.GetLastWeaponUsed());
     }
+
+   
+
     // Start is called before the first frame update
     void Start()
     {
@@ -67,6 +68,13 @@ public class EnemyAI : MonoBehaviour
         
         Debug.Log("Adding To ships Weapons In EnemyAI");
 
+        AnimationController.OnStartEnemyTurn += DecideAttack;
+
+    }
+
+    void OnDestroy()
+    {
+        AnimationController.OnStartEnemyTurn -= DecideAttack;
     }
 
     bool CheckForWeapon(Ship ship,BaseWeapon weaponToCheckAgainst)
@@ -82,9 +90,11 @@ public class EnemyAI : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (_ship.currentTurn && EncounterSystem.Instance.inCombat)
-        {
-            DecideAttack();
-        }
+        //Now using event to call DecideAttack()
+
+        //if (_ship.currentTurn && EncounterSystem.Instance.inCombat)
+        //{
+        //    //DecideAttack();
+        //}
     }
 }

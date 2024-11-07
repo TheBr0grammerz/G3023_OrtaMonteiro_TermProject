@@ -28,6 +28,7 @@ public class EncounterSystem : MonoBehaviour
     
     [Header("Canvas")]
     [SerializeField] public Canvas BattleUICanvas;
+    [SerializeField] public Animator BattleAnimator;
 
 
     [Header("Encounter Information")]
@@ -46,6 +47,7 @@ public class EncounterSystem : MonoBehaviour
 
     public EncounterState _currentState { get; private set; }
 
+    [SerializeField] private float playerStartChance;
 
     private void Awake()
     {
@@ -92,6 +94,8 @@ public class EncounterSystem : MonoBehaviour
         _areas.AddRange(GameObject.FindWithTag("Areas").GetComponentsInChildren<EncounterArea>());
         _areas.Add(null);
         #endregion
+
+        BattleAnimator = BattleUICanvas.GetComponent<Animator>();
         
         currentArea = _areas[areaIndex];
     }
@@ -140,8 +144,8 @@ public class EncounterSystem : MonoBehaviour
     /// </returns>
     private void DecidedTurnOrder(Ship pShip,Ship eShip,out Ship attackingShip,out Ship defendingShip)
     {
-        int randomINT = Random.Range(0, 2);
-        if (randomINT == 0)
+        float randomINT = Random.Range(0f, 1f);
+        if (randomINT <= playerStartChance)
         {
             attackingShip = pShip;
             attackingShip.currentTurn = true;
@@ -159,9 +163,10 @@ public class EncounterSystem : MonoBehaviour
 
     private void EnterEncounter(Ship enemyShip = null)
     {
+        //inCombat = true;
 
         DecidedTurnOrder(Player,enemyShip,out Ship attackingShip,out Ship defendingShip);
-        _currentState = new EncounterState(Player,Enemy);
+        _currentState = new EncounterState(attackingShip, defendingShip);
        // _currentState = new EncounterState(Player,Enemy);
         
         if (isDebugging) Debug.Log(_currentState.logOfActions.Last());
@@ -173,7 +178,7 @@ public class EncounterSystem : MonoBehaviour
 
     public void TransitionToBattleCanvas()
     {
-
+        
     }
 
 
@@ -192,6 +197,8 @@ public class EncounterSystem : MonoBehaviour
         {
             DamageValues damageApplied = caster.Attack(target,weapon);
             ActionLog log = new ActionLog(caster,target,weapon,damageApplied,_currentState.TurnCount);
+
+            TriggerAttackAnim(caster, weapon);
             
             if (isDebugging) Debug.Log(log);
             
@@ -199,7 +206,15 @@ public class EncounterSystem : MonoBehaviour
         }
     }
 
+    private void TriggerAttackAnim(Ship caster, BaseWeapon weapon)
+    {
+        BattleUICanvas.GetComponent<AnimationController>().SetProjectileImage(weapon.Icon);
 
+        if (caster == Player)
+            BattleAnimator.SetTrigger("PlayerAttack");
+        else
+            BattleAnimator.SetTrigger("EnemyAttack");
+    }
 
     private void ShipDeath()
     {

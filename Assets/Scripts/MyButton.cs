@@ -15,19 +15,28 @@ public class MyButton : MonoBehaviour
     private static Ship enemyShip;
     public bool isPassive = true;
     private static Ship playerShip;
-    
-    
 
+
+    void Awake()
+    {
+
+        EncounterSystem.Instance.onExitCombat.AddListener(Invalidate);
+        EncounterSystem.Instance.onEnterCombat.AddListener(SetEnemy);
+    }
     // Start is called before the first frame update
-    void Start()
+    void Start()    
     {
         var button = GetComponent<Button>();
         button.onClick.AddListener(AbilityPressed);
-        EncounterSystem.Instance.onExitCombat.AddListener(Invalidate);
-        enemyShip = EncounterSystem.Instance.Enemy;
+        //enemyShip = EncounterSystem.Instance.Enemy;
         playerShip = EncounterSystem.Instance.Player;
     }
-    
+
+
+    void SetEnemy(Ship enemy)
+    {
+        enemyShip = enemy;
+    }
     void Invalidate()
     {
        weapon = null;

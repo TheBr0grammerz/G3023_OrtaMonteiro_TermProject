@@ -123,12 +123,6 @@ public class Ship : MonoBehaviour
 
     public DamageValues Attack( Ship targetShip,BaseWeapon WeaponUsed)
     {
-        //TODO call correct animation based on which ship is attacking, set image of projectile based on weaponUsed
-
-
-        //BUG: Here is the issue,you cannot reference Instance in the attacking part of the code
-        //EncounterSystem.Instance.BattleUICanvas.GetComponent<Animator>().SetTrigger("PlayerAttack");
-
         DamageValues appliedDamage = WeaponUsed.ApplyDamage(this, targetShip);
         return appliedDamage;
     }
