@@ -42,7 +42,8 @@ public struct ActionLog
         CasterName = Caster.shipName;
         TargetName = Target.shipName;
         weapon = weaponUsed;
-        Description = $"{Caster.shipName} uses a {weaponUsed.name} to attack {Target} dealing a total of {this.DamageApplied.ToString()} ";
+        Description = $"{Caster.shipName} uses {weaponUsed.name} \n{Target} received {this.DamageApplied.ToString()} ";
+        UITextManager.SetAllText(Description);
     }
 
     public ActionLog(ActionLog other)

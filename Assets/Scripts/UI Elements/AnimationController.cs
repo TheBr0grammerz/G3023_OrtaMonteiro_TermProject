@@ -27,6 +27,13 @@ public class AnimationController : MonoBehaviour
     {
         EncounterSystem.Instance.onEnterCombat.AddListener(StartEncounter);
         _abilityButtons = GetComponentInChildren<CanvasGroup>();
+
+        UITextManager.OnEndDialogBox += OnEndDialogBox;
+    }
+
+    void OnDestroy()
+    {
+        UITextManager.OnEndDialogBox -= OnEndDialogBox;
     }
 
     private void SetButtonPanelActive(bool status)
@@ -37,9 +44,9 @@ public class AnimationController : MonoBehaviour
         }
     }
 
-    public void EnableTextBox(int textBoxID)
+    public void EnableTextBox()
     {
-        UITextManager.Instance.DisplayText(true, textBoxID);
+        UITextManager.DisplayText(true);
     }
 
     public void SetProjectileImage(Sprite sprite)
@@ -51,6 +58,16 @@ public class AnimationController : MonoBehaviour
     {
         if (OnStartEnemyTurn != null)
             OnStartEnemyTurn();
+    }
+
+    private void OnEndDialogBox()
+    {
+        SetButtonPanelActive(true);
+
+        if (EncounterSystem.Instance._currentState.currentTurnShip != EncounterSystem.Instance.Player) // Enemy turn
+        {
+            StartEnemyTurn();
+        }
     }
 
 
@@ -71,11 +88,7 @@ public class AnimationController : MonoBehaviour
     {
         EncounterSystem.Instance.inCombat = true;
 
-        if (EncounterSystem.Instance._currentState.currentTurnShip == EncounterSystem.Instance.Player) // Player turn
-        {
-
-        }
-        else // Enemy turn
+        if (EncounterSystem.Instance._currentState.currentTurnShip != EncounterSystem.Instance.Player) // Enemy turn
         {
             StartEnemyTurn();
         }
@@ -90,11 +103,7 @@ public class AnimationController : MonoBehaviour
 
     public void OnEndPlayerAttackAnim()
     {
-        //EnableTextBox(1);
-        SetButtonPanelActive(true);
-
-        // todo: move this to after dialog boxes closes
-        StartEnemyTurn();
+        EnableTextBox();
     }
 
     public void OnStartEnemyAttackAnim()
@@ -104,9 +113,7 @@ public class AnimationController : MonoBehaviour
 
     public void OnEndEnemyAttackAnim()
     {
-        //EnableTextBox(1);
-        SetButtonPanelActive(true);
+        EnableTextBox();
     }
-
 
 }

@@ -8,19 +8,13 @@ using UnityEngine.UI;
 public class UITextManager : MonoBehaviour
 {
     [SerializeField]
-    private String[] _AllTextToDisplay;
+    private static String[] _AllTextToDisplay;
 
     [SerializeField]
     private String _currentText = "";
 
-    [SerializeField] 
-    private TextMeshProUGUI _gameSceneTextBox;
-
     [SerializeField]
-    private TextMeshProUGUI _battleSceneTextBox;
-
-    private TextMeshProUGUI _activeTextBox;
-    private int _activeTextBoxID;
+    private GameObject _dialogBox;
 
     private TextMeshProUGUI _textMeshPro;
 
@@ -28,68 +22,36 @@ public class UITextManager : MonoBehaviour
     private int _currentLineIndex;
 
     [SerializeField] 
-    private bool _displayText;
+    private static bool _displayText;
 
-    private float _delay = 0.05f;
+    private float _delay = 0.02f;
 
     private bool _canClick;
 
-    public static UITextManager Instance { get; private set; }
+    public delegate void EndDialogBoxEvent();
+    public static event EndDialogBoxEvent OnEndDialogBox;
+
+    //public static UITextManager Instance { get; private set; }
 
 
     private void Awake()
     {
-        if (Instance != null && Instance != this)
-        {
-            Destroy(this.gameObject);
-            return;
-        }
+        //if (Instance != null && Instance != this)
+        //{
+        //    Destroy(this.gameObject);
+        //    return;
+        //}
 
-        Instance = this;
-        DontDestroyOnLoad(this.gameObject);
+        //Instance = this;
+        //DontDestroyOnLoad(this.gameObject);
     }
 
     void Start()
     {
 
-        GameObject[] rootGameObjects = SceneManager.GetSceneByName("Battle").GetRootGameObjects();
-        foreach (var o in rootGameObjects)
-        {
-            if (o.CompareTag("BattleUI"))
-            {
-                var dialogBox = o.transform.Find("BattleSceneDialogBox");
-                
-                if (dialogBox.CompareTag("DialogBox"))
-                {
-                    _battleSceneTextBox = dialogBox.GetComponentInChildren<TextMeshProUGUI>();
-                    _battleSceneTextBox.gameObject.SetActive(false);
-                }
-                 
-                break;
-            }
-        }
-
-        rootGameObjects = SceneManager.GetSceneByName("SpaceScene").GetRootGameObjects();
-        foreach (var o in rootGameObjects)
-        {
-            if (o.CompareTag("BattleUI"))
-            {
-                var dialogBox = o.transform.Find("GameSceneDialogBox");
-
-                if (dialogBox.CompareTag("DialogBox"))
-                {
-                    _gameSceneTextBox = dialogBox.GetComponentInChildren<TextMeshProUGUI>();
-                    _gameSceneTextBox.gameObject.SetActive(false);
-                }
-
-                break;
-            }
-        }
-
         _currentLineIndex = 0;
         _displayText = false;
-        _activeTextBox = _gameSceneTextBox;
-        _textMeshPro = _gameSceneTextBox.GetComponentInChildren<TextMeshProUGUI>();
+        _textMeshPro = _dialogBox.GetComponentInChildren<TextMeshProUGUI>();
 
     }
 
@@ -97,22 +59,12 @@ public class UITextManager : MonoBehaviour
     {
         if (_displayText)
         {
-            //// set the active text box
-            //if (_activeTextBoxID == 0)
-            //{
-            //    _activeTextBox = _gameSceneTextBox;
-            //}
-            //else if (_activeTextBoxID == 1)
-            //{
-            //    _activeTextBox = _battleSceneTextBox;
-            //}
-
             //activate text if not already
-            if (!_activeTextBox.gameObject.activeInHierarchy)
+            if (!_dialogBox.gameObject.activeInHierarchy)
             {
-                _activeTextBox.gameObject.SetActive(true);
+                _dialogBox.gameObject.SetActive(true);
                 _textMeshPro.text = _AllTextToDisplay[_currentLineIndex];
-                StartCoroutine("PlayTextAnim");
+                StartCoroutine(PlayTextAnim());
             }
 
             // continue to next line on mouse click
@@ -124,15 +76,18 @@ public class UITextManager : MonoBehaviour
                 {
                     _textMeshPro.text = _AllTextToDisplay[_currentLineIndex];
 
-                    StartCoroutine("PlayTextAnim");
+                    StartCoroutine(PlayTextAnim());
                 }
             }
             // reset index and stop displaying when end is reached
             else if (_currentLineIndex >= _AllTextToDisplay.Length) 
             {
                 _displayText = false;
-                _activeTextBox.gameObject.SetActive(false);
+                _dialogBox.gameObject.SetActive(false);
                 _currentLineIndex = 0;
+
+                if (OnEndDialogBox != null)
+                    OnEndDialogBox();
             }
         }
     }
@@ -151,17 +106,15 @@ public class UITextManager : MonoBehaviour
         _canClick = true;
     }
 
-    public void SetAllText(string text)
+    public static void SetAllText(string text)
     {
         _AllTextToDisplay = text.Split('\n');
     }
 
-    public void DisplayText(bool displayText, int textBoxID)
+    public static void DisplayText(bool displayText)
     {
-        _activeTextBoxID = textBoxID;
         _displayText = displayText;
     }
-
 
 
 }

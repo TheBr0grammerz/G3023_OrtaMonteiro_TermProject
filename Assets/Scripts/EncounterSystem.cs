@@ -144,8 +144,8 @@ public class EncounterSystem : MonoBehaviour
     /// </returns>
     private void DecidedTurnOrder(Ship pShip,Ship eShip,out Ship attackingShip,out Ship defendingShip)
     {
-        float randomINT = Random.Range(0f, 1f);
-        if (randomINT <= playerStartChance)
+        float randomChance = Random.Range(0f, 1f);
+        if (randomChance <= playerStartChance)
         {
             attackingShip = pShip;
             attackingShip.currentTurn = true;
