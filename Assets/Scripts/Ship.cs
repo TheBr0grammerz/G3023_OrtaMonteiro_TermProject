@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Serialization;
+using static UnityEngine.EventSystems.EventTrigger;
 
 [System.Serializable]
 public struct HealthPools
@@ -49,6 +50,16 @@ public struct HealthPools
     }
     
 }
+
+public struct EnemyShipNames
+{
+    public String[] _names;
+    public void ImportNames()
+    {
+        _names = System.IO.File.ReadAllLines("Assets/Resources/EnemyShipNames.txt");
+    }
+}
+
 public class Ship : MonoBehaviour
 {
     [SerializeField]
@@ -91,7 +102,12 @@ public class Ship : MonoBehaviour
         weapons = new List<WeaponSlot>();
         GetComponent<SpriteRenderer>().sprite = shipSprite;
         if (health is { hull: <= 0, shield: <= 0 }) health = new HealthPools(maxHealth);
-        if (shipName == "") shipName = gameObject.name;
+        if (shipName == "")
+        {
+            int randomIndex = UnityEngine.Random.Range(0, EncounterSystem.Instance._enemyShipNames._names.Length);
+            shipName = EncounterSystem.Instance._enemyShipNames._names[randomIndex];
+        }
+        
     }
 
     public BaseWeapon SelectWeaponAt(int index)
@@ -124,6 +140,7 @@ public class Ship : MonoBehaviour
     public DamageValues Attack( Ship targetShip,BaseWeapon WeaponUsed)
     {
         DamageValues appliedDamage = WeaponUsed.ApplyDamage(this, targetShip);
+        // todo: apply effects
         return appliedDamage;
     }
     

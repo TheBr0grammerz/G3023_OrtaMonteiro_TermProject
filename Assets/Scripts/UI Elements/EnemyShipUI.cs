@@ -16,11 +16,11 @@ public class EnemyShipUI : MonoBehaviour
 
     void Awake()
     {
+        EncounterSystem.Instance.onEnterCombat.AddListener(UpdateUI);
     }
 
     void Start()
     {
-        EncounterSystem.Instance.onEnterCombat.AddListener(UpdateUI);
     }
 
     private void OnDisable()
@@ -33,13 +33,13 @@ public class EnemyShipUI : MonoBehaviour
         if (!isPlayer)
         {
             Image.sprite = EnemyShip.shipSprite;
-            ShipName.text = EnemyShip.name;
+            ShipName.text = EnemyShip.shipName;
         }
         else
         {
             Ship playerShip = EncounterSystem.Instance.Player.GetComponent<Ship>();
             Image.sprite = playerShip.shipSprite;
-            ShipName.text = playerShip.name;
+            ShipName.text = playerShip.shipName;
         }
 
     }

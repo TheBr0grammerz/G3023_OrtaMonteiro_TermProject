@@ -1,3 +1,4 @@
+using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -9,6 +10,12 @@ public class AnimationController : MonoBehaviour
 
     [SerializeField] 
     private GameObject _projectile;
+
+    [SerializeField] 
+    private GameObject _playerNameText;
+
+    [SerializeField] 
+    private GameObject _enemyNameText;
 
     // EVENTS //
 
@@ -27,7 +34,7 @@ public class AnimationController : MonoBehaviour
     {
         EncounterSystem.Instance.onEnterCombat.AddListener(StartEncounter);
         _abilityButtons = GetComponentInChildren<CanvasGroup>();
-
+        //_playerNameText.GetComponent<TextMeshProUGUI>().text = EncounterSystem.Instance.Player.shipName;
         UITextManager.OnEndDialogBox += OnEndDialogBox;
     }
 
@@ -52,6 +59,7 @@ public class AnimationController : MonoBehaviour
     public void SetProjectileImage(Sprite sprite)
     {
         _projectile.GetComponent<Image>().sprite = sprite;
+        _projectile.GetComponent<Image>().SetNativeSize();
     }
 
     private void StartEnemyTurn()
@@ -74,7 +82,8 @@ public class AnimationController : MonoBehaviour
     // Encounter Anims
     private void StartEncounter(Ship enemyShip)
     {
-        GetComponent<Animator>().SetTrigger("EnterEncounter");
+        //GetComponent<Animator>().SetTrigger("EnterEncounter");
+
     }
 
     public void OnExitEncounterAnimComplete()

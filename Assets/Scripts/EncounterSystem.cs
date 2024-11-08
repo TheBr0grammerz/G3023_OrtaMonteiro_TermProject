@@ -25,6 +25,7 @@ public class EncounterSystem : MonoBehaviour
     public Ship Player;
     private Rigidbody2D _playerRb;
     public Ship Enemy;
+    public EnemyShipNames _enemyShipNames;
     
     [Header("Canvas")]
     [SerializeField] public Canvas BattleUICanvas;
@@ -96,8 +97,8 @@ public class EncounterSystem : MonoBehaviour
         #endregion
 
         BattleAnimator = BattleUICanvas.GetComponent<Animator>();
-        
         currentArea = _areas[areaIndex];
+        _enemyShipNames.ImportNames();
     }
 
     void Update()
@@ -113,7 +114,6 @@ public class EncounterSystem : MonoBehaviour
                 if (RollEncounter())
                 {
                     Enemy = GenerateEnemyShip();
-                    //todo:play anim
                     EnterEncounter(Enemy);
                 }
                 else Debug.Log("Failed to enter Encounter");
@@ -125,11 +125,11 @@ public class EncounterSystem : MonoBehaviour
     {
         int randomIndex = Random.Range(0, currentArea.areaStats.enemyShips.Length);
 
-
         Enemy = Instantiate(currentArea.areaStats.enemyShips[randomIndex]).GetComponent<Ship>();
         Enemy.GetComponent<EnemyAI>().targetShip = Player;
+
         //todo: This is a placeholder, we need to put in a way to generate health properly
-        
+
         Enemy.maxHealth = Player.maxHealth;
         Enemy.health = Player.health;
         return Enemy;
@@ -198,6 +198,8 @@ public class EncounterSystem : MonoBehaviour
             DamageValues damageApplied = caster.Attack(target,weapon);
             ActionLog log = new ActionLog(caster,target,weapon,damageApplied,_currentState.TurnCount);
 
+            UITextManager.SetAllText(log.Description);
+
             TriggerAttackAnim(caster, weapon);
             
             if (isDebugging) Debug.Log(log);
@@ -228,8 +230,8 @@ public class EncounterSystem : MonoBehaviour
         inCombat = false;
         Player.gameObject.SetActive(!inCombat);
         BattleUICanvas.gameObject.SetActive(inCombat);
+        Destroy(Enemy.gameObject); // todo: temp solution
     }
-
 
 
     public void EnteredArea(EncounterArea enteredArea)
@@ -266,6 +268,5 @@ public class EncounterSystem : MonoBehaviour
            // (state) => state.HeuristicEvaluation(true));
        // miniMaxTree.PrintTree(miniMaxTree.Root);
     }
-
 
 }

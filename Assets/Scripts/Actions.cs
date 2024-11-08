@@ -9,6 +9,7 @@ public struct ActionLog
     public string CasterName;
     public string TargetName;
     public BaseWeapon weapon;
+    //public StatusEffect StatusEffect;
     public string Description;
     public DamageValues DamageApplied;
     public int turn;
@@ -42,9 +43,18 @@ public struct ActionLog
         CasterName = Caster.shipName;
         TargetName = Target.shipName;
         weapon = weaponUsed;
-        Description = $"{Caster.shipName} uses {weaponUsed.name} \n{Target} received {this.DamageApplied.ToString()} ";
-        UITextManager.SetAllText(Description);
+        Description = $"{Caster.shipName} uses {weaponUsed.name} \n{Target.shipName} received {this.DamageApplied.ToString()} ";
     }
+
+    // todo: add status effects to action logs
+    //public ActionLog(Ship targetShip, StatusEffect activeEffect, DamageValues damageApplied)
+    //{
+    //    CasterName = "Status Effect";
+    //    TargetName = targetShip.shipName;
+    //    StatusEffect = activeEffect;
+    //    DamageApplied = activeEffect.damageValues;
+    //    Description = $"{targetShip.shipName} {activeEffect.ToString()}";
+    //}
 
     public ActionLog(ActionLog other)
     {

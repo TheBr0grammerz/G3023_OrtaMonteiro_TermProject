@@ -1272,7 +1272,7 @@ MonoBehaviour:
     hull: 10000
     shield: 1000
   currentTurn: 0
-  shipName: 
+  shipName: The Enterprise
 --- !u!1 &361182688
 GameObject:
   m_ObjectHideFlags: 0

@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
 
-[CreateAssetMenu(fileName  = "HullBreach",menuName = "Status Effect/ New Hull Breach Effect")]
-public class HullBreachSE : StatusEffect
+[CreateAssetMenu(fileName  = "Breach",menuName = "Status Effect/ New Breach Effect")]
+public class Breach : StatusEffect
 {
     public override void ApplyEffect(Ship target)
     {

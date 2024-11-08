@@ -23,6 +23,13 @@ public class EnemyAI : MonoBehaviour
         }
     }
 
+    void StartTurn()
+    {
+        // check active status effects and apply
+
+        DecideAttack();
+    }
+
     void DecideAttack()
     {
         if (!targetShip || _ship.weapons.Count < 1) return;
@@ -68,13 +75,13 @@ public class EnemyAI : MonoBehaviour
         
         Debug.Log("Adding To ships Weapons In EnemyAI");
 
-        AnimationController.OnStartEnemyTurn += DecideAttack;
+        AnimationController.OnStartEnemyTurn += StartTurn;
 
     }
 
     void OnDestroy()
     {
-        AnimationController.OnStartEnemyTurn -= DecideAttack;
+        AnimationController.OnStartEnemyTurn -= StartTurn;
     }
 
     bool CheckForWeapon(Ship ship,BaseWeapon weaponToCheckAgainst)
@@ -90,7 +97,7 @@ public class EnemyAI : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        //Now using event to call DecideAttack()
+        //Now using event to call StartTurn()
 
         //if (_ship.currentTurn && EncounterSystem.Instance.inCombat)
         //{

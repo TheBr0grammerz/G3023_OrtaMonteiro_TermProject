@@ -36,6 +36,6 @@ public struct DamageValues
 
     public override string ToString()
     {
-        return $"HullDamage: {HullDamage}, ShieldDamage: {ShieldDamage}";
+        return $"Hull Damage: {HullDamage}, Shield Damage: {ShieldDamage}";
     }
 }

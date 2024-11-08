@@ -19,4 +19,4 @@ MonoBehaviour:
   Icon: {fileID: 21300000, guid: fff6e01cd56d7f042a144cbc851805f1, type: 3}
   Description: 
   isPassiveWeapon: 0
-  effectToApply: {fileID: 0}
+  effectToApply: {fileID: 11400000, guid: 94ed196efc8df524fa6de2681b8ad8b0, type: 2}
