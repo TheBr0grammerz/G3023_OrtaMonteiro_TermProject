@@ -62,13 +62,13 @@ public class Ship : MonoBehaviour
     public HealthPools maxHealth = new HealthPools(100, 100);
     public bool currentTurn;
 
+    public bool isDead;
+
     public string shipName = "";
 
     private void OnDeath()
     {
-       //EncounterSystem.Instance.FleeBattleScene();
-     
-       //Destroy(gameObject);
+        isDead = true;
     }
 
     public Ship(Ship other)
@@ -151,10 +151,12 @@ public class Ship : MonoBehaviour
         float appliedHullDamage = startingHealth.hull - Mathf.Max(health.hull, 0);
         float appliedShieldDamage = startingHealth.shield - Mathf.Max(health.shield, 0);
 
+
         return new DamageValues(appliedHullDamage, appliedShieldDamage);
     }
 
     private void OnShieldDown()
     {
+
     }
 }

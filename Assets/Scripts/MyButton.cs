@@ -24,6 +24,11 @@ public class MyButton : MonoBehaviour
         var button = GetComponent<Button>();
         button.onClick.AddListener(AbilityPressed);
         EncounterSystem.Instance.onExitCombat.AddListener(Invalidate);
+        EncounterSystem.Instance.onEnterCombat.AddListener((eShip) =>
+        {
+            enemyShip = eShip;
+            playerShip = EncounterSystem.Instance.Player;
+        });
         enemyShip = EncounterSystem.Instance.Enemy;
         playerShip = EncounterSystem.Instance.Player;
     }
@@ -49,7 +54,7 @@ public class MyButton : MonoBehaviour
         
         
         //Todo: Find a way to get latest actionLog and display that to text animation
-        EncounterSystem.Instance.ActivateWeapon(playerShip,enemyShip,weapon);
         GetComponentInParent<Animator>().SetTrigger("PlayerAttack");
+        EncounterSystem.Instance.ActivateWeapon(playerShip,enemyShip,weapon);
     }
 }

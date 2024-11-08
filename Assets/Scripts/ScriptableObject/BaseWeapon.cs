@@ -32,7 +32,7 @@ public abstract class BaseWeapon : ScriptableObject
     public virtual DamageValues ApplyDamage(Ship caster, Ship target)
     {
 
-        effectToApply.ApplyEffect(target);
+        //effectToApply.ApplyEffect(target);
         DamageValues bonusDamage = caster.GetBonusDamage();
         DamageValues totalDamage = Damage + bonusDamage;
         return target.TakeDamage(totalDamage);

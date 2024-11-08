@@ -14,8 +14,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   identifier: 11
   Damage:
-    HullDamage: 350
+    HullDamage: 1000
     ShieldDamage: 0
   Icon: {fileID: 0}
   Description: Beginner Laser
   isPassiveWeapon: 1
+  effectToApply: {fileID: 0}
