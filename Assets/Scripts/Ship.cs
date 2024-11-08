@@ -124,7 +124,7 @@ public class Ship : MonoBehaviour
     public DamageValues Attack( Ship targetShip,BaseWeapon WeaponUsed)
     {
         //TODO call correct animation based on which ship is attacking, set image of projectile based on weaponUsed
-        EncounterSystem.Instance.BattleUICanvas.GetComponent<Animator>().SetTrigger("PlayerAttack");
+        //EncounterSystem.Instance.BattleUICanvas.GetComponent<Animator>().SetTrigger("PlayerAttack");
         DamageValues appliedDamage = WeaponUsed.ApplyDamage(this, targetShip);
         return appliedDamage;
     }
