@@ -62,7 +62,6 @@ public class MyButton : MonoBehaviour
     {
         if (weapon == null || enemyShip == null) return;
         
-        GetComponentInParent<Animator>().SetTrigger("PlayerAttack"); // NEEDED here?
         EncounterSystem.Instance.ActivateWeapon(playerShip,enemyShip,weapon);
     }
 }
