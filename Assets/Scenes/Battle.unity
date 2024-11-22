@@ -1402,19 +1402,7 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 818663260}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 11500000, guid: 37a3ce5fb66e8ea469bb052a1c08b5eb, type: 3}
-        m_TargetAssemblyTypeName: 
-        m_MethodName: 
-        m_Mode: 1
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: 
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
+      m_Calls: []
 --- !u!114 &818663260
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1550,19 +1538,7 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 950526574}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 11500000, guid: 37a3ce5fb66e8ea469bb052a1c08b5eb, type: 3}
-        m_TargetAssemblyTypeName: 
-        m_MethodName: 
-        m_Mode: 1
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: 
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
+      m_Calls: []
 --- !u!114 &950526574
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2280,19 +2256,7 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 1278430461}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 11500000, guid: 37a3ce5fb66e8ea469bb052a1c08b5eb, type: 3}
-        m_TargetAssemblyTypeName: 
-        m_MethodName: 
-        m_Mode: 1
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: 
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
+      m_Calls: []
 --- !u!114 &1278430461
 MonoBehaviour:
   m_ObjectHideFlags: 0

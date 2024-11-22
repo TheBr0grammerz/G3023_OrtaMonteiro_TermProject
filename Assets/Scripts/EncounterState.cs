@@ -90,7 +90,6 @@ public class EncounterState
         {
             EncounterState newState = new EncounterState(this);
             
-            //BUG: There was an issue where I wasnt calling the newstate.CurrentTurnShip and defending ship so it wouldnt be accurate
             DamageValues appliedDamage = newState.currentTurnShip.Attack(newState.defendingShip,weaponSlot.weaponInformation);
 
             ActionLog log = new ActionLog(newState.currentTurnShip, newState.defendingShip, weaponSlot.weaponInformation,appliedDamage, TurnCount);

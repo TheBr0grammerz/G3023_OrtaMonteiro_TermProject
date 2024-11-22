@@ -42,7 +42,6 @@ public class EncounterSystem : MonoBehaviour
     
     public static EncounterSystem Instance{ get; private set; }
 
-
     public UnityEvent<Ship> onEnterCombat;
     public UnityEvent onExitCombat;
 
@@ -205,6 +204,8 @@ public class EncounterSystem : MonoBehaviour
             if (isDebugging) Debug.Log(log);
             
             _currentState.UpdateEncounterState(log);
+
+            if(target.isDead) ShipDeath(caster,target);
         }
     }
 
@@ -218,14 +219,33 @@ public class EncounterSystem : MonoBehaviour
             BattleAnimator.SetTrigger("EnemyAttack");
     }
 
-    private void ShipDeath()
+    private void ShipDeath(Ship caster,Ship deadShip)
     {
-        //todo:Create broadcast for what happens when  ship dies, I need to pass in which ship dies
-    }
+        ActionLog log = new ActionLog();
+        log.LogDeath(caster,deadShip);
+        _currentState.logOfActions.Add(log);
+
+        if(deadShip == Enemy)
+        {
+            Destroy(Enemy.GameObject());
+        }
+        else
+        {
+            Debug.Log("Player has died, Need to implement Game Over");
+        }    
+            onExitCombat?.Invoke();
+            inCombat = false;
+            Player.gameObject.SetActive(!inCombat);
+            BattleUICanvas.gameObject.SetActive(inCombat);
     
+    }
     
     public void FleeBattleScene()
     {
+        ActionLog log = new ActionLog();
+        log.LogFlee();
+        _currentState.UpdateEncounterState(log);
+
         onExitCombat?.Invoke();
         inCombat = false;
         Player.gameObject.SetActive(!inCombat);
@@ -253,20 +273,6 @@ public class EncounterSystem : MonoBehaviour
     private void EnterEncounterContextMenu()
     {
         EnterEncounter(GenerateEnemyShip());
-    }
-
-    [ContextMenu("Generate MiniMaxTree")]
-    private void GenerateTreeContextMenu()
-    {   
-        
-      //  MiniMaxTree<EncounterState> miniMaxTree = new MiniMaxTree<EncounterState>(EncounterState.Clone(_currentState), true,3);
-        
-       // Func<EncounterState, LinkedList<EncounterState>> getChildren = (state) => state.GetPossibleStates();
-
-        //MiniMaxTree.GenerateTree(3,getChildren);
-       // miniMaxTree.GenerateTree(3,getChildren,
-           // (state) => state.HeuristicEvaluation(true));
-       // miniMaxTree.PrintTree(miniMaxTree.Root);
     }
 
 }

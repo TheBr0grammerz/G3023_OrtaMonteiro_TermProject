@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -66,6 +67,11 @@ public struct ActionLog
         Description = other.Description;
     }
 
+    public void LogFlee()
+    {
+        Description = $"{CasterName} has fled from combat";
+    }
+
     public override string ToString()
     {
        // return $"DamageApplied: {DamageApplied} \n" +
@@ -76,5 +82,10 @@ public struct ActionLog
        //        $"Description: {Description}";
        
        return Description;
+    }
+
+    internal void LogDeath(Ship caster, Ship deadShip)
+    {
+        Description = $"{caster.shipName} has killed {deadShip.shipName}";
     }
 }

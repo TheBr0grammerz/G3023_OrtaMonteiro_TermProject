@@ -14,7 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   identifier: 11
   Damage:
-    HullDamage: 350
+    HullDamage: 1000
     ShieldDamage: 0
   Icon: {fileID: 21300000, guid: fff6e01cd56d7f042a144cbc851805f1, type: 3}
   Description: Beginner Laser
