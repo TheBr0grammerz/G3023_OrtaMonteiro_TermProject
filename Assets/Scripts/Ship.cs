@@ -53,6 +53,8 @@ public class Ship : MonoBehaviour
 {
     [SerializeField]
     public List<WeaponSlot> weapons;
+
+    public Inventory inventory;
     
     
     public Sprite shipSprite;
