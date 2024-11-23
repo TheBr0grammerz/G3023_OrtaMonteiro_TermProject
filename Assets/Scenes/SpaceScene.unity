@@ -1272,6 +1272,7 @@ MonoBehaviour:
     hull: 10000
     shield: 1000
   currentTurn: 0
+  isDead: 0
   shipName: The Enterprise
 --- !u!1 &361182688
 GameObject:
@@ -8827,7 +8828,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7519360947718683321, guid: 4028540c2c5782a4ba30522a9bd0d627, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 35
+      value: 107.89
       objectReference: {fileID: 0}
     - target: {fileID: 7519360947718683321, guid: 4028540c2c5782a4ba30522a9bd0d627, type: 3}
       propertyPath: m_LocalPosition.z

@@ -397,7 +397,7 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: 1
+  m_SortingOrder: 10
   m_Sprite: {fileID: 21300000, guid: b19439cfc221e7d428b2d10dbce6fc46, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
@@ -421,11 +421,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 34e0ea9ff6779cb47bdf74a747c9bbc8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  player: {fileID: 5203337938557138895}
   FlameRenderers: []
-  projectile: {fileID: 3308192392338674886, guid: abb83df3d1039fd4cb9a48efbba463d1, type: 3}
-  speed: 500
-  rotationSpeed: 100
+  _speed: 0
+  _rotationSpeed: 0
 --- !u!50 &2018378027042033791
 Rigidbody2D:
   serializedVersion: 4

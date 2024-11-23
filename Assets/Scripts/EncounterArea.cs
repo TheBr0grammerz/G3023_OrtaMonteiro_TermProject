@@ -82,7 +82,7 @@ public class EncounterArea : MonoBehaviour
 
     public bool RollEncounter()
     {
-        return Random.value <= areaStats.encounterZoneChance;
+        return Random.value < areaStats.encounterZoneChance;
     }
     // Update is called once per frame
     void Update()

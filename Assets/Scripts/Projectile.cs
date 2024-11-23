@@ -2,17 +2,28 @@ using UnityEngine;
 
 public class Projectile : MonoBehaviour
 {
-    public float speed;
+    [SerializeField] private float _speed;
+    [SerializeField] private int _damage;
+    
 
-    // Start is called before the first frame update
     void Start()
     {
         GameObject.Destroy(gameObject, 3.0f);
     }
 
-    // Update is called once per frame
     void Update()
     {
-        transform.position += transform.up * speed * Time.deltaTime;
+        transform.position += transform.up * _speed * Time.deltaTime;
+    }
+
+    void OnTriggerEnter2D(Collider2D collider)
+    {
+        if (collider.gameObject.CompareTag("Meteor"))
+        {
+            MeteorBehaviour mb = collider.gameObject.GetComponent<MeteorBehaviour>();
+            mb.TakeDamage(_damage);
+
+            GameObject.Destroy(gameObject);
+        }
     }
 }
