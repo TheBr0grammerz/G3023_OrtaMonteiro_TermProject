@@ -47,7 +47,7 @@ public class MeteorBehaviour : MonoBehaviour
     {
         if (Random.value < _chanceToDrop)
         {
-            GameObject.Instantiate(_droppedItemPrefab, transform.position, Quaternion.identity);
+            GameObject.Instantiate(_droppedItemPrefab, transform.position, Quaternion.identity, GameObject.Find("[ItemsInWorld]").transform);
         }
 
         GameObject.Destroy(gameObject);

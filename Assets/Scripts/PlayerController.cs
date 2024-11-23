@@ -1,25 +1,22 @@
+using TMPro;
 using UnityEngine;
 
 public class PlayerController : MonoBehaviour
 {
-
     private Player _player;
 
-    [SerializeField]
-    private SpriteRenderer[] FlameRenderers;
+    [SerializeField] private float _speed;
+    [SerializeField] private float _rotationSpeed;
+    [SerializeField] private SpriteRenderer[] FlameRenderers;
+    [SerializeField] private TextMeshProUGUI _promptText;
 
-    [SerializeField]
-    private float _speed;
 
-    [SerializeField]
-    private float _rotationSpeed;
 
     void Start()
     {
         _player = GetComponent<Player>();
         Ship ship = _player.GetComponent<Ship>();
-        
-        
+
         var weapon = Resources.Load("Weapons/Tier 1 Laser") as BaseWeapon;
         var slot = new WeaponSlot(weapon);
         ship.weapons.Add(slot);
@@ -57,5 +54,15 @@ public class PlayerController : MonoBehaviour
         {
             _player.Shoot();
         }
+
+        if (Input.GetKeyDown(KeyCode.E))
+        {
+            _player.Interact();
+        }
+    }
+
+    public void SetPromptText(string text)
+    {
+        _promptText.text = text;
     }
 }
