@@ -13,7 +13,7 @@ public class InventoryUIItem : MonoBehaviour, IBeginDragHandler,IDragHandler,IEn
     [SerializeField] GameObject hoveredObject;
     public bool hasItem = false;
 
-    InventorySlot inventorySlot;
+    IInventoryComponent inventorySlot;
 
     public void OnBeginDrag(PointerEventData eventData)
     {
@@ -48,12 +48,16 @@ public class InventoryUIItem : MonoBehaviour, IBeginDragHandler,IDragHandler,IEn
         public void OnDrop(PointerEventData eventData)
     {
         GameObject heldItem = eventData.pointerDrag;
-        if (heldItem == null )
+        if (heldItem == null)
         {
             return;
         }
         GameObject image = heldItem.GetComponent<InventoryUIItem>()._Image;
-        heldItem.GetComponent<InventoryUIItem>()._Image = null;
+        var hoveredComponenet = heldItem.GetComponent<InventoryUIItem>();
+
+        if (hasItem) return;
+        hoveredComponenet._Image = null;
+        hoveredComponenet.hasItem = false;
 
         image.transform.SetParent(transform);
         _Image = image;
@@ -62,7 +66,11 @@ public class InventoryUIItem : MonoBehaviour, IBeginDragHandler,IDragHandler,IEn
 
     void Awake()
     {
-        //image = transform.Find("Item").gameObject;
+       _Image = transform.Find("Item").gameObject;
+       if (!hasItem)
+       {
+           _Image.SetActive(false);
+       }
         
     }
 
@@ -70,7 +78,6 @@ public class InventoryUIItem : MonoBehaviour, IBeginDragHandler,IDragHandler,IEn
     // Start is called before the first frame update
     void Start()
     {
-        hasItem = _Image;
         
         if (canvas == null)
         {
@@ -83,9 +90,12 @@ public class InventoryUIItem : MonoBehaviour, IBeginDragHandler,IDragHandler,IEn
     {
     }
 
-    internal void SetItem(InventorySlot inventorySlot)
+    internal void SetItem(IInventoryComponent inventorySlot)
     {
         this.inventorySlot = inventorySlot;
-        
+        _Image.GetComponent<Image>().sprite = inventorySlot.GetImage();
+        _Image.GetComponent<Image>().preserveAspect = true;
+        _Image.SetActive(true);
+        hasItem = true;
     }
 }

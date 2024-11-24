@@ -16,6 +16,7 @@ MonoBehaviour:
   Damage:
     HullDamage: 450
     ShieldDamage: 0
-  Icon: {fileID: 0}
+  Icon: {fileID: -1400554763, guid: 2be26adff20d881489bc59c9d1a19310, type: 3}
   Description: Beginner Missile
   isPassiveWeapon: 1
+  effectToApply: {fileID: 0}

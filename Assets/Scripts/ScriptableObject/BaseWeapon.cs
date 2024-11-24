@@ -6,7 +6,7 @@ using UnityEngine.Serialization;
 
 
 
-public abstract class BaseWeapon : ScriptableObject
+public abstract class BaseWeapon : ScriptableObject , IInventoryComponent
 {
     public int identifier = 0;
     
@@ -36,5 +36,25 @@ public abstract class BaseWeapon : ScriptableObject
         DamageValues bonusDamage = caster.GetBonusDamage();
         DamageValues totalDamage = Damage + bonusDamage;
         return target.TakeDamage(totalDamage);
+    }
+
+    public int GetAmount()
+    {
+        throw new NotImplementedException();
+    }
+
+    public int GetID()
+    {
+        return identifier;
+    }
+
+    public Sprite GetImage()
+    {
+        return Icon;
+    }
+
+    public int GetMaxStackSize()
+    {
+        throw new NotImplementedException();
     }
 }

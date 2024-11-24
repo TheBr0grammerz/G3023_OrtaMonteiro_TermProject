@@ -4,7 +4,7 @@ using UnityEngine;
 using UnityEngine.Serialization;
 
 [System.Serializable]
-public class WeaponSlot 
+public class WeaponSlot
 {
 
     public Texture2D Texture { get;private set; }
@@ -19,6 +19,5 @@ public class WeaponSlot
         canUseAbility = weapon.isPassiveWeapon;
     }
 
-    
 
 }

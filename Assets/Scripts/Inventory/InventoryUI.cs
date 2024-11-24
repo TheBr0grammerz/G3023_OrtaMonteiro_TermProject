@@ -7,7 +7,7 @@ public class InventoryUI : MonoBehaviour
 {
     [SerializeField] InventoryUIItem[] inventoryUIItems;
 
-    internal void SetInventory(List<InventorySlot> items)
+    internal void SetInventory(List<IInventoryComponent> items)
     {
         for (int i = 0; i < items.Count; i++)
         {

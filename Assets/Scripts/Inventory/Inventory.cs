@@ -6,8 +6,10 @@ using UnityEngine;
 public class Inventory : MonoBehaviour
 {
 
-    public List<InventorySlot> items = new List<InventorySlot>();
+    public List<IInventoryComponent> items = new List<IInventoryComponent>();
     public bool isOpen = false;
+
+    public Ship owner;
 
     [SerializeField] InventoryUI _inventorySlotsUI, _shipSlotsUI;
 
@@ -20,6 +22,23 @@ public class Inventory : MonoBehaviour
     public void RemoveFromInventory(IInventoryComponent item)
     {
 
+    }
+
+    void Awake()
+    {
+        owner = GetComponent<Ship>();
+    }
+
+    void Start()
+    {
+        CreateUI(false);
+        _inventorySlotsUI.SetInventory(items);
+        List<IInventoryComponent> shipItems = new List<IInventoryComponent>();
+        foreach (var weapon in owner.weapons)
+        {
+            shipItems.Add(weapon.weaponInformation);
+        }
+        _shipSlotsUI.SetInventory(shipItems);
     }
 
 
@@ -40,7 +59,7 @@ public class Inventory : MonoBehaviour
         }
     }
 
-    private void OpenInventory()
+    public void OpenInventory()
     {
         if (_inventorySlotsUI == null)
         {
@@ -57,14 +76,14 @@ public class Inventory : MonoBehaviour
         _inventorySlotsUI.transform.root.gameObject.SetActive(isOpen);
 
     }
-    private void CloseInventory()
+    public void CloseInventory()
     {
 
         isOpen = false;
         _inventorySlotsUI.transform.root.gameObject.SetActive(isOpen);
     }
 
-    private bool CreateUI()
+    private bool CreateUI(bool show = true)
     {
         var InvUI = Instantiate(Resources.Load<GameObject>("Inventory/Inventory UI"));
 
@@ -79,8 +98,7 @@ public class Inventory : MonoBehaviour
                 _shipSlotsUI = inventory;
             }
         }
-
+        _inventorySlotsUI.transform.root.gameObject.SetActive(show);
         return _inventorySlotsUI != null && _shipSlotsUI != null;
-
     }
 }
