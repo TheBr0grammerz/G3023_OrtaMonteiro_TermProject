@@ -15,6 +15,7 @@ public abstract class BaseWeapon : ScriptableObject , IInventoryComponent
     
     public string Description;
 
+
     public bool isPassiveWeapon = false;
 
     public StatusEffect effectToApply;
