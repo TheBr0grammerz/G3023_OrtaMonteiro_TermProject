@@ -5,14 +5,16 @@ using UnityEngine;
 public class TrophySystem : MonoBehaviour
 {
 
-    [SerializeField] private List<TrophySO> earnableTrophies = new List<TrophySO>();
+   
     public Dictionary<string, Trophy> trophies = new Dictionary<string, Trophy>();
 
     [SerializeField] private TrophyUIController TrophyUIController;
 
     private void Awake()
     {
-        foreach (var trophyScritableObject in earnableTrophies)
+        var Trophies = Resources.LoadAll<TrophySO>("Trophies");
+        
+        foreach (var trophyScritableObject in Trophies)
         {
             if(trophies.ContainsKey(trophyScritableObject.trophyName))
                 continue;
