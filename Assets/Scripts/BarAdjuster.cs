@@ -10,6 +10,7 @@ public class BarAdjuster : MonoBehaviour
     public Slider ShieldSlider;
     private Ship _ship;
     public bool isPlayer = false;
+
     
     
     private void Awake()
@@ -26,6 +27,7 @@ public class BarAdjuster : MonoBehaviour
     void ExitedCombat()
     {
         _ship = null;
+        
     }
     
     

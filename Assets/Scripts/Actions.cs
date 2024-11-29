@@ -4,6 +4,9 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Serialization;
 
+
+
+
 [System.Serializable]
 public struct ActionLog
 {
@@ -87,5 +90,10 @@ public struct ActionLog
     internal void LogDeath(Ship caster, Ship deadShip)
     {
         Description = $"{caster.shipName} has killed {deadShip.shipName}";
+    }
+
+    public void DoNothing()
+    {
+        throw new NotImplementedException();
     }
 }

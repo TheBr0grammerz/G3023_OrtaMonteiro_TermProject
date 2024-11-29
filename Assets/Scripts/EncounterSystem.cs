@@ -109,6 +109,8 @@ public class EncounterSystem : MonoBehaviour
             distanceTraveled += _playerRb.velocity.magnitude * Time.deltaTime;
             if (distanceTravelledSinceLastEncounter >= minEncounterDistance)
             {
+                Player.GetComponent<TrophySystem>().UpdateScore("Distance Travelled", (int) distanceTravelledSinceLastEncounter);
+
                 distanceTravelledSinceLastEncounter = 0;
                 if (RollEncounter())
                 {
@@ -183,6 +185,7 @@ public class EncounterSystem : MonoBehaviour
 
     private bool RollEncounter()
     {
+        if (Player.isDead) return false;
         if (_areas[areaIndex].IsUnityNull()) return false;
 
         return _areas[areaIndex].RollEncounter();
