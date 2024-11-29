@@ -1,11 +1,6 @@
-
-using System;
 using UnityEngine;
-using UnityEngine.Serialization;
 
-
-
-
+[System.Serializable]
 public abstract class BaseWeapon : ScriptableObject
 {
     public int identifier = 0;

@@ -11,7 +11,6 @@ public class PlayerController : MonoBehaviour
     [SerializeField] private TextMeshProUGUI _promptText;
 
 
-
     void Start()
     {
         _player = GetComponent<Player>();
@@ -65,4 +64,5 @@ public class PlayerController : MonoBehaviour
     {
         _promptText.text = text;
     }
+
 }
