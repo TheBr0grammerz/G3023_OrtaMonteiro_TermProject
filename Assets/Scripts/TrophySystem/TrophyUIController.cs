@@ -13,6 +13,8 @@ public class TrophyUIController : MonoBehaviour
 
     static public  OnTrophyUnlocked OnTrophy;
 
+    private Coroutine _trophyCoroutine;
+
     void Awake()
     {
         animator = GetComponent<Animator>();
@@ -42,7 +44,6 @@ public class TrophyUIController : MonoBehaviour
 
         yield return new WaitForSeconds(5f);
         animator.SetTrigger("Close");
-
     }
 
 
@@ -50,6 +51,10 @@ public class TrophyUIController : MonoBehaviour
     void Update()
     {
         
+    }
+    void FixedUpdate()
+    {
+
     }
 
     

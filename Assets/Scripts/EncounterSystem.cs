@@ -227,18 +227,20 @@ public class EncounterSystem : MonoBehaviour
         ActionLog log = new ActionLog();
         log.LogDeath(caster,deadShip);
         _currentState.logOfActions.Add(log);
+        Player.gameObject.SetActive(true);
 
         if(deadShip == Enemy)
         {
             Destroy(Enemy.GameObject());
+            Player.GetComponent<TrophySystem>().UpdateScore("Enemies Killed",1);
         }
         else
         {
             Debug.Log("Player has died, Need to implement Game Over");
+            Player.isDead = true;
         }    
             onExitCombat?.Invoke();
             inCombat = false;
-            Player.gameObject.SetActive(!inCombat);
             BattleUICanvas.gameObject.SetActive(inCombat);
     
     }
