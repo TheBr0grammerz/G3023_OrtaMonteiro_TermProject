@@ -62,11 +62,36 @@ public class EncounterSystem : MonoBehaviour
         
     }
 
-
     // Start is called before the first frame update
     void Start()
     {
-        
+        //Initialize();
+    }
+
+    void Update()
+    {
+        if (SceneManager.GetActiveScene().name == "SpaceScene")
+        {
+            if (_playerRb.velocity.magnitude > 5)
+            {
+                distanceTravelledSinceLastEncounter += _playerRb.velocity.magnitude * Time.deltaTime;
+                distanceTraveled += _playerRb.velocity.magnitude * Time.deltaTime;
+                if (distanceTravelledSinceLastEncounter >= minEncounterDistance)
+                {
+                    distanceTravelledSinceLastEncounter = 0;
+                    if (RollEncounter())
+                    {
+                        Enemy = GenerateEnemyShip();
+                        EnterEncounter(Enemy);
+                    }
+                    else Debug.Log("Failed to enter Encounter");
+                }
+            }
+        }
+    }
+
+    public void Initialize()
+    {
         #region Find canvas in other Scene
         GameObject[] rootGameObjects = SceneManager.GetSceneByName("Battle").GetRootGameObjects();
         foreach (var o in rootGameObjects)
@@ -78,12 +103,17 @@ public class EncounterSystem : MonoBehaviour
                 break;
             }
         }
-        
-        BattleUICanvas.GameObject().SetActive(false);
+
+        // TODO: battleUICanvas cannot be found because scene is not fully loaded
+        if (BattleUICanvas != null)
+        {
+            BattleUICanvas.GameObject().SetActive(false);
+            BattleAnimator = BattleUICanvas.GetComponent<Animator>();
+        }
 
         #endregion
         #region Get RigidBody From Player
-        
+
         Player = GameObject.FindGameObjectWithTag("Player").GetComponent<Ship>();
         _playerRb = Player.GetComponent<Rigidbody2D>();
 
@@ -95,29 +125,8 @@ public class EncounterSystem : MonoBehaviour
         _areas.Add(null);
         #endregion
 
-        BattleAnimator = BattleUICanvas.GetComponent<Animator>();
         currentArea = _areas[areaIndex];
         _enemyShipNames.ImportNames();
-    }
-
-    void Update()
-    {
-        
-        if (_playerRb.velocity.magnitude > 5)
-        {
-            distanceTravelledSinceLastEncounter += _playerRb.velocity.magnitude * Time.deltaTime;
-            distanceTraveled += _playerRb.velocity.magnitude * Time.deltaTime;
-            if (distanceTravelledSinceLastEncounter >= minEncounterDistance)
-            {
-                distanceTravelledSinceLastEncounter = 0;
-                if (RollEncounter())
-                {
-                    Enemy = GenerateEnemyShip();
-                    EnterEncounter(Enemy);
-                }
-                else Debug.Log("Failed to enter Encounter");
-            }
-        }
     }
 
     private Ship GenerateEnemyShip()
@@ -232,12 +241,12 @@ public class EncounterSystem : MonoBehaviour
         else
         {
             Debug.Log("Player has died, Need to implement Game Over");
-        }    
-            onExitCombat?.Invoke();
-            inCombat = false;
-            Player.gameObject.SetActive(!inCombat);
-            BattleUICanvas.gameObject.SetActive(inCombat);
-    
+        }   
+        
+        onExitCombat?.Invoke();
+        inCombat = false;
+        Player.gameObject.SetActive(!inCombat);
+        BattleUICanvas.gameObject.SetActive(inCombat);
     }
     
     public void FleeBattleScene()
@@ -273,6 +282,20 @@ public class EncounterSystem : MonoBehaviour
     private void EnterEncounterContextMenu()
     {
         EnterEncounter(GenerateEnemyShip());
+    }
+
+
+    public void LoadPlayer(PlayerData playerData)
+    {
+        Player.shipName = playerData._shipName;
+        Player.health = playerData._shipHealth;
+        //EncounterSystem.Instance.Player.weapons = playerData._weapons;
+
+        Vector3 position;
+        position.x = playerData._position[0];
+        position.y = playerData._position[1];
+        position.z = playerData._position[2];
+        Player.transform.position = position;
     }
 
 }

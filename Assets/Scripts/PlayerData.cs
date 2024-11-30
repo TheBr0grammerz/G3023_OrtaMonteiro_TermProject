@@ -3,6 +3,7 @@ using System.Collections.Generic;
 [System.Serializable]
 public class PlayerData
 {
+    public string _shipName;
     public HealthPools _shipHealth;
     //public List<WeaponSlot> _weapons;
     public float[] _position;
@@ -11,6 +12,7 @@ public class PlayerData
 
     public PlayerData(Player player)
     {
+        _shipName = player.GetComponent<Ship>().shipName;
         _shipHealth = EncounterSystem.Instance.Player.health;
         //_weapons = EncounterSystem.Instance.Player.weapons;
 

@@ -66,16 +66,4 @@ public class Player : MonoBehaviour
             _controller.SetPromptText("");
         }
     }
-
-    public void LoadPlayer(PlayerData playerData)
-    {
-        EncounterSystem.Instance.Player.health = playerData._shipHealth;
-        //EncounterSystem.Instance.Player.weapons = playerData._weapons;
-
-        Vector3 position;
-        position.x = playerData._position[0];
-        position.y = playerData._position[1];
-        position.z = playerData._position[2];
-        transform.position = position;
-    }
 }

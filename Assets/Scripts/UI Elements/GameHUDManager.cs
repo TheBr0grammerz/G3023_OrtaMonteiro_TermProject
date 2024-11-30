@@ -1,5 +1,6 @@
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using static UnityEditor.Experimental.GraphView.GraphView;
 
 public class GameHUDManager : MonoBehaviour
 {
@@ -13,7 +14,7 @@ public class GameHUDManager : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        _player = FindObjectOfType<Player>();
+        _player = EncounterSystem.Instance.Player.GetComponent<Player>();
         _pauseMenu.SetActive(false);
     }
 
@@ -21,27 +22,33 @@ public class GameHUDManager : MonoBehaviour
     {
         _pauseMenu.SetActive(false);
         _HUDCanvas.SetActive(true);
+        Time.timeScale = 1;
     }
 
     public void OnPause()
     {
         _HUDCanvas.SetActive(false);
         _pauseMenu.SetActive(true);
+        Time.timeScale = 0;
     }
 
     public void OnSave()
     {
         SaveSystem.SavePlayer(_player);
+        OnResume();
     }
 
     public void OnLoad()
     {
         PlayerData data = SaveSystem.LoadPlayer();
-        _player.LoadPlayer(data);
+        EncounterSystem.Instance.LoadPlayer(data);
+        _player.GetComponent<Rigidbody2D>().velocity = Vector3.zero;
+        OnResume();
     }
 
     public void OnQuit()
     {
+        Time.timeScale = 1;
         SceneManager.LoadScene("StartScene");
     }
 

@@ -1,5 +1,6 @@
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using static UnityEditor.Experimental.GraphView.GraphView;
 
 public class StartMenuButtons : MonoBehaviour
 {
@@ -15,11 +16,25 @@ public class StartMenuButtons : MonoBehaviour
 
     public void StartButtonClicked()
     {
-        SceneManager.LoadScene("SpaceScene");
+        var op1 = SceneManager.LoadSceneAsync("SpaceScene");
+        op1.completed += (x) => 
+        {
+            SceneManager.LoadScene("Battle", LoadSceneMode.Additive);
+            EncounterSystem.Instance.Initialize();
+
+            // TODO: new game routine (ex: player name = entered name)
+        };
     }
     public void ContinueButtonClicked()
     {
-        SceneManager.LoadScene("SpaceScene");
+        var op1 = SceneManager.LoadSceneAsync("SpaceScene");
+        op1.completed += (x) => {
+
+            SceneManager.LoadScene("Battle", LoadSceneMode.Additive);
+            EncounterSystem.Instance.Initialize();
+            PlayerData data = SaveSystem.LoadPlayer();
+            EncounterSystem.Instance.LoadPlayer(data);
+        };
     }
     public void CreditsButtonClicked()
     {
