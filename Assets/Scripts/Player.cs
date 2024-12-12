@@ -3,22 +3,24 @@ using UnityEngine;
 
 public class Player : MonoBehaviour
 {
+    [SerializeField] private float _distanceToCenter;
+    [SerializeField] private GameObject _projectilePrefab;
+    [SerializeField] private float _pickupRange;
 
+    private PlayerController _controller;
+    private BaseItem _nearestItem;
 
-    
-
-    [SerializeField]
-    private float _distanceToCenter;
-
-    [SerializeField]
-    private GameObject _projectilePrefab;
-
+    void Start()
+    {
+        _controller = GetComponent<PlayerController>();
+    }
 
 
 
     void Update()
     {
         GetDistanceToCenter();
+        CheckNearbyItems();
     }
 
     public float GetDistanceToCenter()
@@ -31,4 +33,40 @@ public class Player : MonoBehaviour
         Instantiate(_projectilePrefab, transform.position, transform.rotation);
     }
 
+    public void Interact()
+    {
+        _nearestItem.OnPickup();
+    }
+
+    private void CheckNearbyItems()
+    {
+        Collider2D[] colliderArray = Physics2D.OverlapCircleAll(transform.position, _pickupRange);
+        foreach (Collider2D collider in colliderArray)
+        {
+            if (collider.TryGetComponent<BaseItem>(out BaseItem item))
+            {
+                if (_nearestItem == null)
+                {
+                    _nearestItem = item;
+                }
+                else
+                {
+                    if (Vector3.Distance(transform.position, item.transform.position) <
+                        Vector3.Distance(transform.position, _nearestItem.transform.position))
+                    {
+                        _nearestItem = item;
+                    }
+                }
+            }
+        }
+
+        if (_nearestItem != null)
+        {
+            _controller.SetPromptText($"Press E to pick up {_nearestItem.itemData.itemName}");
+        }
+        else
+        {
+            _controller.SetPromptText("");
+        }
+    }
 }

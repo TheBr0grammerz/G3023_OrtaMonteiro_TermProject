@@ -9,6 +9,7 @@ TagManager:
   - Areas
   - Enemy
   - DialogBox
+  - Meteor
   layers:
   - Default
   - TransparentFX
