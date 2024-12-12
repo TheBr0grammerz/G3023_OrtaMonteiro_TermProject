@@ -26,7 +26,6 @@ public class EncounterSystem : MonoBehaviour
     [SerializeField] public Canvas BattleUICanvas;
     [SerializeField] public Animator BattleAnimator;
 
-
     [Header("Encounter Information")]
     [SerializeField] private bool isDebugging = true;
     [SerializeField] public bool inCombat = false;
@@ -130,11 +129,7 @@ public class EncounterSystem : MonoBehaviour
 
         Enemy = Instantiate(currentArea.areaStats.enemyShips[randomIndex]).GetComponent<Ship>();
         Enemy.GetComponent<EnemyAI>().targetShip = Player;
-
-        //todo: This is a placeholder, we need to put in a way to generate health properly
-
-        Enemy.maxHealth = Player.maxHealth;
-        Enemy.health = Player.health;
+        
         return Enemy;
     }
 

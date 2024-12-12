@@ -10,8 +10,11 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: ebdeb4e538373734da149d03a8fddc5e, type: 3}
-  m_Name: StartingArea
+  m_Name: HardArea
   m_EditorClassIdentifier: 
-  encounterZoneName: Tutorial Area
-  encounterZoneChance: 0
-  enemyShips: []
+  encounterZoneName: Difficult Zone
+  encounterZoneChance: 0.5
+  enemyShips:
+  - {fileID: 5797928463424888602, guid: 367e7e9b2ce605544970976be9a95402, type: 3}
+  - {fileID: 5797928463424888602, guid: 790cfab4565231b41ace67f9f9501e86, type: 3}
+  - {fileID: 5797928463424888602, guid: 85efadc8e34183f4bb3339031617d5dc, type: 3}

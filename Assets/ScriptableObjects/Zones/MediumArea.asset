@@ -10,8 +10,11 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: ebdeb4e538373734da149d03a8fddc5e, type: 3}
-  m_Name: Medium Area
+  m_Name: MediumArea
   m_EditorClassIdentifier: 
-  encounterZoneName: Semi Hard Area
+  encounterZoneName: Semi-difficult Area
   encounterZoneChance: 0.5
-  areaRadius: 50
+  enemyShips:
+  - {fileID: 5797928463424888602, guid: b8b76e5329234d140a33f344b2dce5da, type: 3}
+  - {fileID: 5797928463424888602, guid: 5a18607bb61fa7d44b8418c98d0b8570, type: 3}
+  - {fileID: 5797928463424888602, guid: 20da92879bcebf844a3f4756abb8aca7, type: 3}
