@@ -1,15 +1,10 @@
-using System;
-using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using Unity.VisualScripting;
-using UnityEditor;
 using UnityEngine;
 using UnityEngine.Events;
 using UnityEngine.SceneManagement;
-using UnityEngine.Serialization;
 using Random = UnityEngine.Random;
-using AI.MINIMAX;
 
 [DefaultExecutionOrder(1)]
 public class EncounterSystem : MonoBehaviour
@@ -62,10 +57,9 @@ public class EncounterSystem : MonoBehaviour
         
     }
 
-    // Start is called before the first frame update
     void Start()
     {
-        //Initialize();
+        Initialize(); // also getting called from title screen
     }
 
     void Update()
@@ -78,6 +72,8 @@ public class EncounterSystem : MonoBehaviour
                 distanceTraveled += _playerRb.velocity.magnitude * Time.deltaTime;
                 if (distanceTravelledSinceLastEncounter >= minEncounterDistance)
                 {
+                    Player.GetComponent<TrophySystem>().UpdateScore("Distance Travelled", (int)distanceTravelledSinceLastEncounter);
+
                     distanceTravelledSinceLastEncounter = 0;
                     if (RollEncounter())
                     {
@@ -104,7 +100,6 @@ public class EncounterSystem : MonoBehaviour
             }
         }
 
-        // TODO: battleUICanvas cannot be found because scene is not fully loaded
         if (BattleUICanvas != null)
         {
             BattleUICanvas.GameObject().SetActive(false);
@@ -127,28 +122,6 @@ public class EncounterSystem : MonoBehaviour
 
         currentArea = _areas[areaIndex];
         _enemyShipNames.ImportNames();
-    }
-
-    void Update()
-    {
-        
-        if (_playerRb.velocity.magnitude > 5)
-        {
-            distanceTravelledSinceLastEncounter += _playerRb.velocity.magnitude * Time.deltaTime;
-            distanceTraveled += _playerRb.velocity.magnitude * Time.deltaTime;
-            if (distanceTravelledSinceLastEncounter >= minEncounterDistance)
-            {
-                Player.GetComponent<TrophySystem>().UpdateScore("Distance Travelled", (int) distanceTravelledSinceLastEncounter);
-
-                distanceTravelledSinceLastEncounter = 0;
-                if (RollEncounter())
-                {
-                    Enemy = GenerateEnemyShip();
-                    EnterEncounter(Enemy);
-                }
-                else Debug.Log("Failed to enter Encounter");
-            }
-        }
     }
 
     private Ship GenerateEnemyShip()

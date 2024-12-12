@@ -331,6 +331,7 @@ GameObject:
   - component: {fileID: 8726548585611600540}
   - component: {fileID: 2018378027042033791}
   - component: {fileID: 3417500231845986875}
+  - component: {fileID: 4563359550773914287}
   m_Layer: 0
   m_Name: Player
   m_TagString: Player
@@ -421,9 +422,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 34e0ea9ff6779cb47bdf74a747c9bbc8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  FlameRenderers: []
   _speed: 0
   _rotationSpeed: 0
+  FlameRenderers: []
+  _promptText: {fileID: 0}
 --- !u!50 &2018378027042033791
 Rigidbody2D:
   serializedVersion: 4
@@ -575,6 +577,19 @@ PolygonCollider2D:
       - {x: -0.29, y: -1.93}
       - {x: -0.26999998, y: -1.81}
   m_UseDelaunayMesh: 0
+--- !u!114 &4563359550773914287
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5203337938557138895}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fa28f17be147a154fbc96ac9a1cdb1c8, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  TrophyUIController: {fileID: 0}
 --- !u!1 &9089782867813497460
 GameObject:
   m_ObjectHideFlags: 0

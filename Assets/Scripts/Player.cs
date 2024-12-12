@@ -15,8 +15,6 @@ public class Player : MonoBehaviour
         _controller = GetComponent<PlayerController>();
     }
 
-
-
     void Update()
     {
         GetDistanceToCenter();
