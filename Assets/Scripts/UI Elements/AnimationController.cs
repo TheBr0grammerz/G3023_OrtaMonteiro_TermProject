@@ -20,7 +20,6 @@ public class AnimationController : MonoBehaviour
     // EVENTS //
 
     public delegate void StartCombatEvent();
-    public static event StartCombatEvent OnStartCombat;
 
     public delegate void StartEnemyTurnEvent();
     public static event StartEnemyTurnEvent OnStartEnemyTurn;

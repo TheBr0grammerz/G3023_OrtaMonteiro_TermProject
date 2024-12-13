@@ -1,9 +1,7 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
+[System.Serializable]
 [CreateAssetMenu(fileName = "New Weapon", menuName = "Scriptable Object/New Laser")]
-
 public class Laser : BaseWeapon
 {
 

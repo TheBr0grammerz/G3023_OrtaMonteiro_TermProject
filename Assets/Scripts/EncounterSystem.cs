@@ -1,15 +1,10 @@
-using System;
-using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using Unity.VisualScripting;
-using UnityEditor;
 using UnityEngine;
 using UnityEngine.Events;
 using UnityEngine.SceneManagement;
-using UnityEngine.Serialization;
 using Random = UnityEngine.Random;
-using AI.MINIMAX;
 
 [DefaultExecutionOrder(1)]
 public class EncounterSystem : MonoBehaviour
@@ -30,7 +25,6 @@ public class EncounterSystem : MonoBehaviour
     [Header("Canvas")]
     [SerializeField] public Canvas BattleUICanvas;
     [SerializeField] public Animator BattleAnimator;
-
 
     [Header("Encounter Information")]
     [SerializeField] private bool isDebugging = true;
@@ -62,11 +56,37 @@ public class EncounterSystem : MonoBehaviour
         
     }
 
-
-    // Start is called before the first frame update
     void Start()
     {
-        
+        Initialize(); // also getting called from title screen
+    }
+
+    void Update()
+    {
+        if (SceneManager.GetActiveScene().name == "SpaceScene")
+        {
+            if (_playerRb.velocity.magnitude > 5)
+            {
+                distanceTravelledSinceLastEncounter += _playerRb.velocity.magnitude * Time.deltaTime;
+                distanceTraveled += _playerRb.velocity.magnitude * Time.deltaTime;
+                if (distanceTravelledSinceLastEncounter >= minEncounterDistance)
+                {
+                    Player.GetComponent<TrophySystem>().UpdateScore("Distance Travelled", (int)distanceTravelledSinceLastEncounter);
+
+                    distanceTravelledSinceLastEncounter = 0;
+                    if (RollEncounter())
+                    {
+                        Enemy = GenerateEnemyShip();
+                        EnterEncounter(Enemy);
+                    }
+                    else Debug.Log("Failed to enter Encounter");
+                }
+            }
+        }
+    }
+
+    public void Initialize()
+    {
         #region Find canvas in other Scene
         GameObject[] rootGameObjects = SceneManager.GetSceneByName("Battle").GetRootGameObjects();
         foreach (var o in rootGameObjects)
@@ -78,12 +98,16 @@ public class EncounterSystem : MonoBehaviour
                 break;
             }
         }
-        
-        BattleUICanvas.GameObject().SetActive(false);
+
+        if (BattleUICanvas != null)
+        {
+            BattleUICanvas.GameObject().SetActive(false);
+            BattleAnimator = BattleUICanvas.GetComponent<Animator>();
+        }
 
         #endregion
         #region Get RigidBody From Player
-        
+
         Player = GameObject.FindGameObjectWithTag("Player").GetComponent<Ship>();
         _playerRb = Player.GetComponent<Rigidbody2D>();
 
@@ -95,31 +119,8 @@ public class EncounterSystem : MonoBehaviour
         _areas.Add(null);
         #endregion
 
-        BattleAnimator = BattleUICanvas.GetComponent<Animator>();
         currentArea = _areas[areaIndex];
         _enemyShipNames.ImportNames();
-    }
-
-    void Update()
-    {
-        
-        if (_playerRb.velocity.magnitude > 5)
-        {
-            distanceTravelledSinceLastEncounter += _playerRb.velocity.magnitude * Time.deltaTime;
-            distanceTraveled += _playerRb.velocity.magnitude * Time.deltaTime;
-            if (distanceTravelledSinceLastEncounter >= minEncounterDistance)
-            {
-                Player.GetComponent<TrophySystem>().UpdateScore("Distance Travelled", (int) distanceTravelledSinceLastEncounter);
-
-                distanceTravelledSinceLastEncounter = 0;
-                if (RollEncounter())
-                {
-                    Enemy = GenerateEnemyShip();
-                    EnterEncounter(Enemy);
-                }
-                else Debug.Log("Failed to enter Encounter");
-            }
-        }
     }
 
     private Ship GenerateEnemyShip()
@@ -128,11 +129,7 @@ public class EncounterSystem : MonoBehaviour
 
         Enemy = Instantiate(currentArea.areaStats.enemyShips[randomIndex]).GetComponent<Ship>();
         Enemy.GetComponent<EnemyAI>().targetShip = Player;
-
-        //todo: This is a placeholder, we need to put in a way to generate health properly
-
-        Enemy.maxHealth = Player.maxHealth;
-        Enemy.health = Player.health;
+        
         return Enemy;
     }
 
@@ -278,6 +275,20 @@ public class EncounterSystem : MonoBehaviour
     private void EnterEncounterContextMenu()
     {
         EnterEncounter(GenerateEnemyShip());
+    }
+
+
+    public void LoadPlayer(PlayerData playerData)
+    {
+        Player.shipName = playerData._shipName;
+        Player.health = playerData._shipHealth;
+        //EncounterSystem.Instance.Player.weapons = playerData._weapons;
+
+        Vector3 position;
+        position.x = playerData._position[0];
+        position.y = playerData._position[1];
+        position.z = playerData._position[2];
+        Player.transform.position = position;
     }
 
 }
