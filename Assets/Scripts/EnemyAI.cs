@@ -1,9 +1,4 @@
-using System;
-using System.Collections;
-using System.Collections.Generic;
-using System.Linq;
 using AI.MINIMAX;
-using Unity.VisualScripting;
 using UnityEngine;
 
 public class EnemyAI : MonoBehaviour
@@ -19,7 +14,6 @@ public class EnemyAI : MonoBehaviour
         if (_ship == null)
         {
             _ship = GetComponent<Ship>();
-            _ship.maxHealth = new HealthPools(10000,10000);
         }
     }
 
@@ -61,15 +55,15 @@ public class EnemyAI : MonoBehaviour
     {
         #region Assign Weapons
         
-            //Adding First Weapon
-            var weapon = Resources.Load("Weapons/OPLaser") as BaseWeapon;
-            WeaponSlot slot = new WeaponSlot(weapon);
-            _ship.weapons.Add(slot);
+            ////Adding First Weapon
+            //var weapon = Resources.Load("Weapons/OPLaser") as BaseWeapon;
+            //WeaponSlot slot = new WeaponSlot(weapon);
+            //_ship.weapons.Add(slot);
             
-            //Adding Second Weapon
-            weapon = Resources.Load("Weapons/DinkyLaser") as BaseWeapon;
-            slot = new WeaponSlot(weapon);
-            _ship.weapons.Add(slot);
+            ////Adding Second Weapon
+            //weapon = Resources.Load("Weapons/DinkyLaser") as BaseWeapon;
+            //slot = new WeaponSlot(weapon);
+            //_ship.weapons.Add(slot);
             
         #endregion
         

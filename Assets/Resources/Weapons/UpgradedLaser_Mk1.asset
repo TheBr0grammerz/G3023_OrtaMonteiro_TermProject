@@ -10,13 +10,13 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 36e9d194b32ffa94ca391ef7752afbe0, type: 3}
-  m_Name: DinkyLaser 1
+  m_Name: UpgradedLaser_Mk1
   m_EditorClassIdentifier: 
-  identifier: 0
+  identifier: 5
   Damage:
-    HullDamage: 1
-    ShieldDamage: 1
-  Icon: {fileID: 21300000, guid: fff6e01cd56d7f042a144cbc851805f1, type: 3}
+    HullDamage: 100
+    ShieldDamage: 200
+  Icon: {fileID: 21300000, guid: 276afd945b95ec84eb59fc3dc3812aea, type: 3}
   Description: 
   isPassiveWeapon: 0
-  effectToApply: {fileID: 11400000, guid: 94ed196efc8df524fa6de2681b8ad8b0, type: 2}
+  effectToApply: {fileID: 0}

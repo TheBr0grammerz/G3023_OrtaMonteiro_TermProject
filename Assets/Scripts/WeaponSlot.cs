@@ -12,7 +12,6 @@ public class WeaponSlot
     public WeaponSlot(BaseWeapon weapon)
     {
         weaponInformation = weapon;
-        canUseAbility = weapon.isPassiveWeapon;
     }
 
 }

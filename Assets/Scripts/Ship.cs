@@ -1,9 +1,6 @@
 using System;
-using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.Serialization;
-using static UnityEngine.EventSystems.EventTrigger;
 
 [System.Serializable]
 public struct HealthPools
@@ -63,7 +60,7 @@ public struct EnemyShipNames
 public class Ship : MonoBehaviour
 {
     [SerializeField]
-    public List<WeaponSlot> weapons;
+    public List<WeaponSlot> weapons = new List<WeaponSlot>();
     
     
     public Sprite shipSprite;
@@ -99,7 +96,6 @@ public class Ship : MonoBehaviour
 
     private void Awake()
     {
-        weapons = new List<WeaponSlot>();
         GetComponent<SpriteRenderer>().sprite = shipSprite;
         if (health is { hull: <= 0, shield: <= 0 }) health = new HealthPools(maxHealth);
         if (shipName == "")

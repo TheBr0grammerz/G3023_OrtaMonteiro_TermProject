@@ -982,7 +982,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6310932708919370880, guid: c8ce95f1d05379f4f90176e18b904de6, type: 3}
       propertyPath: maxHealth.hull
-      value: 150
+      value: 50
       objectReference: {fileID: 0}
     - target: {fileID: 6310932708919370880, guid: c8ce95f1d05379f4f90176e18b904de6, type: 3}
       propertyPath: maxHealth.shield
@@ -990,12 +990,16 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6310932708919370880, guid: c8ce95f1d05379f4f90176e18b904de6, type: 3}
       propertyPath: weapons.Array.size
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 6310932708919370880, guid: c8ce95f1d05379f4f90176e18b904de6, type: 3}
       propertyPath: weapons.Array.data[0].canUseAbility
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 6310932708919370880, guid: c8ce95f1d05379f4f90176e18b904de6, type: 3}
+      propertyPath: weapons.Array.data[0].weaponInformation
+      value: 
+      objectReference: {fileID: 11400000, guid: 75cddb36bc580814ab5f03148f9d07df, type: 2}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
