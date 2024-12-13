@@ -1550,21 +1550,6 @@ MonoBehaviour:
   _interactableMask:
     serializedVersion: 2
     m_Bits: 64
---- !u!114 &347666535
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 347666524}
-  m_Enabled: 0
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: bf9e824db9725904880b7e6a46f49975, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  weaponData:
-  - {fileID: 11400000, guid: f9c047fc03875e0499e8bd4b756d071b, type: 2}
-  - {fileID: 11400000, guid: e626a85e875a2ff4bbeaafdc24c824a2, type: 2}
 --- !u!114 &347666541
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1577,14 +1562,18 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8256f93bd731fca4cb0afa63921fbd13, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  weapons: []
+  weapons:
+  - weaponInformation: {fileID: 11400000, guid: f5b68cf4fc39f594695f5beaad4ae282, type: 2}
+    canUseAbility: 1
+  - weaponInformation: {fileID: 11400000, guid: 75cddb36bc580814ab5f03148f9d07df, type: 2}
+    canUseAbility: 1
   shipSprite: {fileID: 21300000, guid: b19439cfc221e7d428b2d10dbce6fc46, type: 3}
   health:
-    hull: 0
-    shield: 0
+    hull: 300
+    shield: 200
   maxHealth:
-    hull: 10000
-    shield: 1000
+    hull: 300
+    shield: 200
   currentTurn: 1
   isDead: 0
   shipName: The Enterprise
@@ -2890,7 +2879,7 @@ Transform:
   m_GameObject: {fileID: 595895755}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 70.39, y: 88.84, z: -10}
+  m_LocalPosition: {x: 70.39, y: 90.3, z: -10}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -11934,7 +11923,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7519360947718683321, guid: 4028540c2c5782a4ba30522a9bd0d627, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 88.84
+      value: 90.3
       objectReference: {fileID: 0}
     - target: {fileID: 7519360947718683321, guid: 4028540c2c5782a4ba30522a9bd0d627, type: 3}
       propertyPath: m_LocalPosition.z
@@ -12008,9 +11997,6 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: 5203337938557138895, guid: 4028540c2c5782a4ba30522a9bd0d627, type: 3}
       insertIndex: -1
       addedObject: {fileID: 347666534}
-    - targetCorrespondingSourceObject: {fileID: 5203337938557138895, guid: 4028540c2c5782a4ba30522a9bd0d627, type: 3}
-      insertIndex: -1
-      addedObject: {fileID: 347666535}
     - targetCorrespondingSourceObject: {fileID: 5203337938557138895, guid: 4028540c2c5782a4ba30522a9bd0d627, type: 3}
       insertIndex: -1
       addedObject: {fileID: 347666541}

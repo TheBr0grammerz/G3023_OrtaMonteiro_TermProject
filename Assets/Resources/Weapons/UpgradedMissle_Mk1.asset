@@ -10,11 +10,11 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 7319dfbd7b87ca045a656acd81ec96ba, type: 3}
-  m_Name: Tier 1 Missile
+  m_Name: UpgradedMissle_Mk1
   m_EditorClassIdentifier: 
-  identifier: 22
+  identifier: 7
   Damage:
-    HullDamage: 450
+    HullDamage: 100
     ShieldDamage: 0
   Icon: {fileID: 21300000, guid: 396939d4a1488174e9ff6372b3411784, type: 3}
   Description: Beginner Missile
