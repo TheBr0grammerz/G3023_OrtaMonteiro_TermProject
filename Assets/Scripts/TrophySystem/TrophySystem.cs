@@ -41,7 +41,9 @@ public class TrophySystem : MonoBehaviour
         if(!IsUnlocked(name))
         {
             trophies[name].currentScore += score;
+            
             Debug.Log("Trophy Score Updated: " + name + " Current Score: " + trophies[name].currentScore);
+
             if (trophies[name].currentScore >= trophies[name].requiredScore)
             {
                 UnlockTrophy(name);
