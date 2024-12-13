@@ -3,7 +3,7 @@ using UnityEngine;
 public class ParallaxEffect : MonoBehaviour
 {
     [SerializeField]
-    private Player _player;
+    private Camera _camera;
 
     [SerializeField] 
     private float _effectMultiplier;
@@ -36,12 +36,12 @@ public class ParallaxEffect : MonoBehaviour
     private void ApplyEffect(float effectMultiplier)
     {
 
-        Vector2 tempPosition = new Vector2(_player.transform.position.x * (1f - effectMultiplier),
-            _player.transform.position.y * (1f - effectMultiplier));
+        Vector2 tempPosition = new Vector2(_camera.transform.position.x * (1f - effectMultiplier),
+            _camera.transform.position.y * (1f - effectMultiplier));
 
         // calculate displacement from parallax effect
-        Vector2 distance = new Vector2(_player.transform.position.x * effectMultiplier,
-            _player.transform.position.y * effectMultiplier);
+        Vector2 distance = new Vector2(_camera.transform.position.x * effectMultiplier,
+            _camera.transform.position.y * effectMultiplier);
 
         // set position to 
         transform.position = new Vector3(_startPosition.x + distance.x, _startPosition.y + distance.y, 0);
