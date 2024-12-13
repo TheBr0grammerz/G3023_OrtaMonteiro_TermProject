@@ -1,6 +1,7 @@
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using static UnityEditor.Experimental.GraphView.GraphView;
+using static UnityEngine.SceneManagement.SceneManager;
 
 public class StartMenuButtons : MonoBehaviour
 {
@@ -16,7 +17,7 @@ public class StartMenuButtons : MonoBehaviour
 
     public void StartButtonClicked()
     {
-        var op1 = SceneManager.LoadSceneAsync("SpaceScene");
+        var op1 = UnityEngine.SceneManagement.SceneManager.LoadSceneAsync("SpaceScene");
         op1.completed += (x) => 
         {
             SceneManager.LoadScene("Battle", LoadSceneMode.Additive);

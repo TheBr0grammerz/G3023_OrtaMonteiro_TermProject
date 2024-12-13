@@ -35,7 +35,7 @@ public class TrophySystem : MonoBehaviour
 
     public GameObject FindTrophyUIController()
     {
-        var canvasObjects = SceneManager.GetSceneByName("SpaceScene").GetRootGameObjects();
+        var canvasObjects = UnityEngine.SceneManagement.SceneManager.GetSceneByName("SpaceScene").GetRootGameObjects();
         if(canvasObjects == null)
         {
             Debug.LogError("Canvas Objects not found"); 

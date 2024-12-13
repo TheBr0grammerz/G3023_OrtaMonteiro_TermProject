@@ -63,7 +63,7 @@ public class EncounterSystem : MonoBehaviour
 
     void Update()
     {
-        if (SceneManager.GetActiveScene().name == "SpaceScene")
+        if (UnityEngine.SceneManagement.SceneManager.GetActiveScene().name == "SpaceScene")
         {
             if (_playerRb.velocity.magnitude > 5)
             {

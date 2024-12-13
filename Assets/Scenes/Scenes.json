@@ -1,0 +1,28 @@
+{
+    "scenes": [
+        {
+            "sceneName": "Battle",
+            "sceneIndex": -1,
+            "scene": 10,
+            "unityScene": {
+                "instanceID": 43622
+            }
+        },
+        {
+            "sceneName": "SpaceScene",
+            "sceneIndex": -1,
+            "scene": 4,
+            "unityScene": {
+                "instanceID": 38664
+            }
+        },
+        {
+            "sceneName": "StartScene",
+            "sceneIndex": 0,
+            "scene": 1,
+            "unityScene": {
+                "instanceID": 40692
+            }
+        }
+    ]
+}
