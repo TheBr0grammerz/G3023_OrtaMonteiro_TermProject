@@ -2,30 +2,16 @@ using UnityEngine;
 
 public class NPC : MonoBehaviour, IInteractable
 {
-    [SerializeField] private string _dialog;
+    [SerializeField] [TextArea(1, 10)] private string _dialog;
 
-    public void Display()
+    public string GetPrompt()
     {
-        throw new System.NotImplementedException();
-    }
-
-    public string GetItemDescription()
-    {
-        throw new System.NotImplementedException();
-    }
-
-    public Sprite GetItemIcon()
-    {
-        throw new System.NotImplementedException();
-    }
-
-    public string GetItemName()
-    {
-        throw new System.NotImplementedException();
+        return "Press E to talk";
     }
 
     public void Interact(Player player)
     {
-        throw new System.NotImplementedException();
+        UITextManager.SetAllText(_dialog);
+        UITextManager.DisplayText(true);
     }
 }

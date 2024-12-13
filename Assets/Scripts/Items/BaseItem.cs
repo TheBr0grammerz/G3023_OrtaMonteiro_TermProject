@@ -12,8 +12,9 @@ public enum Rarity
     Legendary
 }
 
-public abstract class BaseItem : MonoBehaviour
+public abstract class BaseItem : MonoBehaviour, IInteractable
 {
+
     public ItemData itemData;
 
     void Start()
@@ -66,5 +67,15 @@ public abstract class BaseItem : MonoBehaviour
         panel.gameObject.SetActive(false);
 
         Destroy(gameObject);
+    }
+
+    public void Interact(Player player)
+    {
+        OnPickup();
+    }
+
+    public string GetPrompt()
+    {
+        return $"Press E to pick up {itemData.itemName}";
     }
 }

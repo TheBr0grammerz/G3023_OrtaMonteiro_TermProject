@@ -6,9 +6,12 @@ public class Player : MonoBehaviour
     [SerializeField] private float _distanceToCenter;
     [SerializeField] private GameObject _projectilePrefab;
     [SerializeField] private float _pickupRange;
+    [SerializeField] private LayerMask _interactableMask;
 
     private PlayerController _controller;
-    private BaseItem _nearestItem;
+    private GameObject _nearestObject;
+
+    
 
     void Start()
     {
@@ -31,40 +34,51 @@ public class Player : MonoBehaviour
         Instantiate(_projectilePrefab, transform.position, transform.rotation);
     }
 
+    public PlayerController GetController()
+    {
+        return _controller;
+    }
+
     public void Interact()
     {
-        _nearestItem.OnPickup();
+        if (_nearestObject != null)
+        {
+            _nearestObject.GetComponent<IInteractable>().Interact(this);
+        }
     }
 
     private void CheckNearbyItems()
     {
-        Collider2D[] colliderArray = Physics2D.OverlapCircleAll(transform.position, _pickupRange);
+        Collider2D[] colliderArray = Physics2D.OverlapCircleAll(transform.position, _pickupRange, _interactableMask);
+
         foreach (Collider2D collider in colliderArray)
         {
-            if (collider.TryGetComponent<BaseItem>(out BaseItem item))
+            #region Get Nearest Object
+
+            if (_nearestObject == null)
             {
-                if (_nearestItem == null)
+                _nearestObject = collider.gameObject;
+            }
+            else
+            {
+                if (Vector3.Distance(transform.position, collider.transform.position) <
+                    Vector3.Distance(transform.position, _nearestObject.transform.position))
                 {
-                    _nearestItem = item;
-                }
-                else
-                {
-                    if (Vector3.Distance(transform.position, item.transform.position) <
-                        Vector3.Distance(transform.position, _nearestItem.transform.position))
-                    {
-                        _nearestItem = item;
-                    }
+                    _nearestObject = collider.gameObject;
                 }
             }
+
+            #endregion
         }
 
-        if (_nearestItem != null)
+        if (colliderArray.Length == 0)
         {
-            _controller.SetPromptText($"Press E to pick up {_nearestItem.itemData.itemName}");
-        }
-        else
-        {
+            _nearestObject = null;
             _controller.SetPromptText("");
+            return;
         }
+
+        _controller.SetPromptText(_nearestObject.GetComponent<IInteractable>().GetPrompt());
+        
     }
 }
