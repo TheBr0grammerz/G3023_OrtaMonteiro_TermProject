@@ -10,13 +10,13 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 36e9d194b32ffa94ca391ef7752afbe0, type: 3}
-  m_Name: Tier 1 Laser
+  m_Name: BasicLaser_Mk2
   m_EditorClassIdentifier: 
-  identifier: 11
+  identifier: 2
   Damage:
-    HullDamage: 50000
-    ShieldDamage: 5000
-  Icon: {fileID: 21300000, guid: fff6e01cd56d7f042a144cbc851805f1, type: 3}
-  Description: Beginner Laser
+    HullDamage: 20
+    ShieldDamage: 40
+  Icon: {fileID: 21300000, guid: 276afd945b95ec84eb59fc3dc3812aea, type: 3}
+  Description: 
   isPassiveWeapon: 0
   effectToApply: {fileID: 0}
