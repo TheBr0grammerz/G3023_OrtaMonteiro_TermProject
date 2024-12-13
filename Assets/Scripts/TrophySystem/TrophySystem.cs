@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class TrophySystem : MonoBehaviour
 {
@@ -21,6 +22,37 @@ public class TrophySystem : MonoBehaviour
             
             trophies.Add(trophyScritableObject.trophyName, trophyScritableObject.ToTrophy());
         }
+    }
+
+    void Start()
+    {
+        
+    }
+    void OnDisable()
+    {
+        if(TrophyUIController != null) TrophyUIController.gameObject.SetActive(false);
+    }
+
+    public GameObject FindTrophyUIController()
+    {
+        var canvasObjects = SceneManager.GetSceneByName("SpaceScene").GetRootGameObjects();
+        if(canvasObjects == null)
+        {
+            Debug.LogError("Canvas Objects not found"); 
+            return null;
+        }
+        foreach(var obj in canvasObjects)
+        {
+            if(obj.GetComponent<TrophyUIController>())
+            {
+                TrophyUIController = obj.GetComponent<TrophyUIController>();
+                break;
+            }
+        }
+        TrophyUIController.gameObject.SetActive(true);
+        
+
+        return TrophyUIController.gameObject;
     }
 
 

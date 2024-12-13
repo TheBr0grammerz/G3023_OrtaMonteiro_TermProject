@@ -801,6 +801,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 89517c6783a1b1f46adad941e5b28370, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  animator: {fileID: 0}
+  animator: {fileID: 1826177463666363117}
   trophyName: {fileID: 2304605554483154856}
   trophyDescription: {fileID: 9203322302561957380}

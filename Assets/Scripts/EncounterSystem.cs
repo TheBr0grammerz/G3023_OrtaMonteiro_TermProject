@@ -121,6 +121,8 @@ public class EncounterSystem : MonoBehaviour
 
         currentArea = _areas[areaIndex];
         _enemyShipNames.ImportNames();
+
+        Player.GetComponent<TrophySystem>().FindTrophyUIController();
     }
 
     private Ship GenerateEnemyShip()
