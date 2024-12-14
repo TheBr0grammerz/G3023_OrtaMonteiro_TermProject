@@ -16,6 +16,7 @@ public abstract class BaseItem : MonoBehaviour, IInteractable
 {
 
     public ItemData itemData;
+    private bool _isActive = true;
 
     void Start()
     {
@@ -71,7 +72,19 @@ public abstract class BaseItem : MonoBehaviour, IInteractable
 
     public void Interact(Player player)
     {
+        if (!_isActive)
+        {
+            return;
+        }
+
         OnPickup();
+
+        if (itemData.itemName == "Star Metal")
+        {
+            player.AddStarMetal();
+        }
+        
+        _isActive = false;
     }
 
     public string GetPrompt()

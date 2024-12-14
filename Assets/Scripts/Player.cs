@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
 
 public class Player : MonoBehaviour
@@ -7,6 +8,9 @@ public class Player : MonoBehaviour
     [SerializeField] private GameObject _projectilePrefab;
     [SerializeField] private float _pickupRange;
     [SerializeField] private LayerMask _interactableMask;
+
+    public int StarMetalCount;
+    [SerializeField] private TextMeshProUGUI _starMetalCounterText;
 
     private PlayerController _controller;
     private GameObject _nearestObject;
@@ -45,6 +49,12 @@ public class Player : MonoBehaviour
         {
             _nearestObject.GetComponent<IInteractable>().Interact(this);
         }
+    }
+
+    public void AddStarMetal()
+    {
+        StarMetalCount++;
+        _starMetalCounterText.text = StarMetalCount.ToString();
     }
 
     private void CheckNearbyItems()
