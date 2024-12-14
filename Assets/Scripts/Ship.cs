@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.IO;
 using UnityEngine;
 
 [System.Serializable]
@@ -53,7 +54,21 @@ public struct EnemyShipNames
     public String[] _names;
     public void ImportNames()
     {
-        _names = System.IO.File.ReadAllLines("Assets/Resources/EnemyShipNames.txt");
+        string exePath = Path.GetDirectoryName(System.Reflection.Assembly.GetExecutingAssembly().Location);
+
+        // Combine to locate the file
+        string filePath = Path.Combine(exePath, "EnemyShipNames.txt");
+
+        if (File.Exists(filePath))
+        {
+            // Read all lines from the file
+            _names = File.ReadAllLines(filePath);
+            Debug.Log("Enemy ship names loaded successfully!");
+        }
+        else
+        {
+            Debug.LogError($"File not found: {filePath}");
+        }
     }
 }
 

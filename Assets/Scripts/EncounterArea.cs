@@ -1,10 +1,4 @@
-using System;
-using System.Collections;
-using System.Collections.Generic;
-using Unity.VisualScripting;
-using UnityEditor;
-using UnityEditor.SceneManagement;
-using UnityEditor.VersionControl;
+
 using UnityEngine;
 using Random = UnityEngine.Random;
 
@@ -26,7 +20,7 @@ public class EncounterArea : MonoBehaviour
         circleCollider2D.isTrigger = true;
         circleCollider2D.radius = radius;
         //Make Sure there is an encounter loaded and is not just a null area
-        if (areaStats == null) areaStats = AssetDatabase.LoadAssetAtPath<AreaStats>("Assets/ScriptableObjects/NullZone.asset");
+        if (areaStats == null) areaStats = Resources.Load<AreaStats>("Zones/NullZone.asset");
     }
 
     void OnValidate()

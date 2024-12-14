@@ -333,7 +333,8 @@ GameObject:
   - component: {fileID: 3417500231845986875}
   - component: {fileID: 4563359550773914287}
   - component: {fileID: 1967343046297998324}
-  - component: {fileID: 4628725925027319988}
+  - component: {fileID: 7791976626841526103}
+  - component: {fileID: 8178106831862403638}
   m_Layer: 0
   m_Name: Player
   m_TagString: Player
@@ -612,7 +613,29 @@ MonoBehaviour:
   _interactableMask:
     serializedVersion: 2
     m_Bits: 64
---- !u!114 &4628725925027319988
+  StarMetalCount: 0
+  _starMetalCounterText: {fileID: 0}
+--- !u!114 &7791976626841526103
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5203337938557138895}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 85c3cd74e4a6d07429b78bfdeefd76fe, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _distanceToCenter: 0
+  _projectilePrefab: {fileID: 3308192392338674886, guid: abb83df3d1039fd4cb9a48efbba463d1, type: 3}
+  _pickupRange: 8
+  _interactableMask:
+    serializedVersion: 2
+    m_Bits: 64
+  StarMetalCount: 0
+  _starMetalCounterText: {fileID: 0}
+--- !u!114 &8178106831862403638
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -624,14 +647,18 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8256f93bd731fca4cb0afa63921fbd13, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  weapons: []
+  weapons:
+  - weaponInformation: {fileID: 11400000, guid: f5b68cf4fc39f594695f5beaad4ae282, type: 2}
+    canUseAbility: 1
+  - weaponInformation: {fileID: 11400000, guid: 75cddb36bc580814ab5f03148f9d07df, type: 2}
+    canUseAbility: 1
   shipSprite: {fileID: 21300000, guid: b19439cfc221e7d428b2d10dbce6fc46, type: 3}
   health:
-    hull: 0
-    shield: 0
+    hull: 300
+    shield: 200
   maxHealth:
-    hull: 10000
-    shield: 1000
+    hull: 300
+    shield: 200
   currentTurn: 1
   isDead: 0
   shipName: The Enterprise

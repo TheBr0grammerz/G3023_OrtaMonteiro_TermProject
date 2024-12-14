@@ -1,12 +1,12 @@
+using System.Collections;
 using UnityEngine;
 using UnityEngine.SceneManagement;
-using static UnityEditor.Experimental.GraphView.GraphView;
 using static UnityEngine.SceneManagement.SceneManager;
 
 public class StartMenuButtons : MonoBehaviour
 {
 
-    [SerializeField] 
+    [SerializeField]
     private Canvas _mainMenu, _creditsMenu;
 
     void Start()
@@ -18,18 +18,26 @@ public class StartMenuButtons : MonoBehaviour
     public void StartButtonClicked()
     {
         var op1 = UnityEngine.SceneManagement.SceneManager.LoadSceneAsync("SpaceScene");
-        op1.completed += (x) => 
-        {
-            SceneManager.LoadScene("Battle", LoadSceneMode.Additive);
-            EncounterSystem.Instance.Initialize();
-
-            // TODO: new game routine (ex: player name = entered name)
-        };
+        var op2 = SceneManager.LoadSceneAsync("Battle", LoadSceneMode.Additive);
+        StartCoroutine(StartGameRoutine(op2));
     }
+
+    private IEnumerator StartGameRoutine(AsyncOperation op2)
+    {
+        yield return new WaitForSeconds(1);
+        EncounterSystem.Instance.Initialize();
+        //op2.completed += (x) => 
+        //{
+
+        //    // TODO: new game routine (ex: player name = entered name)
+        //};
+    }
+
     public void ContinueButtonClicked()
     {
         var op1 = SceneManager.LoadSceneAsync("SpaceScene");
-        op1.completed += (x) => {
+        op1.completed += (x) =>
+        {
 
             SceneManager.LoadScene("Battle", LoadSceneMode.Additive);
             EncounterSystem.Instance.Initialize();

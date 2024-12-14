@@ -1,3 +1,4 @@
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using Unity.VisualScripting;
@@ -62,14 +63,17 @@ public class EncounterSystem : MonoBehaviour
 
     void Start()
     {
-        Initialize(); // also getting called from title screen
+
+        //Initialize(); // also getting called from title screen
     }
 
     void Update()
     {
-        if (UnityEngine.SceneManagement.SceneManager.GetActiveScene().name == "SpaceScene")
-        {
-            if (_playerRb.velocity.magnitude > 5)
+
+            if(BattleUICanvas == null) Initialize();   
+
+
+        if (_playerRb.velocity.magnitude > 5)
             {
                 distanceTravelledSinceLastEncounter += _playerRb.velocity.magnitude * Time.deltaTime;
                 distanceTraveled += _playerRb.velocity.magnitude * Time.deltaTime;
@@ -86,11 +90,13 @@ public class EncounterSystem : MonoBehaviour
                     else Debug.Log("Failed to enter Encounter");
                 }
             }
-        }
+        
     }
 
     public void Initialize()
     {
+        _areas.Clear();
+
         #region Find canvas in other Scene
         GameObject[] rootGameObjects = SceneManager.GetSceneByName("Battle").GetRootGameObjects();
         foreach (var o in rootGameObjects)
@@ -98,7 +104,6 @@ public class EncounterSystem : MonoBehaviour
             if (o.CompareTag("BattleUI"))
             {
                 BattleUICanvas = o.gameObject.GetComponent<Canvas>();
-
                 break;
             }
         }
@@ -167,11 +172,10 @@ public class EncounterSystem : MonoBehaviour
 
     private void EnterEncounter(Ship enemyShip = null)
     {
-        //inCombat = true;
+        if(BattleUICanvas == null) Initialize();
 
         DecidedTurnOrder(Player,enemyShip,out Ship attackingShip,out Ship defendingShip);
         _currentState = new EncounterState(attackingShip, defendingShip);
-       // _currentState = new EncounterState(Player,Enemy);
         
         if (isDebugging) Debug.Log(_currentState.logOfActions.Last());
         
@@ -188,7 +192,7 @@ public class EncounterSystem : MonoBehaviour
 
     private bool RollEncounter()
     {
-        if (Player.isDead) return false;
+         if (Player.isDead) return false;
         if (_areas[areaIndex].IsUnityNull()) return false;
 
         return _areas[areaIndex].RollEncounter();

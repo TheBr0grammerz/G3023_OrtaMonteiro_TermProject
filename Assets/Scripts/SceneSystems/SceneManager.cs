@@ -16,8 +16,10 @@ namespace MySceneSystem
         get;
         private set;
     }
+    #if UNITY_EDITOR
     static public Dictionary<Scenes, SceneAsset> SceneToSceneAsset = new Dictionary<Scenes, SceneAsset>();
     static public Dictionary<string, SceneAsset> NameToSceneAsset = new Dictionary<string, SceneAsset>();
+    #endif
     static public Dictionary<Scenes, string> SceneToName = new Dictionary<Scenes, string>();
     static public Dictionary<string, Scenes> NameToScene = new Dictionary<string, Scenes>();
     [SerializeField] private List<FScenes> _scenes;
@@ -35,6 +37,7 @@ namespace MySceneSystem
         #region Update Dictionaries
         for(int i = 0; i < _scenes.Count;i++)
         {
+            #if UNITY_EDITOR
             if(SceneToSceneAsset.ContainsKey(_scenes[i].scene))
             {
                 if(_scenes[i].scene == Scenes.None) continue;
@@ -43,6 +46,7 @@ namespace MySceneSystem
             } 
             SceneToSceneAsset.Add(_scenes[i].scene, _scenes[i].unityScene);
             if(!NameToSceneAsset.ContainsKey(_scenes[i].sceneName)) NameToSceneAsset.Add(_scenes[i].sceneName, _scenes[i].unityScene);
+            #endif
             if(!SceneToName.ContainsKey(_scenes[i].scene)) SceneToName.Add(_scenes[i].scene, _scenes[i].sceneName);
             if(!NameToScene.ContainsKey(_scenes[i].sceneName)) NameToScene.Add(_scenes[i].sceneName, _scenes[i].scene);
         }
@@ -58,6 +62,7 @@ namespace MySceneSystem
         OnSceneChange -= SceneChange;
     }
 
+    #if UNITY_EDITOR
     static public SceneAsset LoadScene(Scenes scenes)
     {
         var asset = SceneToSceneAsset[scenes];
@@ -70,6 +75,7 @@ namespace MySceneSystem
         UnityEngine.SceneManagement.SceneManager.LoadScene(sceneName);
         return asset;
     }
+    #endif
 
     void SceneChange(Scenes scene)
     {
@@ -119,10 +125,17 @@ namespace MySceneSystem
         for (int i = 0; i < _scenes.Count; i++)
         {
             int index = UnityEngine.SceneManagement.SceneManager.GetSceneByName(_scenes[i].sceneName).buildIndex;
+           #if UNITY_EDITOR
             _scenes[i] = new FScenes(_scenes[i].sceneName,
                                     index > _scenes[i].sceneIndex?index:_scenes[i].sceneIndex,
                                     _scenes[i].scene,
                                     _scenes[i].unityScene);
+            #else
+
+                                                _scenes[i] = new FScenes(_scenes[i].sceneName,
+                                    index > _scenes[i].sceneIndex?index:_scenes[i].sceneIndex,
+                                    _scenes[i].scene);
+            #endif
         }
         #endregion
         //SaveScenes();
@@ -135,6 +148,7 @@ namespace MySceneSystem
 
     void OnValidate()
     {
+        #if UNITY_EDITOR
         //if(_scenes == null) LoadScenes();
         string[] files = System.IO.Directory.GetFiles("Assets/Scenes","*.unity", System.IO.SearchOption.AllDirectories);
         for (int i = 0; i < files.Length; i++)
@@ -147,6 +161,7 @@ namespace MySceneSystem
                 _scenes.Add(new FScenes(sceneName, sceneIndex,(Scenes)(-1), asset));
             }
         }
+        #endif
     }
 
     [ContextMenu("Save Scenes")]

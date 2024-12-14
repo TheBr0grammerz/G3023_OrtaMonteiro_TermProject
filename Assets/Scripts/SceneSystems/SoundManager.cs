@@ -194,7 +194,7 @@ public class SoundManager : MonoBehaviour
         return false;
     }
 
-    public static void PlayMusic(string keyname,bool bInterrupt)
+    public static void PlayMusic(string keyname,bool bInterrupt,float volume = 0)
     {
         /* Check if the music is already playing */
         if(IsPlaying(keyname,out var audioSource))
@@ -205,6 +205,11 @@ public class SoundManager : MonoBehaviour
                 audioSource.clip = null;
             }
             return;
+        }
+
+        if (volume == 0)
+        {
+            volume = Instance.SFXVolume;
         }
 
         if(IsPlaying(currentMusic,out var currentAudioSource) && currentMusic != "")
@@ -218,6 +223,7 @@ public class SoundManager : MonoBehaviour
         {
             return;
         }
+        soundPlaying.volume = volume / 100f;
         soundPlaying.loop = true;
         currentMusic = keyname;
     }
@@ -258,7 +264,11 @@ public class SoundManager : MonoBehaviour
     #region SceneChange
     
     #endregion
-
+    void Start()
+    {
+        MusicVolume = EditorMusicVolume;
+        SFXVolume = EditorSFXVolume;
+    }
     // Update is called once per frame
     void Update()
     {

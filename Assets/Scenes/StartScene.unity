@@ -2195,10 +2195,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b30933f7916286d4c81dade94840cd6a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _musicKeyNames: []
-  _SFXKeyNames: []
+  _musicKeyNames:
+  - GAME
+  - TITLE
+  _SFXKeyNames:
+  - GOODHit
+  - LASER
+  - MISSLE
   _sourceCount: 0
-  EditorMusicVolume: 13
+  EditorMusicVolume: 7.1
   EditorSFXVolume: 33.3
 --- !u!4 &1499201353
 Transform:
