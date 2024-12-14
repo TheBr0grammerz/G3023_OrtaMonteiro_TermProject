@@ -15,14 +15,14 @@ public class FirstTimePlaying : MonoBehaviour
     [ContextMenu("Add Weapons")]
     void AddWeapons()
     {
-        GameObject player = GameObject.Find("Player");
-        ship = player.GetComponent<Ship>();
+        // GameObject player = GameObject.Find("Player");
+        // ship = player.GetComponent<Ship>();
             
-        var firstWeapon = new WeaponSlot(weaponData[0]);
-        var secondWeapon = new WeaponSlot(weaponData[1]);
+        // var firstWeapon = new WeaponSlot(weaponData[0]);
+        // var secondWeapon = new WeaponSlot(weaponData[1]);
             
-        ship.weapons.Add(firstWeapon);
-        ship.weapons.Add(secondWeapon);
+        // ship.weapons.Add(firstWeapon);
+        // ship.weapons.Add(secondWeapon);
     }
     // Start is called before the first frame update
     void Start()

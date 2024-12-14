@@ -89,7 +89,8 @@ public class EncounterState
         foreach (var weaponSlot in currentTurnShip.weapons)
         {
             EncounterState newState = new EncounterState(this);
-            
+            newState.currentTurnShip = this.currentTurnShip;
+            newState.defendingShip = this.defendingShip;
             DamageValues appliedDamage = newState.currentTurnShip.Attack(newState.defendingShip,weaponSlot.weaponInformation);
 
             ActionLog log = new ActionLog(newState.currentTurnShip, newState.defendingShip, weaponSlot.weaponInformation,appliedDamage, TurnCount);

@@ -14,7 +14,7 @@ public class GameHUDManager : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        _player = EncounterSystem.Instance.Player.GetComponent<Player>();
+        _player = FindFirstObjectByType<Player>();
         _pauseMenu.SetActive(false);
     }
 

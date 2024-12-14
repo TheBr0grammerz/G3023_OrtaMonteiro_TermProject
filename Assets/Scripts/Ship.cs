@@ -60,7 +60,7 @@ public struct EnemyShipNames
 public class Ship : MonoBehaviour
 {
     [SerializeField]
-    public List<WeaponSlot> weapons = new List<WeaponSlot>();
+    public List<WeaponSlot> weapons= new List<WeaponSlot>();
     
     
     public Sprite shipSprite;
@@ -115,7 +115,11 @@ public class Ship : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-
+       for(int i = 0; i < weapons.Count; i++)
+       {
+           if(weapons[i].weaponInformation == null)
+               weapons.RemoveAt(i);
+       }
     }
 
     // Update is called once per frame
@@ -133,7 +137,7 @@ public class Ship : MonoBehaviour
         return new DamageValues(hullBonusDmg, shieldBonusDmg);
     }
 
-    public DamageValues Attack( Ship targetShip,BaseWeapon WeaponUsed)
+    public DamageValues Attack(Ship targetShip,BaseWeapon WeaponUsed)
     {
         DamageValues appliedDamage = WeaponUsed.ApplyDamage(this, targetShip);
         // todo: apply effects

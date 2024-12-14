@@ -28,9 +28,12 @@ public class TrophySystem : MonoBehaviour
     {
         
     }
+
+    private void OnEnable()
+    {
+    }
     void OnDisable()
     {
-        if(TrophyUIController != null) TrophyUIController.gameObject.SetActive(false);
     }
 
     public GameObject FindTrophyUIController()

@@ -78,13 +78,14 @@ namespace MySceneSystem
             case Scenes.LandingPage:
                 break;
             case Scenes.MainMenu:
+            PlayMusic("TITLE",true);
                 break;
             case Scenes.Instructions:
                 break;
             case Scenes.Settings:
                 break;
             case Scenes.Gameplay01:
-                PlayMusic("START",false);
+                PlayMusic("GAME",true);
                 break;
             case Scenes.Gameplay02:
                 break;

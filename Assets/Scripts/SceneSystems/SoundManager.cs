@@ -244,7 +244,9 @@ public class SoundManager : MonoBehaviour
                 audioSource.clip = null;
             }
         }
+        
         var src = Play(keyname, Instance.SFX);
+        src.PlayOneShot(Instance.SFX[keyname]);
         src.volume = volume / 100f;
         Instance.StartCoroutine(Instance.WaitForClipToEnd(src));
     }

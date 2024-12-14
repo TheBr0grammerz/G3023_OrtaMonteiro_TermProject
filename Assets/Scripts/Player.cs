@@ -32,6 +32,7 @@ public class Player : MonoBehaviour
     public void Shoot()
     {
         Instantiate(_projectilePrefab, transform.position, transform.rotation);
+        SoundManager.PlaySFX("LASER",true);
     }
 
     public PlayerController GetController()
