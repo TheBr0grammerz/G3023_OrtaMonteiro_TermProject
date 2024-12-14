@@ -246,9 +246,10 @@ public class SoundManager : MonoBehaviour
         }
         
         var src = Play(keyname, Instance.SFX);
-        src.PlayOneShot(Instance.SFX[keyname]);
+        src.Stop();
         src.volume = volume / 100f;
-        Instance.StartCoroutine(Instance.WaitForClipToEnd(src));
+        src.PlayOneShot(Instance.SFX[keyname]);
+        //Instance.StartCoroutine(Instance.WaitForClipToEnd(src));
     }
 
     // Start is called before the first frame update
