@@ -168,7 +168,7 @@ MonoBehaviour:
   _maxForce: 500
   _minTorque: -500
   _maxTorque: 500
-  _chanceToDrop: 0.5
+  _chanceToDrop: 0.8
   _droppedItemPrefab: {fileID: 3569154227420125703, guid: 10614e3be29401d4d8c93da3ee012cdb, type: 3}
   _meteorSprite: {fileID: 9166638730147688512}
 --- !u!95 &1673020169215737004
