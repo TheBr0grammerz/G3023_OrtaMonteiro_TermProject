@@ -54,6 +54,9 @@ public struct EnemyShipNames
     public String[] _names;
     public void ImportNames()
     {
+        #if UNITY_EDITOR
+        _names = System.IO.File.ReadAllLines("Assets/Resources/EnemyShipNames.txt");
+        #else
         string exePath = Path.GetDirectoryName(System.Reflection.Assembly.GetExecutingAssembly().Location);
 
         // Combine to locate the file
@@ -69,6 +72,7 @@ public struct EnemyShipNames
         {
             Debug.LogError($"File not found: {filePath}");
         }
+        #endif
     }
 }
 

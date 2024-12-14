@@ -10888,7 +10888,8 @@ PrefabInstance:
       propertyPath: _promptText
       value: 
       objectReference: {fileID: 1246272211}
-    m_RemovedComponents: []
+    m_RemovedComponents:
+    - {fileID: 1967343046297998324, guid: 4028540c2c5782a4ba30522a9bd0d627, type: 3}
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
     m_AddedComponents: []
