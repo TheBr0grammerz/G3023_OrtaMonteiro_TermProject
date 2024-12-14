@@ -192,7 +192,7 @@ public class EncounterSystem : MonoBehaviour
 
     private bool RollEncounter()
     {
-         if (Player.isDead) return false;
+          if (Player.isDead) return false;
         if (_areas[areaIndex].IsUnityNull()) return false;
 
         return _areas[areaIndex].RollEncounter();
