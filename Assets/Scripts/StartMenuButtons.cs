@@ -1,13 +1,14 @@
+
 using UnityEngine;
 using UnityEngine.SceneManagement;
-using static UnityEditor.Experimental.GraphView.GraphView;
-using static UnityEngine.SceneManagement.SceneManager;
 
 public class StartMenuButtons : MonoBehaviour
 {
 
     [SerializeField] 
     private Canvas _mainMenu, _creditsMenu;
+
+    [SerializeField] private GameObject _licenses;
 
     void Start()
     {
@@ -50,5 +51,10 @@ public class StartMenuButtons : MonoBehaviour
     {
         _mainMenu.gameObject.SetActive(true);
         _creditsMenu.gameObject.SetActive(false);
+    }
+
+    public void OnLicensesClicked()
+    {
+        _licenses.SetActive(!_licenses.activeInHierarchy);
     }
 }

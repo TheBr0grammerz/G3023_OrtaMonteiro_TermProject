@@ -62,7 +62,7 @@ public class EncounterSystem : MonoBehaviour
 
     void Start()
     {
-        Initialize(); // also getting called from title screen
+        Initialize(); // Instead getting called from title screen
     }
 
     void Update()
