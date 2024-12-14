@@ -28,14 +28,17 @@ public class TrophySystem : MonoBehaviour
     {
         
     }
+
+    private void OnEnable()
+    {
+    }
     void OnDisable()
     {
-        if(TrophyUIController != null) TrophyUIController.gameObject.SetActive(false);
     }
 
     public GameObject FindTrophyUIController()
     {
-        var canvasObjects = SceneManager.GetSceneByName("SpaceScene").GetRootGameObjects();
+        var canvasObjects = UnityEngine.SceneManagement.SceneManager.GetSceneByName("SpaceScene").GetRootGameObjects();
         if(canvasObjects == null)
         {
             Debug.LogError("Canvas Objects not found"); 

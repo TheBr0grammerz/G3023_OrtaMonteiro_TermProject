@@ -34,7 +34,7 @@ public class EncounterSystem : MonoBehaviour
     [SerializeField][Range(1f,10000f)] private float minEncounterDistance = 5;
     public EncounterArea currentArea;
     
-    public static EncounterSystem Instance{ get; private set; }
+    public static EncounterSystem Instance{get;private set;  }
 
     public UnityEvent<Ship> onEnterCombat;
     public UnityEvent onExitCombat;
@@ -45,6 +45,11 @@ public class EncounterSystem : MonoBehaviour
 
     private void Awake()
     {
+        SetupSingleton();
+    }
+
+    private void SetupSingleton()
+    {
         if (Instance != null && Instance != this)
         {
             Destroy(this.gameObject);
@@ -53,7 +58,6 @@ public class EncounterSystem : MonoBehaviour
         
         Instance = this;
         DontDestroyOnLoad(this.gameObject);
-        
     }
 
     void Start()
@@ -63,7 +67,7 @@ public class EncounterSystem : MonoBehaviour
 
     void Update()
     {
-        if (SceneManager.GetActiveScene().name == "SpaceScene")
+        if (UnityEngine.SceneManagement.SceneManager.GetActiveScene().name == "SpaceScene")
         {
             if (_playerRb.velocity.magnitude > 5)
             {

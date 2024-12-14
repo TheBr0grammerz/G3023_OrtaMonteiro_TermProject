@@ -332,6 +332,8 @@ GameObject:
   - component: {fileID: 2018378027042033791}
   - component: {fileID: 3417500231845986875}
   - component: {fileID: 4563359550773914287}
+  - component: {fileID: 1967343046297998324}
+  - component: {fileID: 4628725925027319988}
   m_Layer: 0
   m_Name: Player
   m_TagString: Player
@@ -350,7 +352,7 @@ Transform:
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
+  m_ConstrainProportionsScale: 1
   m_Children:
   - {fileID: 2121495431305904492}
   - {fileID: 3769480844283323628}
@@ -404,7 +406,7 @@ SpriteRenderer:
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0
-  m_Size: {x: 1, y: 1}
+  m_Size: {x: 5.12, y: 5.12}
   m_AdaptiveModeThreshold: 0.5
   m_SpriteTileMode: 0
   m_WasSpriteAssigned: 1
@@ -422,9 +424,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 34e0ea9ff6779cb47bdf74a747c9bbc8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _speed: 0
-  _rotationSpeed: 0
-  FlameRenderers: []
+  _speed: 5000
+  _rotationSpeed: 150
+  FlameRenderers:
+  - {fileID: 1315309998138299551}
+  - {fileID: 9068735064844338749}
   _promptText: {fileID: 0}
 --- !u!50 &2018378027042033791
 Rigidbody2D:
@@ -490,7 +494,7 @@ PolygonCollider2D:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0.5, y: 0.5}
     oldSize: {x: 3.4133334, y: 3.4133334}
-    newSize: {x: 1, y: 1}
+    newSize: {x: 5.12, y: 5.12}
     adaptiveTilingThreshold: 0.5
     drawMode: 0
     adaptiveTiling: 0
@@ -590,6 +594,47 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   TrophyUIController: {fileID: 0}
+--- !u!114 &1967343046297998324
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5203337938557138895}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 85c3cd74e4a6d07429b78bfdeefd76fe, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _distanceToCenter: 0
+  _projectilePrefab: {fileID: 3308192392338674886, guid: abb83df3d1039fd4cb9a48efbba463d1, type: 3}
+  _pickupRange: 8
+  _interactableMask:
+    serializedVersion: 2
+    m_Bits: 64
+--- !u!114 &4628725925027319988
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5203337938557138895}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8256f93bd731fca4cb0afa63921fbd13, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  weapons: []
+  shipSprite: {fileID: 21300000, guid: b19439cfc221e7d428b2d10dbce6fc46, type: 3}
+  health:
+    hull: 0
+    shield: 0
+  maxHealth:
+    hull: 10000
+    shield: 1000
+  currentTurn: 1
+  isDead: 0
+  shipName: The Enterprise
 --- !u!1 &9089782867813497460
 GameObject:
   m_ObjectHideFlags: 0

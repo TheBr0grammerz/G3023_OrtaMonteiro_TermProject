@@ -11,17 +11,30 @@ public class BarAdjuster : MonoBehaviour
     private Ship _ship;
     public bool isPlayer = false;
 
+    void OnEnable()
+    {
+        EncounterSystem.Instance.onEnterCombat.AddListener(LinkShipToUI);
+        EncounterSystem.Instance.onExitCombat.AddListener(ExitedCombat);
+    }
+
+    void OnDisable()
+    {
+        EncounterSystem.Instance.onEnterCombat.RemoveListener(LinkShipToUI);
+        EncounterSystem.Instance.onExitCombat.RemoveListener(ExitedCombat);
+    }
+
     
     
     private void Awake()
     {
-        EncounterSystem.Instance.onEnterCombat.AddListener(LinkShipToUI);
-        EncounterSystem.Instance.onExitCombat.AddListener(ExitedCombat);
+
         
     }
     private void LinkShipToUI(Ship enemyShip)
     {
         _ship = isPlayer ? EncounterSystem.Instance.Player.GetComponent<Ship>() : enemyShip;
+        HullSlider.maxValue = _ship.maxHealth.hull;
+        ShieldSlider.maxValue = _ship.maxHealth.shield;
 
     }
     void ExitedCombat()
